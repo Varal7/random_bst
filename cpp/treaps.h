@@ -15,6 +15,7 @@ public:
     void remove(int elem);
     void display();
     Node* search(int elem);
+    bool contains(int elem);
     void check();
 
     Treap() {

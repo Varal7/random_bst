@@ -166,3 +166,7 @@ int ZipTree::randomRank() {
     return height;
 }
 
+bool ZipTree::contains(int elem) {
+    return (search(elem) != nullnode);
+}
+
