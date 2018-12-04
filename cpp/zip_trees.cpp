@@ -6,28 +6,33 @@
 
 using namespace std;
 
-// TODO: call "delete" on deleted nodes
+ZipTree::ZipTree(float prob) : prob_(prob) {
+    nullnode = new ZipNode;
+    nullnode->left = nullnode->right = nullnode;
+    root = nullnode;
+}
 
-void ZipTree::insert(int elem) {
+void ZipTree::insert(int key, int value) {
     int rank = randomRank();
     ZipNode* x = new ZipNode;
     x->rank = rank;
-    x->elem = elem;
+    x->key = key;
+    x->value = value;
     ZipNode* cur = root;
     ZipNode* prev;
     ZipNode* fix;
 
     // Find where to add x
-    while ((cur != nullnode) && ((rank < cur->rank) or ((rank == cur->rank) && elem > cur->elem))) {
+    while ((cur != nullnode) && ((rank < cur->rank) or ((rank == cur->rank) && key > cur->key))) {
         prev = cur;
-        cur = (elem < cur->elem) ? cur->left : cur->right;
+        cur = (key < cur->key) ? cur->left : cur->right;
     }
 
     // Either the tree was empty, so cur is root, and x becomes the new root
     // Otherwise, add x as child of prev (it replaces cur)
     if (cur == root) {
         root = x;
-    } else if (elem < prev->elem) {
+    } else if (key < prev->key) {
         prev->left = x;
     } else {
         prev->right = x;
@@ -40,7 +45,7 @@ void ZipTree::insert(int elem) {
     }
 
     // otherwise, add back cur as a child of x
-    if (elem < cur->elem) {
+    if (key < cur->key) {
         x->right = cur;
     } else {
         x->left = cur;
@@ -53,22 +58,22 @@ void ZipTree::insert(int elem) {
         // `fix` holds the node to which the unzipping will continue
         // adding nodes
         fix = prev;
-        if (cur->elem < elem) {
+        if (cur->key < key) {
             // Traverse the right spine of cur until we hit the point where
             // we need to unzip a node
             do {
                 prev = cur;
                 cur = cur->right;
-            } while ((cur != nullnode) && (cur->elem < elem));
+            } while ((cur != nullnode) && (cur->key < key));
         } else {
             do {
             // Traverse the left spine
                 prev = cur;
                 cur = cur->left;
-            } while ((cur != nullnode) && (cur->elem > elem));
+            } while ((cur != nullnode) && (cur->key > key));
         }
         // Unzip the current node and transfer the path to the other side
-        if ((fix->elem > elem) || ((fix == x) && (prev->elem > elem))) {
+        if ((fix->key > key) || ((fix == x) && (prev->key > key))) {
             fix->left = cur;
         } else {
             fix->right = cur;
@@ -78,14 +83,14 @@ void ZipTree::insert(int elem) {
     }
 }
 
-void ZipTree::remove(int elem) {
+void ZipTree::remove(int key) {
     ZipNode* cur = root;
     ZipNode* prev;
 
-    // Find the node with elem
-    while (elem != cur->elem) {
+    // Find the node with key
+    while (key != cur->key) {
         prev = cur;
-        cur = (elem < cur->elem) ? cur->left : cur->right;
+        cur = (key < cur->key) ? cur->left : cur->right;
         // TODO: raise error when not found
     }
 
@@ -107,9 +112,9 @@ void ZipTree::remove(int elem) {
     }
 
     // Replace the deleted node with that child
-    if (root->elem == elem) {
+    if (root->key == key) {
         root = cur;
-    } else if (elem < prev->elem) {
+    } else if (key < prev->key) {
         prev->left = cur;
     } else {
         prev->right = cur;
@@ -138,19 +143,19 @@ void ZipTree::remove(int elem) {
     }
 }
 
-ZipNode* ZipTree::search(int elem) {
-    return search(root, elem);
+ZipNode* ZipTree::search(int key) {
+    return search(root, key);
 }
 
-ZipNode* ZipTree::search(ZipNode*& leaf, int elem) {
+ZipNode* ZipTree::search(ZipNode*& leaf, int key) {
     if (leaf == nullnode) {
         return nullnode;
     }
-    if (elem == leaf->elem) { return leaf; }
-    if (elem < leaf->elem) {
-        return search(leaf->left, elem);
+    if (key == leaf->key) { return leaf; }
+    if (key < leaf->key) {
+        return search(leaf->left, key);
     }
-    return search(leaf->right, elem);
+    return search(leaf->right, key);
 }
 
 void ZipTree::display() {
@@ -160,7 +165,7 @@ void ZipTree::display() {
 void ZipTree::display(ZipNode*& leaf, int indent) {
     for (int i = 0; i < indent; i++) { printf(" "); }
     if (leaf != nullnode) {
-        printf("(%d, %d)\n", leaf->elem, leaf->rank);
+        printf("(%d, %d)\n", leaf->key, leaf->rank);
         display(leaf->left, indent + 1);
         display(leaf->right, indent + 1);
     } else {
@@ -174,15 +179,15 @@ void ZipTree::check() {
 
 void ZipTree::check(ZipNode*& leaf, int min_bound, int max_bound) {
     if (leaf == nullnode) { return; }
-    assert (min_bound < leaf->elem);
-    assert (max_bound > leaf->elem);
+    assert (min_bound < leaf->key);
+    assert (max_bound > leaf->key);
     if (leaf->left != nullnode) {
         assert(leaf->rank > leaf->left->rank);
-        check(leaf->left, min_bound, leaf->elem);
+        check(leaf->left, min_bound, leaf->key);
     }
     if (leaf->right != nullnode) {
         assert(leaf->rank >= leaf->right->rank);
-        check(leaf->right, leaf->elem, max_bound);
+        check(leaf->right, leaf->key, max_bound);
     }
 }
 
@@ -193,6 +198,6 @@ int ZipTree::randomRank() {
     return height;
 }
 
-bool ZipTree::contains(int elem) {
-    return (search(elem) != nullnode);
+bool ZipTree::contains(int key) {
+    return (search(key) != nullnode);
 }

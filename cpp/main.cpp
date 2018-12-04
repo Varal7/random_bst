@@ -92,49 +92,47 @@ void test_skip_list() {
   delete list;
 }
 
-int main() {
-    srand(time(0));
-
+void test_correctness_dict(Dictionary*& d) {
     vector<int> list;
-
-    for (int i = 0; i < 1000; i ++) {
+    for (int i = 0; i < 10000; i ++) {
         list.push_back(i);
     }
 
+    random_shuffle(list.begin(), list.end());
+    for (auto it = list.begin(); it!=list.end(); it++) {
+        d->insert(*it, 0);
+        d->check();
+    }
+
+    random_shuffle(list.begin(), list.end());
+    for (auto it = list.begin(); it!=list.end(); it++) {
+        assert(d->contains(*it));
+    }
+
+    random_shuffle(list.begin(), list.end());
+    for (auto it = list.begin(); it!=list.end(); it++) {
+        d->remove(*it);
+        d->check();
+        assert(!(d->contains(*it)));
+    }
+    printf("Correctness test passed\n");
+
+}
+
+int main() {
+    srand(time(0));
+
     printf("Zip trees\n");
-
-    ZipTree z(0);
-    random_shuffle(list.begin(), list.end());
-    for (auto it = list.begin(); it!=list.end(); it++) {
-        z.insert(*it);
-        z.check();
-    }
-
-    random_shuffle(list.begin(), list.end());
-    for (auto it = list.begin(); it!=list.end(); it++) {
-        assert(z.contains(*it));
-    }
-
-    random_shuffle(list.begin(), list.end());
-    for (auto it = list.begin(); it!=list.end(); it++) {
-        z.remove(*it);
-        z.check();
-        assert(!(z.contains(*it)));
-    }
-    printf("Test passed\n");
+    Dictionary* z = new ZipTree;
+    test_correctness_dict(z);
 
     printf("\nTreaps\n");
-    Treap t;
-    t.insert(1);
-    t.insert(2);
-    t.insert(3);
-    t.insert(4);
-    t.check();
-    t.display();
-    printf("\n");
-    t.remove(2);
-    t.display();
-    t.check();
+    Dictionary* t = new Treap;
+    test_correctness_dict(t);
 
-    test_skip_list();
+    printf("\nSkip lists\n");
+    Dictionary* s = new SkipList(16, 0.5);
+    test_correctness_dict(s);
+
+    //test_skip_list();
 }

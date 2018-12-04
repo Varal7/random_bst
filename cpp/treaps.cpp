@@ -6,62 +6,67 @@
 
 using namespace std;
 
+Treap::Treap() {
+    nullnode = new TreapNode;
+    nullnode->left = nullnode->right = nullnode;
+    root = nullnode;
+}
 
-void Treap::left_rot(Node*& tree) {
-    Node *left = tree->left;
+void Treap::left_rot(TreapNode*& tree) {
+    TreapNode *left = tree->left;
     tree->left = left->right;
     left->right = tree;
     tree = left;
 }
 
-void Treap::right_rot(Node*& tree) {
-    Node *right = tree->right;
+void Treap::right_rot(TreapNode*& tree) {
+    TreapNode *right = tree->right;
     tree->right = right->left;
     right->left = tree;
     tree = right;
 }
 
 
-void Treap::insert(int elem) { insert(root, elem); }
-void Treap::remove(int elem) { remove(root, elem); }
+void Treap::insert(int key, int value) { insert(root, key, value); }
+void Treap::remove(int key) { remove(root, key); }
 
-void Treap::insert(Node*& leaf, int elem) {
+void Treap::insert(TreapNode*& leaf, int key, int value) {
     if (leaf == nullnode) {
-        leaf = new Node;
+        leaf = new TreapNode;
         leaf->left = leaf->right = nullnode;
-        leaf->elem = elem;
+        leaf->key = key;
+        leaf->value = value;
         leaf->priority = rand();
         return;
     }
-    if (elem == leaf->elem) {
-        return;  // Not adding duplicates
-    }
-    if (elem < leaf->elem) {
-        insert(leaf->left, elem);
+    if (key == leaf->key) {
+        leaf->value = value;  // Update value if already in treap
+    } else if (key < leaf->key) {
+        insert(leaf->left, key, value);
         if (leaf->left->priority > leaf->priority) { left_rot(leaf); }
     } else {
-        insert(leaf->right, elem);
+        insert(leaf->right, key, value);
         if (leaf->right->priority > leaf->priority) { right_rot(leaf); }
     }
 }
 
-void Treap::remove(Node*& leaf, int elem) {
+void Treap::remove(TreapNode*& leaf, int key) {
     if (leaf == nullnode) { return; }
-    if (elem == leaf->elem) { remove(leaf); }
-    else if (elem < leaf->elem) { remove(leaf->left, elem); }
-    else { remove(leaf->right, elem); }
+    if (key == leaf->key) { remove(leaf); }
+    else if (key < leaf->key) { remove(leaf->left, key); }
+    else { remove(leaf->right, key); }
 }
 
-void Treap::remove(Node*& leaf) {
+void Treap::remove(TreapNode*& leaf) {
     if (leaf->left == nullnode && leaf->right == nullnode) {
         delete leaf;
         leaf = nullnode;
     } else if (leaf->left == nullnode) {
-        Node *tmp = leaf;
+        TreapNode *tmp = leaf;
         leaf = leaf->right;
         delete tmp;
     } else if (leaf->right == nullnode) {
-        Node *tmp = leaf;
+        TreapNode *tmp = leaf;
         leaf = leaf->left;
         delete tmp;
     } else {
@@ -75,31 +80,31 @@ void Treap::remove(Node*& leaf) {
     }
 }
 
-Node* Treap::search(int elem) {
-    return search(root, elem);
+TreapNode* Treap::search(int key) {
+    return search(root, key);
 }
 
-Node* Treap::search(Node*& leaf, int elem) {
+TreapNode* Treap::search(TreapNode*& leaf, int key) {
     if (leaf == nullnode) {
         return nullnode;
     }
-    if (elem == leaf->elem) {
+    if (key == leaf->key) {
         return leaf;
     }
-    if (elem < leaf->elem) {
-        return search(leaf->left, elem);
+    if (key < leaf->key) {
+        return search(leaf->left, key);
     }
-    return search(leaf->right, elem);
+    return search(leaf->right, key);
 }
 
 void Treap::display() {
     display(root, 0);
 }
 
-void Treap::display(Node*& leaf, int indent) {
+void Treap::display(TreapNode*& leaf, int indent) {
     for (int i = 0; i < indent; i++) { printf(" "); }
     if (leaf != nullnode) {
-        printf("(%d, %d)\n", leaf->elem, leaf->priority);
+        printf("(%d, %d)\n", leaf->key, leaf->priority);
         display(leaf->left, indent + 1);
         display(leaf->right, indent + 1);
     } else {
@@ -107,20 +112,24 @@ void Treap::display(Node*& leaf, int indent) {
     }
 }
 
+bool Treap::contains(int key) {
+    return (search(key) != nullnode);
+}
+
 void Treap::check() {
     check(root, numeric_limits<int>::min(), numeric_limits<int>::max());
 }
 
-void Treap::check(Node*& leaf, int min_bound, int max_bound) {
+void Treap::check(TreapNode*& leaf, int min_bound, int max_bound) {
     if (leaf == nullnode) { return; }
-    assert (min_bound < leaf->elem);
-    assert (max_bound > leaf->elem);
+    assert (min_bound < leaf->key);
+    assert (max_bound > leaf->key);
     if (leaf->left != nullnode) {
         assert(leaf->priority > leaf->left->priority);
-        check(leaf->left, min_bound, leaf->elem);
+        check(leaf->left, min_bound, leaf->key);
     }
     if (leaf->right != nullnode) {
         assert(leaf->priority > leaf->right->priority);
-        check(leaf->right, leaf->elem, max_bound);
+        check(leaf->right, leaf->key, max_bound);
     }
 }

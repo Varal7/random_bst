@@ -1,36 +1,31 @@
 #ifndef ZIP_TREES_H
 #define ZIP_TREES_H
 
-// TODO: replace elem -> key
-// TODO: add value
-// TODO: #include "dictionary.h"
+#include "dictionary.h"
 
-struct ZipNode
+// TODO: add value
+
+struct ZipNode : Item
 {
-    int elem, rank;
+    int key, value, rank;
     ZipNode *left, *right;
 };
 
-class ZipTree {
+class ZipTree : public Dictionary {
 public:
-    void insert(int elem);
-    void remove(int elem);
+    ZipTree(float prob=0.5);
+    void insert(int key, int value);
+    void remove(int key);
+    ZipNode* search(int key);
+    bool contains(int key);
     void display();
-    ZipNode* search(int elem);
-    bool contains(int elem);
     void check();
-
-    ZipTree(float prob) : prob_(prob) {
-        nullnode = new ZipNode;
-        nullnode->left = nullnode->right = nullnode;
-        root = nullnode;
-    }
 
 private:
     ZipNode *root, *nullnode;
     float prob_;
     int randomRank();
-    ZipNode* search(ZipNode*& leaf, int elem);
+    ZipNode* search(ZipNode*& leaf, int key);
     void display(ZipNode*& leaf, int indent);
     void check(ZipNode*& leaf, int, int);
 };

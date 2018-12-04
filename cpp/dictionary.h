@@ -1,3 +1,6 @@
+#ifndef DICTIONARY_H
+#define DICTIONARY_H
+
 struct Item
 {
   int key;
@@ -7,8 +10,12 @@ struct Item
 class Dictionary
 {
 public:
-  void insert(int search_key, int new_value);
-  void remove(int search_key);
-  Item* search(int search_key);
-  bool contains(int search_key);
+  virtual void insert(int search_key, int new_value) =0;
+  virtual void remove(int search_key) =0;
+  virtual Item* search(int search_key) =0;
+  virtual bool contains(int search_key) =0;
+  virtual void check() =0;
+  virtual ~Dictionary() { };
 };
+
+#endif

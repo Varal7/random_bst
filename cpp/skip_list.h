@@ -1,8 +1,8 @@
-#include <vector>
-#include "dictionary.h"
-
 #ifndef SKIP_LIST_H_
 #define SKIP_LIST_H_
+
+#include <vector>
+#include "dictionary.h"
 
 // A simple struct for SkipNodes of a skip list.
 struct SkipNode : public Item
@@ -28,6 +28,8 @@ public:
   void insert(int search_key, int new_value);
   void remove(int search_key);
   SkipNode* search(int search_key);
+  bool contains(int search_key);
+  void check();
 private:
   int max_level_;     // Maximum admissible level
   int level_;         // Actual level: highest level of any SkipNode

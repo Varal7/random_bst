@@ -136,3 +136,14 @@ SkipNode* SkipList::search(int search_key)
     return nullptr;
   }
 }
+
+bool SkipList::contains(int search_key)
+{
+  return (search(search_key) != nullptr);
+}
+
+void SkipList::check()
+{
+  // TODO
+  return;
+}
