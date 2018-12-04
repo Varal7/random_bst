@@ -1,4 +1,4 @@
-struct Item;
+struct Item
 {
   int key;
   int value;
