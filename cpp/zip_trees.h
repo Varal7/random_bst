@@ -13,6 +13,7 @@ public:
     void remove(int elem);
     void display();
     ZipNode* search(int elem);
+    bool contains(int elem);
     void check();
 
     ZipTree() {
