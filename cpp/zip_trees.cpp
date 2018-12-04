@@ -2,39 +2,11 @@
 #include <cstdlib>
 #include <limits>
 #include <assert.h>
+#include "zip_trees.h"
 
 using namespace std;
 
 // TODO: call "delete" on deleted nodes
-
-struct ZipNode
-{
-    int elem, rank;
-    ZipNode *left, *right;
-};
-
-class ZipTree {
-public:
-    void insert(int elem);
-    void remove(int elem);
-    void display();
-    ZipNode* search(int elem);
-    void check();
-
-    ZipTree() {
-        nullnode = new ZipNode;
-        nullnode->left = nullnode->right = nullnode;
-        root = nullnode;
-    }
-
-private:
-    ZipNode *root, *nullnode;
-    int randomRank();
-    ZipNode* search(ZipNode*& leaf, int elem);
-    void display(ZipNode*& leaf, int indent);
-    void check(ZipNode*& leaf, int, int);
-};
-
 
 void ZipTree::insert(int elem) {
     int rank = randomRank();
@@ -53,7 +25,7 @@ void ZipTree::insert(int elem) {
     if (cur == root) {
         root = x;
     } else if (elem < prev->elem) {
-        prev-> left = x;
+        prev->left = x;
     } else {
         prev->right = x;
     }
@@ -73,7 +45,7 @@ void ZipTree::insert(int elem) {
 
     while (cur != nullnode) {
         fix = prev;
-        if (cur-> elem < elem) {
+        if (cur->elem < elem) {
             do {
                 prev = cur;
                 cur = cur->right;
@@ -194,18 +166,3 @@ int ZipTree::randomRank() {
     return height;
 }
 
-int main() {
-    srand(time(0));
-    ZipTree t;
-    t.insert(1);
-    t.insert(2);
-    t.insert(3);
-    t.insert(4);
-    t.check();
-    t.display();
-    printf("\n");
-
-    t.remove(2);
-    t.display();
-    t.check();
-}
