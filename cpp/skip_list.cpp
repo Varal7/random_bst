@@ -24,16 +24,22 @@ skip_list::skip_list(int max_level, float prob)
 
 
 // Skip list destructor
-
 skip_list::~skip_list()
 {
-  // TODO: delete all the other nodes!
-  delete header_;
+  // Delete all non-nil nodes
+  node* x = header_;
+  node* y;
+  while (x->forward[0] != nil_) {
+    y = x;
+    x = x->forward[0];
+    delete y;
+  }
+  // And then the nil node.
   delete nil_;
 }
 
-
-int skip_list::random_level()
+// Calculate a random level to be assigned to a node.
+inline int skip_list::random_level()
 {
   int lvl = 1;
   while ((float) rand()/(float) RAND_MAX < prob_)
@@ -42,6 +48,7 @@ int skip_list::random_level()
 }
 
 
+// Add a new key-value pair.
 void skip_list::insert(int search_key, int new_value)
 {
   // Vector of rightmost nodes at each level to left of inserted node
@@ -110,6 +117,7 @@ void skip_list::del(int search_key)
 }
 
 
+// Seek an existing node by key.
 node* skip_list::search(int search_key)
 {
   // Start looking at the data structure's entry point
