@@ -1,13 +1,17 @@
+// TODO: replace elem -> key
+// TODO: add value
+// TODO: #include "dictionary.h"
+
 #ifndef ZIP_TREES_H
 #define ZIP_TREES_H
 
-struct ZipNode
+struct ZipNode :
 {
     int elem, rank;
     ZipNode *left, *right;
 };
 
-class ZipTree {
+class ZipTree : Dictionary {
 public:
     void insert(int elem);
     void remove(int elem);

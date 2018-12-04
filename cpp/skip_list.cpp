@@ -1,4 +1,4 @@
-#include "SkipList.h"
+#include "skip_list.h"
 
 
 // SkipNode constructor

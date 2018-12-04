@@ -1,3 +1,7 @@
+// TODO: replace elem -> key
+// TODO: add value
+// TODO: #include "dictionary.h"
+
 #ifndef TREAPS_H
 #define TREAPS_H
 

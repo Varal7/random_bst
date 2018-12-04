@@ -1,10 +1,11 @@
 #include <vector>
+#include "dictionary.h"
 
 #ifndef SKIP_LIST_H_
 #define SKIP_LIST_H_
 
 // A simple struct for SkipNodes of a skip list.
-struct SkipNode
+struct SkipNode : public Item
 {
   int key;
   // Can we safely make assumptions such as 'values are all nonnegative'?
@@ -14,11 +15,11 @@ struct SkipNode
   // Following SkipNodes
   // Are dynamic arrays admissible in this sort of application?
   std::vector<SkipNode*> forward;
-  SkipNode(int k, const int v, int level);
+  SkipNode(int k, int v, int level);
 };
 
 // The Skip List class proper
-class SkipList
+class SkipList : public Dictionary
 {
 public:
   SkipList(int max_level, float prob);
