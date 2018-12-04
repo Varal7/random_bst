@@ -1,9 +1,9 @@
 """ Zip tree Implementation in Python
 """
 import os
-# import doctest
-# import unittest
 from random import Random
+
+# TODO: Remove self.parent
 
 class _ZipNode:
     """Zip Node"""

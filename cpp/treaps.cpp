@@ -147,7 +147,6 @@ void Treap::check(Node*& leaf, int min_bound, int max_bound) {
     if (leaf == nullnode) { return; }
     assert (min_bound < leaf->elem);
     assert (max_bound > leaf->elem);
-    assert (max_bound > leaf->elem);
     if (leaf->left != nullnode) {
         assert(leaf->priority > leaf->left->priority);
         check(leaf->left, min_bound, leaf->elem);
@@ -156,21 +155,4 @@ void Treap::check(Node*& leaf, int min_bound, int max_bound) {
         assert(leaf->priority > leaf->right->priority);
         check(leaf->right, leaf->elem, max_bound);
     }
-}
-
-
-int main() {
-    srand(time(0));
-    Treap t;
-    t.insert(1);
-    t.insert(2);
-    t.insert(3);
-    t.insert(4);
-    t.check();
-    t.display();
-    printf("\n");
-
-    t.remove(2);
-    t.display();
-    t.check();
 }
