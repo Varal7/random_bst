@@ -1,8 +1,8 @@
-#include "skip_list.h"
+#include "SkipList.h"
 
 
-// Node constructor
-node::node(int k, int v, int l) : key(k), value(v), level(l)
+// SkipNode constructor
+SkipNode::SkipNode(int k, int v, int l) : key(k), value(v), level(l)
 // Allocate space for forward vector.
 {
   forward.reserve(level);
@@ -10,12 +10,12 @@ node::node(int k, int v, int l) : key(k), value(v), level(l)
 
 
 // Skip list constructor
-skip_list::skip_list(int max_level, float prob)
+SkipList::SkipList(int max_level, float prob)
   : max_level_(max_level), prob_(prob)
 {
-  level_ = 0;           // No real nodes yet
-  header_ = new node(INT_MIN, 0, max_level_);
-  nil_ = new node(INT_MAX, 0, max_level_);
+  level_ = 0;           // No real SkipNodes yet
+  header_ = new SkipNode(INT_MIN, 0, max_level_);
+  nil_ = new SkipNode(INT_MAX, 0, max_level_);
   for( int i = 0; i < max_level_; i++) {
     header_->forward[i] = nil_;
     nil_->forward[i] = nullptr;
@@ -24,22 +24,22 @@ skip_list::skip_list(int max_level, float prob)
 
 
 // Skip list destructor
-skip_list::~skip_list()
+SkipList::~SkipList()
 {
-  // Delete all non-nil nodes
-  node* x = header_;
-  node* y;
+  // Delete all non-nil SkipNodes
+  SkipNode* x = header_;
+  SkipNode* y;
   while (x->forward[0] != nil_) {
     y = x;
     x = x->forward[0];
     delete y;
   }
-  // And then the nil node.
+  // And then the nil SkipNode.
   delete nil_;
 }
 
-// Calculate a random level to be assigned to a node.
-inline int skip_list::random_level()
+// Calculate a random level to be assigned to a SkipNode.
+inline int SkipList::random_level()
 {
   int lvl = 1;
   while ((float) rand()/(float) RAND_MAX < prob_)
@@ -49,12 +49,12 @@ inline int skip_list::random_level()
 
 
 // Add a new key-value pair.
-void skip_list::insert(int search_key, int new_value)
+void SkipList::insert(int search_key, int new_value)
 {
-  // Vector of rightmost nodes at each level to left of inserted node
-  std::vector<node*> update(max_level_);
-  // Maintain the current node
-  node* x = header_;
+  // Vector of rightmost SkipNodes at each level to left of inserted SkipNode
+  std::vector<SkipNode*> update(max_level_);
+  // Maintain the current SkipNode
+  SkipNode* x = header_;
   for(int i = level_ - 1; i >= 0; i--) {
       while (x->forward[i] != nil_ && x->forward[i]->key < search_key) {
         x = x->forward[i];
@@ -72,16 +72,16 @@ void skip_list::insert(int search_key, int new_value)
   //Otherwise, insert the new key-value pair.
   else {
     int new_level = random_level();
-    // Update the list's level if the new new node is higher-level
+    // Update the list's level if the new new SkipNode is higher-level
     if (new_level > level_) {
       for (int i = level_; i < new_level; i++) {
         update[i] = header_;
       }
       level_ = new_level;
     }
-    // Allocate a new node for the inserted key-value pair and set key, value.
-    node* x = new node(search_key, new_value, new_level);
-    // Stitch the new node into the list by moving local pointers.
+    // Allocate a new SkipNode for the inserted key-value pair and set key, value.
+    SkipNode* x = new SkipNode(search_key, new_value, new_level);
+    // Stitch the new SkipNode into the list by moving local pointers.
     for (int i = 0; i < new_level; i++) {
       x->forward[i] = update[i]->forward[i];
       update[i]->forward[i] = x;
@@ -89,12 +89,12 @@ void skip_list::insert(int search_key, int new_value)
   }
 }
 
-void skip_list::del(int search_key)
+void SkipList::del(int search_key)
 {
-  // Vector of rightmost nodes at each level to left of inserted node
-  std::vector<node*> update(max_level_);
-  // Maintain the current node
-  node* x = header_;
+  // Vector of rightmost SkipNodes at each level to left of inserted SkipNode
+  std::vector<SkipNode*> update(max_level_);
+  // Maintain the current SkipNode
+  SkipNode* x = header_;
   for(int i = level_ - 1; i >= 0; i--) {
       while (x->forward[i] != nil_ && x->forward[i]->key < search_key) {
         x = x->forward[i];
@@ -117,11 +117,11 @@ void skip_list::del(int search_key)
 }
 
 
-// Seek an existing node by key.
-node* skip_list::search(int search_key)
+// Seek an existing SkipNode by key.
+SkipNode* SkipList::search(int search_key)
 {
   // Start looking at the data structure's entry point
-  node* x = header_;
+  SkipNode* x = header_;
   // Loop invariant: x-> < search_key
   for (int i = level_ - 1; i >= 0; i--) {
     while ((x->forward[i] != nil_) && (x->forward[i]->key < search_key)) {

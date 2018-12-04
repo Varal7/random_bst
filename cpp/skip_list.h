@@ -27,7 +27,7 @@ public:
   void insert(int search_key, int new_value);
   void del(int search_key);
   node* search(int search_key);
-//private:
+private:
   int max_level_;     // Maximum admissible level
   int level_;         // Actual level: highest level of any node
   float prob_;        // Node level ratio
