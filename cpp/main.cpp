@@ -7,19 +7,20 @@
 
 using namespace std;
 
+void test_ordered_set(
+
 int main() {
     srand(time(0));
 
     vector<int> list;
 
-    for (int i = 0; i < 1000; i ++) {
+    for (int i = 0; i < 10000; i ++) {
         list.push_back(i);
     }
 
-
     printf("Zip trees\n");
-    ZipTree z;
 
+    ZipTree z;
     random_shuffle(list.begin(), list.end());
     for (auto it = list.begin(); it!=list.end(); it++) {
         z.insert(*it);
