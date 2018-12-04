@@ -1,23 +1,23 @@
 /*
-A very primitive test suite for the skip_list class. To compile, run
-$ g++ skip_list_test.cpp skip_list.cpp
+A very primitive test suite for the SkipList class. To compile, run
+$ g++ SkipList_test.cpp SkipList.cpp
 */
 
 #include <iostream>
-#include "skip_list.h"
+#include "SkipList.h"
 
 int main()
 {
-  node *n = new node(1, 10, 4);
-  std::cout << "Node level is " << n->level << ".\n";
+  SkipNode *n = new SkipNode(1, 10, 4);
+  std::cout << "SkipNode level is " << n->level << ".\n";
 
-  skip_list *list = new skip_list(16, 0.5);
+  SkipList *list = new SkipList(16, 0.5);
   std::cout << "INT_MIN is " << INT_MAX << ".\n";
 
 
   //std::cout << list->header_->value << std::endl;
   //std::cout << list->header_->key << std::endl;
-  node* nil_ptr = list->search(INT_MAX);
+  SkipNode* nil_ptr = list->search(INT_MAX);
 
   if (nil_ptr == nullptr)
     std::cout << "Pointer is null." << std::endl;
