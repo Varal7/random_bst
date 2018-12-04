@@ -160,13 +160,11 @@ void ZipTree::check(ZipNode*& leaf, int min_bound, int max_bound) {
 
 int ZipTree::randomRank() {
     int height = 1;
-    while (rand() % 2 == 0) {
-        height += 1;
-    }
+    while ((float) rand()/(float) RAND_MAX < prob_)
+      height++;
     return height;
 }
 
 bool ZipTree::contains(int elem) {
     return (search(elem) != nullnode);
 }
-

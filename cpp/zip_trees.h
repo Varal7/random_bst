@@ -16,7 +16,7 @@ public:
     bool contains(int elem);
     void check();
 
-    ZipTree() {
+    ZipTree(float prob) : prob_(prob) {
         nullnode = new ZipNode;
         nullnode->left = nullnode->right = nullnode;
         root = nullnode;
@@ -24,6 +24,7 @@ public:
 
 private:
     ZipNode *root, *nullnode;
+    float prob_;
     int randomRank();
     ZipNode* search(ZipNode*& leaf, int elem);
     void display(ZipNode*& leaf, int indent);
@@ -31,4 +32,3 @@ private:
 };
 
 #endif
-

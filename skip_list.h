@@ -25,7 +25,7 @@ public:
   ~SkipList();
   // methods of the data structure
   void insert(int search_key, int new_value);
-  void del(int search_key);
+  void remove(int search_key);
   SkipNode* search(int search_key);
 private:
   int max_level_;     // Maximum admissible level

@@ -75,7 +75,7 @@ int main()
   std::cout << "Value at key 5 is " << list->search(5)->value << std::endl;
 
   // Delete some stuff
-  list->del(3);
+  list->remove(3);
   std::cout << "Ok, now some stuff has been deleted." << std::endl;
   //std::cout << "Level at key 3 is " << list->search(3)->level << std::endl;
   std::cout << "Level at key 2 is " << list->search(2)->level << std::endl;
