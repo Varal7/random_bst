@@ -5,8 +5,9 @@
 #include "zip_trees.h"
 #include "treaps.h"
 #include "skip_list.h"
-#include "timer.h"
-#include "tests.h"
+//#include "timer.h"
+//#include "test.h"
+#include "dict_correctness_test.h"
 
 using namespace std;
 
@@ -20,6 +21,23 @@ int main(int argc, char** argv) {
     cout << "seed: " << x << endl;
     srand(x);
 
-    //test_correctness();
-    test_speed();
+    // Run tests
+    Dictionary *z, *t, *s;
+    DictCorrectnessTest *dct = new DictCorrectnessTest(20000);
+    z = new ZipTree;
+    t = new Treap;
+    s = new SkipList(16, 0.5);
+    printf("Zip tree correctness... ");
+    dct->set_up(z); dct->run();
+    printf("check\n");
+    printf("Treap correctness... ");
+    dct->set_up(t); dct->run();
+    printf("check\n");
+    printf("SkipList correctness... ");
+    dct->set_up(s); dct->run();
+    printf("check\n");
+
+    delete dct;
+    delete z, t, z;
+
 }
