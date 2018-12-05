@@ -1,3 +1,6 @@
+#ifndef TIMER_H_
+#define TIMER_H_
+
 #include <sys/time.h>
 #include <ctime>
 
@@ -18,3 +21,5 @@ uint64 GetTimeMs64()
 
  return ret;
 }
+
+#endif
