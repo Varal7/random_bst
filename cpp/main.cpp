@@ -10,18 +10,7 @@
 
 using namespace std;
 
-
-int main(int argc, char** argv) {
-    int x;
-    if (argc > 1) {
-        x = atoi(argv[1]);
-    } else {
-        x = time(0);
-    }
-    cout << "seed: " << x << endl;
-    srand(x);
-
-    // Run tests
+void test_correctness() {
     Dictionary *z, *t, *s;
     DictCorrectnessTest *dct = new DictCorrectnessTest(20000);
     z = new ZipTree;
@@ -38,14 +27,31 @@ int main(int argc, char** argv) {
     printf("check\n");
 
     delete dct;
-    delete z, t, z;
+    delete z;
+    delete t;
+    delete s;
+}
 
-    //test_correctness();
-    //test_speed();
 
+void test_speed() {
     hayai::ConsoleOutputter consoleOutputter;
-
     hayai::Benchmarker::AddOutputter(consoleOutputter);
     hayai::Benchmarker::RunAllTests();
+}
+
+
+int main(int argc, char** argv) {
+    int x;
+    if (argc > 1) {
+        x = atoi(argv[1]);
+    } else {
+        x = time(0);
+    }
+    cout << "seed: " << x << endl;
+    srand(x);
+
+    test_correctness();
+    test_speed();
+
     return 0;
 }
