@@ -1,15 +1,15 @@
 #include <iostream>
 #include <cstdlib>
-#include <vector>
-#include <assert.h>
+#include <hayai/hayai.hpp>
 #include "zip_trees.h"
 #include "treaps.h"
 #include "skip_list.h"
-//#include "timer.h"
-//#include "test.h"
 #include "dict_correctness_test.h"
+#include "dict_speed_test.h"
+#include "benchmark.hpp"
 
 using namespace std;
+
 
 int main(int argc, char** argv) {
     int x;
@@ -40,4 +40,12 @@ int main(int argc, char** argv) {
     delete dct;
     delete z, t, z;
 
+    //test_correctness();
+    //test_speed();
+
+    hayai::ConsoleOutputter consoleOutputter;
+
+    hayai::Benchmarker::AddOutputter(consoleOutputter);
+    hayai::Benchmarker::RunAllTests();
+    return 0;
 }
