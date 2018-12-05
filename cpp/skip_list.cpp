@@ -42,7 +42,7 @@ SkipList::~SkipList()
 inline int SkipList::random_level()
 {
   int lvl = 1;
-  while ((float) rand()/(float) RAND_MAX < prob_)
+  while ((float) rand()/(float) RAND_MAX < prob_ && lvl < max_level_)
     lvl++;
   return lvl;
 }

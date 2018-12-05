@@ -20,6 +20,6 @@ int main(int argc, char** argv) {
     cout << "seed: " << x << endl;
     srand(x);
 
-    test_correctness();
+    //test_correctness();
     test_speed();
 }

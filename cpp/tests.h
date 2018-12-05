@@ -41,7 +41,7 @@ void test_correctness_dict(Dictionary*& d) {
 
 void test_speed_naive(Dictionary*& d) {
     vector<int> list;
-    for (int i = 0; i < 20000; i ++) {
+    for (int i = 0; i < 20000; i++) {
         list.push_back(i);
     }
 
@@ -94,6 +94,7 @@ void test_speed() {
     test_speed_naive(z);
     tac = GetTimeMs64();
     printf("time: %d ms\n", int (tac-tic));
+    delete z;
 
     printf("\nTreaps\n");
     t = new Treap;
@@ -101,6 +102,7 @@ void test_speed() {
     test_speed_naive(t);
     tac = GetTimeMs64();
     printf("time: %d ms\n", int (tac-tic));
+    delete t;
 
     printf("\nSkip lists\n");
     s = new SkipList(16, 0.5);
@@ -108,6 +110,7 @@ void test_speed() {
     test_speed_naive(s);
     tac = GetTimeMs64();
     printf("time: %d ms\n", int (tac-tic));
+    delete s;
 }
 
 #endif
