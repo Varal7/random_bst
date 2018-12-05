@@ -11,8 +11,8 @@ using namespace std;
 
 
 template <class D> void BM_DictionaryInsertRand(benchmark::State& state) {
-  D* d = new D;
   for (auto _ : state) {
+    D* d = new D;
     state.PauseTiming();
     for (int j = 0; j < state.range(0); ++j) {
       d->insert(rand(), 0);
@@ -22,13 +22,13 @@ template <class D> void BM_DictionaryInsertRand(benchmark::State& state) {
       d->insert(rand(), 0);
     }
     state.SetItemsProcessed(state.iterations() * state.range(1));
+    delete d;
   }
-  delete d;
 }
 
 template <class D> void BM_DictionaryInsertRand_with_args(benchmark::State& state) {
-  D* d = new D(state.range(0), 1. / float(state.range(1)));
   for (auto _ : state) {
+    D* d = new D(state.range(0), 1. / float(state.range(1)));
     state.PauseTiming();
     for (int j = 0; j < state.range(2); ++j) {
       d->insert(rand(), 0);
@@ -38,8 +38,8 @@ template <class D> void BM_DictionaryInsertRand_with_args(benchmark::State& stat
       d->insert(rand(), 0);
     }
     state.SetItemsProcessed(state.iterations() * state.range(3));
+    delete d;
   }
-  delete d;
 }
 
 //BENCHMARK(BM_DictionaryInsertRand, ZipTree)->RangeMultiplier(2)->Ranges({{1<<8, 8<<8}, {128, 512}});
