@@ -1,23 +1,27 @@
-#include <hayai/hayai.hpp>
-#include "dict_speed_test.h"
-#include "benchmark.h"
+#include <iostream>
+#include <cstdlib>
+#include "zip_trees.h"
+#include "treaps.h"
+#include "skip_list.h"
+#include "dict_correctness_test.h"
+//#include "dict_speed_test.h"
+#include "benchmark/benchmark.h"
 
 using namespace std;
 
-BENCHMARK(ZipTree, SpeedNaive, 10, 10)
-{
-    Dictionary *d = new ZipTree;
-    test_speed_naive(d);
+static void BM_StringCreation(benchmark::State& state) {
+for (auto _ : state)
+    std::string empty_string;
 }
+// Register the function as a benchmark
+BENCHMARK(BM_StringCreation);
 
-BENCHMARK(Treap, SpeedNaive, 10, 10)
-{
-    Dictionary *d = new Treap;
-    test_speed_naive(d);
+// Define another benchmark
+static void BM_StringCopy(benchmark::State& state) {
+std::string x = "hello";
+for (auto _ : state)
+    std::string copy(x);
 }
+BENCHMARK(BM_StringCopy);
 
-BENCHMARK(SkipList, SpeedNaive, 10, 10)
-{
-    Dictionary *d = new SkipList(16, 0.5);
-    test_speed_naive(d);
-}
+BENCHMARK_MAIN();

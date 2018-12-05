@@ -5,8 +5,7 @@
 #include "treaps.h"
 #include "skip_list.h"
 #include "dict_correctness_test.h"
-//#include "dict_speed_test.h"
-#include "benchmark.h"
+#include "dict_speed_test.h"
 
 using namespace std;
 
