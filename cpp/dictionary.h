@@ -1,5 +1,5 @@
-#ifndef DICTIONARY_H
-#define DICTIONARY_H
+#ifndef DICTIONARY_H_
+#define DICTIONARY_H_
 
 struct Item
 {
