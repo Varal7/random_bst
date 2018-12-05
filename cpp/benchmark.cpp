@@ -21,9 +21,9 @@ template <class D> void BM_DictionaryInsertRand(benchmark::State& state) {
     for (int j = 0; j < state.range(1); ++j) {
       d->insert(rand(), 0);
     }
-    state.SetItemsProcessed(state.iterations() * state.range(1));
     delete d;
   }
+  state.SetItemsProcessed(state.iterations() * state.range(1));
 }
 
 template <class D> void BM_DictionaryInsertRand_with_args(benchmark::State& state) {
@@ -40,12 +40,11 @@ template <class D> void BM_DictionaryInsertRand_with_args(benchmark::State& stat
     state.SetItemsProcessed(state.iterations() * state.range(3));
     delete d;
   }
+  state.SetItemsProcessed(state.iterations() * state.range(3));
 }
 
-//BENCHMARK(BM_DictionaryInsertRand, ZipTree)->RangeMultiplier(2)->Ranges({{1<<8, 8<<8}, {128, 512}});
-//
-BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, ZipTree)->RangeMultiplier(2)->Ranges({{1<<8, 1<<8}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, Treap)->RangeMultiplier(2)->Ranges({{1<<8, 1<<8}, {128, 128}});
+BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
 BENCHMARK_TEMPLATE(BM_DictionaryInsertRand_with_args, SkipList)
         ->RangeMultiplier(2)
         ->Args({16, 2, 512, 128});
