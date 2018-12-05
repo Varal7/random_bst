@@ -5,6 +5,7 @@
 #include "zip_trees.h"
 #include "treaps.h"
 #include "skip_list.h"
+#include "timer.h"
 
 using namespace std;
 
@@ -119,20 +120,78 @@ void test_correctness_dict(Dictionary*& d) {
 
 }
 
+void test_speed_naive(Dictionary*& d) {
+    vector<int> list;
+    for (int i = 0; i < 20000; i ++) {
+        list.push_back(i);
+    }
+
+    random_shuffle(list.begin(), list.end());
+    for (auto it = list.begin(); it!=list.end(); it++) {
+        d->insert(*it, 0);
+    }
+
+    random_shuffle(list.begin(), list.end());
+    for (auto it = list.begin(); it!=list.end(); it++) {
+        assert(d->contains(*it));
+    }
+
+    random_shuffle(list.begin(), list.end());
+    for (auto it = list.begin(); it!=list.end(); it++) {
+        d->remove(*it);
+        assert(!(d->contains(*it)));
+    }
+}
+
+
+
 int main() {
     srand(time(0));
+    uint64 tic, tac;
+    Dictionary *z, *t, *s;
 
     printf("Zip trees\n");
-    Dictionary* z = new ZipTree;
+    z = new ZipTree;
+    tic = GetTimeMs64();
     test_correctness_dict(z);
+    tac = GetTimeMs64();
+    printf("time: %d ms\n", tac-tic);
 
     printf("\nTreaps\n");
-    Dictionary* t = new Treap;
+    t = new Treap;
+    tic = GetTimeMs64();
     test_correctness_dict(t);
+    tac = GetTimeMs64();
+    printf("time: %d ms\n", tac-tic);
 
     printf("\nSkip lists\n");
-    Dictionary* s = new SkipList(16, 0.5);
+    s = new SkipList(16, 0.5);
+    tic = GetTimeMs64();
     test_correctness_dict(s);
+    tac = GetTimeMs64();
+
+    printf("\nSpeed test");
+    printf("Zip trees\n");
+    z = new ZipTree;
+    tic = GetTimeMs64();
+    test_speed_naive(z);
+    tac = GetTimeMs64();
+    printf("time: %d ms\n", tac-tic);
+
+    printf("\nTreaps\n");
+    t = new Treap;
+    tic = GetTimeMs64();
+    test_speed_naive(t);
+    tac = GetTimeMs64();
+    printf("time: %d ms\n", tac-tic);
+
+    printf("\nSkip lists\n");
+    s = new SkipList(16, 0.5);
+    tic = GetTimeMs64();
+    test_speed_naive(s);
+    tac = GetTimeMs64();
+    printf("time: %d ms\n", tac-tic);
+
 
     //test_skip_list();
 }
