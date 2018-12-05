@@ -144,54 +144,66 @@ void test_speed_naive(Dictionary*& d) {
 }
 
 
-
-int main() {
-    srand(time(0));
-    uint64 tic, tac;
+void test_correctness() {
     Dictionary *z, *t, *s;
 
     printf("Zip trees\n");
     z = new ZipTree;
-    tic = GetTimeMs64();
     test_correctness_dict(z);
-    tac = GetTimeMs64();
-    printf("time: %d ms\n", tac-tic);
+    delete z;
 
     printf("\nTreaps\n");
     t = new Treap;
-    tic = GetTimeMs64();
     test_correctness_dict(t);
-    tac = GetTimeMs64();
-    printf("time: %d ms\n", tac-tic);
+    delete t;
 
     printf("\nSkip lists\n");
     s = new SkipList(16, 0.5);
-    tic = GetTimeMs64();
     test_correctness_dict(s);
-    tac = GetTimeMs64();
+    delete s;
+
+    test_skip_list();
+}
+
+void test_speed() {
+    uint64 tic, tac;
+    Dictionary *z, *t, *s;
 
     printf("\nSpeed test");
-    printf("Zip trees\n");
+    printf("\nZip trees\n");
     z = new ZipTree;
     tic = GetTimeMs64();
     test_speed_naive(z);
     tac = GetTimeMs64();
-    printf("time: %d ms\n", tac-tic);
+    printf("time: %d ms\n", int (tac-tic));
 
     printf("\nTreaps\n");
     t = new Treap;
     tic = GetTimeMs64();
     test_speed_naive(t);
     tac = GetTimeMs64();
-    printf("time: %d ms\n", tac-tic);
+    printf("time: %d ms\n", int (tac-tic));
 
     printf("\nSkip lists\n");
     s = new SkipList(16, 0.5);
     tic = GetTimeMs64();
     test_speed_naive(s);
     tac = GetTimeMs64();
-    printf("time: %d ms\n", tac-tic);
+    printf("time: %d ms\n", int (tac-tic));
+}
 
 
-    //test_skip_list();
+
+int main(int argc, char** argv) {
+    int x;
+    if (argc > 1) {
+        x = atoi(argv[1]);
+    } else {
+        x = time(0);
+    }
+    printf("seed: %d\n", x);
+    srand(x);
+
+    test_correctness();
+    test_speed();
 }
