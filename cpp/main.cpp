@@ -7,8 +7,11 @@
 #include "skip_list.h"
 #include "timer.h"
 #include "tests.h"
+#include <hayai/hayai.hpp>
+#include "benchmark.hpp"
 
 using namespace std;
+
 
 int main(int argc, char** argv) {
     int x;
@@ -21,5 +24,11 @@ int main(int argc, char** argv) {
     srand(x);
 
     //test_correctness();
-    test_speed();
+    //test_speed();
+
+    hayai::ConsoleOutputter consoleOutputter;
+
+    hayai::Benchmarker::AddOutputter(consoleOutputter);
+    hayai::Benchmarker::RunAllTests();
+    return 0;
 }
