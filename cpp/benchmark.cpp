@@ -9,19 +9,21 @@
 
 using namespace std;
 
-static void BM_StringCreation(benchmark::State& state) {
-for (auto _ : state)
-    std::string empty_string;
-}
-// Register the function as a benchmark
-BENCHMARK(BM_StringCreation);
 
-// Define another benchmark
-static void BM_StringCopy(benchmark::State& state) {
-std::string x = "hello";
-for (auto _ : state)
-    std::string copy(x);
+static void BM_ZipTreeInsertRand(benchmark::State& state) {
+  ZipTree z;
+  for (auto _ : state) {
+    state.PauseTiming();
+    for (int j = 0; j < state.range(0); ++j) {
+      z.insert(rand(), 0);
+    }
+    state.ResumeTiming();
+    for (int j = 0; j < state.range(1); ++j) {
+      z.insert(rand(), 0);
+    }
+  }
 }
-BENCHMARK(BM_StringCopy);
+
+BENCHMARK(BM_ZipTreeInsertRand)->Ranges({{1<<10, 8<<10}, {128, 512}});
 
 BENCHMARK_MAIN();

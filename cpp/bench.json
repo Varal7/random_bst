@@ -1,0 +1,80 @@
+{
+  "context": {
+    "date": "2018-12-05 13:58:33",
+    "executable": "./benchmark",
+    "num_cpus": 8,
+    "mhz_per_cpu": 3100,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 262144000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 8388608000,
+        "num_sharing": 8
+      }
+    ],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_ZipTreeInsertRand/1024/128",
+      "iterations": 2947,
+      "real_time": 4.9107258571839589e+05,
+      "cpu_time": 4.8674278927723196e+05,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_ZipTreeInsertRand/4096/128",
+      "iterations": 1000,
+      "real_time": 5.5100405099801719e+05,
+      "cpu_time": 5.4731300000006647e+05,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_ZipTreeInsertRand/8192/128",
+      "iterations": 1000,
+      "real_time": 8.6591408797539771e+05,
+      "cpu_time": 8.5859899999983469e+05,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_ZipTreeInsertRand/1024/512",
+      "iterations": 1000,
+      "real_time": 1.0831960143987087e+06,
+      "cpu_time": 1.0753769999999180e+06,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_ZipTreeInsertRand/4096/512",
+      "iterations": 1292,
+      "real_time": 2.6802396459069578e+06,
+      "cpu_time": 2.6632654798762603e+06,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_ZipTreeInsertRand/8192/512",
+      "iterations": 887,
+      "real_time": 3.2567826331736944e+06,
+      "cpu_time": 3.2334036076666671e+06,
+      "time_unit": "ns"
+    }
+  ]
+}
