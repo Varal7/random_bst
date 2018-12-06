@@ -16,15 +16,9 @@ public:
   bool contains(int search_key);
   virtual void check() =0;
   virtual ~Dictionary() { };
-  void emplace(int search_key, int new_value) {
-    insert(search_key, new_value);
-  }
-  void erase(int search_key) {
-    remove(search_key);
-  }
-  Item* find(int search_key) {
-    return search(search_key);
-  }
+  void emplace(int search_key, int new_value);
+  void erase(int search_key);
+  Item* find(int search_key);
 };
 
 #endif

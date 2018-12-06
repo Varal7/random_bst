@@ -10,13 +10,19 @@
 using namespace std;
 
 void test_correctness() {
-    Dictionary *z, *t, *s;
+    Dictionary *ztt, *zft, *ztf, *zff, *t, *s;
     DictCorrectnessTest *dct = new DictCorrectnessTest(20000);
-    z = new ZipTree;
+    ztt = new ZipTree(0.5, true, true);
+    zft = new ZipTree(0.5, false, true);
+    ztf = new ZipTree(0.5, true, false);
+    zff = new ZipTree(0.5, false, false);
     t = new Treap;
     s = new SkipList(16, 0.5);
     printf("Zip tree correctness... ");
-    dct->set_up(z); dct->run();
+    dct->set_up(zff); dct->run();
+    dct->set_up(zft); dct->run();
+    dct->set_up(ztf); dct->run();
+    dct->set_up(zff); dct->run();
     printf("check\n");
     printf("Treap correctness... ");
     dct->set_up(t); dct->run();
@@ -26,7 +32,6 @@ void test_correctness() {
     printf("check\n");
 
     delete dct;
-    delete z;
     delete t;
     delete s;
 }
