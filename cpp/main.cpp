@@ -10,20 +10,16 @@
 using namespace std;
 
 void test_correctness() {
-    Dictionary *ztt, *zft, *ztf, *zff, *t, *s;
+    Dictionary *t, *s;
+    Dictionary *z_vanilla, *z_update;
     DictCorrectnessTest *dct = new DictCorrectnessTest(100);
-    printf("Zip tree correctness... ");
-    //ztt = new ZipTree(0.5, true, true);
-    //dct->set_up(ztt); dct->run();
-    //zft = new ZipTree(0.5, false, true);
-    //dct->set_up(zft); dct->run();
-    //
-    printf("\nfalse false\n");
-    zff = new ZipTree(0.5, false, false);
-    dct->set_up(zff); dct->run();
-    printf("\ntrue false\n");
-    ztf = new ZipTree(0.5, true, false);
-    dct->set_up(ztf); dct->run();
+    printf("Zip tree correctness...\n ");
+    printf("z_update\n");
+    z_update = new ZipTree(0.5, true);
+    dct->set_up(z_update); dct->run();
+    printf("z_vanilla\n");
+    z_vanilla = new ZipTree(0.5, false);
+    dct->set_up(z_vanilla); dct->run();
 
     printf("check\n");
     printf("Treap correctness... ");
