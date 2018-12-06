@@ -1,4 +1,5 @@
 *.o
 main
 benchmark
+bench.json
 *.swp

@@ -20,7 +20,7 @@ struct SkipNode : public Item
 class SkipList : public Dictionary
 {
 public:
-  SkipList(int max_level, float prob);
+  SkipList(int max_level=32, float prob=0.5);
   ~SkipList();
   // methods of the data structure
   void insert(int search_key, int new_value);
