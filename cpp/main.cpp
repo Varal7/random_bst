@@ -6,28 +6,35 @@
 #include "skip_list.h"
 #include "dict_correctness_test.h"
 #include "dict_speed_test.h"
+#include "genzipf.h"
 
 using namespace std;
 
 void test_correctness() {
-    Dictionary *ztt, *zft, *ztf, *zff, *t, *s;
-    DictCorrectnessTest *dct = new DictCorrectnessTest(20000);
-    ztt = new ZipTree(0.5, true, true);
-    zft = new ZipTree(0.5, false, true);
-    ztf = new ZipTree(0.5, true, false);
-    zff = new ZipTree(0.5, false, false);
-    t = new Treap;
-    s = new SkipList(16, 0.5);
-    printf("Zip tree correctness... ");
-    dct->set_up(zff); dct->run();
-    dct->set_up(zft); dct->run();
-    dct->set_up(ztf); dct->run();
-    dct->set_up(zff); dct->run();
+    Dictionary *t, *s;
+    Dictionary *z_vanilla, *z_update;
+    DictCorrectnessTest *dct = new DictCorrectnessTest(2000);
+    printf("Zip tree correctness...\n");
+    printf("z_vanilla\n");
+    z_vanilla = new ZipTree(0.5, false, false);
+    dct->set_up(z_vanilla); dct->run();
+    printf("z_update\n");
+    z_update = new ZipTree(0.5, true, false);
+    dct->set_up(z_update); dct->run();
+    printf("z_vanilla_frac\n");
+    z_vanilla = new ZipTree(0.5, false, true);
+    dct->set_up(z_vanilla); dct->run();
+    printf("z_update_frac\n");
+    z_update = new ZipTree(0.5, true, true);
+    dct->set_up(z_update); dct->run();
+
     printf("check\n");
     printf("Treap correctness... ");
+    t = new Treap;
     dct->set_up(t); dct->run();
     printf("check\n");
     printf("SkipList correctness... ");
+    s = new SkipList(16, 0.5);
     dct->set_up(s); dct->run();
     printf("check\n");
 

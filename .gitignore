@@ -1,5 +1,6 @@
 *.o
 main
 benchmark
+test_distribution
 bench.json
 *.swp
