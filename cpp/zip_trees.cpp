@@ -6,8 +6,8 @@
 
 using namespace std;
 
-ZipTree::ZipTree(float prob, bool update_rank)
-    : prob_(prob), update_rank_(update_rank) {
+ZipTree::ZipTree(float prob, bool update_rank, bool frac_rank)
+    : prob_(prob), update_rank_(update_rank), frac_rank_(frac_rank) {
     nullnode = new ZipNode;
     nullnode->left = nullnode->right = nullnode;
     root = nullnode;
@@ -224,6 +224,9 @@ void ZipTree::check(ZipNode*& leaf, int min_bound, int max_bound) {
 }
 
 int ZipTree::randomRank() {
+    if (frac_rank_) {
+        return rand();
+    }
     int height = 1;
     while ((float) rand()/(float) RAND_MAX < prob_)
       height++;

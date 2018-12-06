@@ -12,14 +12,20 @@ using namespace std;
 void test_correctness() {
     Dictionary *t, *s;
     Dictionary *z_vanilla, *z_update;
-    DictCorrectnessTest *dct = new DictCorrectnessTest(100);
-    printf("Zip tree correctness...\n ");
-    printf("z_update\n");
-    z_update = new ZipTree(0.5, true);
-    dct->set_up(z_update); dct->run();
+    DictCorrectnessTest *dct = new DictCorrectnessTest(2000);
+    printf("Zip tree correctness...\n");
     printf("z_vanilla\n");
-    z_vanilla = new ZipTree(0.5, false);
+    z_vanilla = new ZipTree(0.5, false, false);
     dct->set_up(z_vanilla); dct->run();
+    printf("z_update\n");
+    z_update = new ZipTree(0.5, true, false);
+    dct->set_up(z_update); dct->run();
+    printf("z_vanilla_frac\n");
+    z_vanilla = new ZipTree(0.5, false, true);
+    dct->set_up(z_vanilla); dct->run();
+    printf("z_update_frac\n");
+    z_update = new ZipTree(0.5, true, true);
+    dct->set_up(z_update); dct->run();
 
     printf("check\n");
     printf("Treap correctness... ");
