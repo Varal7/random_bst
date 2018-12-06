@@ -149,7 +149,7 @@ ZipNode* ZipTree::search(int key) {
 
 ZipNode* ZipTree::search(ZipNode*& leaf, int key) {
     if (leaf == nullnode) {
-        return nullnode;
+        return nullptr;
     }
     if (key == leaf->key) { return leaf; }
     if (key < leaf->key) {
@@ -196,8 +196,4 @@ int ZipTree::randomRank() {
     while ((float) rand()/(float) RAND_MAX < prob_)
       height++;
     return height;
-}
-
-bool ZipTree::contains(int key) {
-    return (search(key) != nullnode);
 }

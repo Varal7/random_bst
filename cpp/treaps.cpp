@@ -86,7 +86,7 @@ TreapNode* Treap::search(int key) {
 
 TreapNode* Treap::search(TreapNode*& leaf, int key) {
     if (leaf == nullnode) {
-        return nullnode;
+        return nullptr;
     }
     if (key == leaf->key) {
         return leaf;
@@ -110,10 +110,6 @@ void Treap::display(TreapNode*& leaf, int indent) {
     } else {
         printf("null\n");
     }
-}
-
-bool Treap::contains(int key) {
-    return (search(key) != nullnode);
 }
 
 void Treap::check() {

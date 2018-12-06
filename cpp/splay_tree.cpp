@@ -79,20 +79,6 @@ SplayNode* SplayTree::search(int search_key) {
   }
 }
 
-bool SplayTree::contains(int search_key) {
-  splay(search_key);
-
-  if (root_ == nullptr) {
-    return false;
-  }
-
-  if (root_->key == search_key) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 void SplayTree::insert(int search_key, int new_value) {
 /* Insert new key into tree, unless it's already there.    */
   splay(search_key);
