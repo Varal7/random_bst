@@ -8,7 +8,6 @@ DictCorrectnessTest::DictCorrectnessTest(uint32 instance_size) {
 void DictCorrectnessTest::set_up(Dictionary* dict){
   status_code_ = TEST_INIT_;
   dict_ = dict;
-  std::vector<uint32> key_list_;
   for (uint32 i = 0; i < instance_size_; i ++) {
       key_list_.push_back(i);
   }
