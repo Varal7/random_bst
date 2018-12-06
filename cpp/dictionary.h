@@ -19,6 +19,9 @@ public:
   void emplace(int search_key, int new_value) {
     insert(search_key, new_value);
   }
+  void erase(int search_key) {
+    remove(search_key);
+  }
 };
 
 #endif
