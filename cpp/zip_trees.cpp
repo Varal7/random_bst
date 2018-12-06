@@ -227,7 +227,7 @@ int ZipTree::randomRank() {
     int height = 1;
     while ((float) rand()/(float) RAND_MAX < prob_)
       height++;
-    if (update_rank_) {
+    if (frac_) {
         height += ((double) rand() / (RAND_MAX));
     }
     return height;

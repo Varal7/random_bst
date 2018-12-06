@@ -11,23 +11,27 @@ using namespace std;
 
 void test_correctness() {
     Dictionary *ztt, *zft, *ztf, *zff, *t, *s;
-    DictCorrectnessTest *dct = new DictCorrectnessTest(20000);
-    ztt = new ZipTree(0.5, true, true);
-    zft = new ZipTree(0.5, false, true);
-    ztf = new ZipTree(0.5, true, false);
-    zff = new ZipTree(0.5, false, false);
-    t = new Treap;
-    s = new SkipList(16, 0.5);
+    DictCorrectnessTest *dct = new DictCorrectnessTest(100);
     printf("Zip tree correctness... ");
+    //ztt = new ZipTree(0.5, true, true);
+    //dct->set_up(ztt); dct->run();
+    //zft = new ZipTree(0.5, false, true);
+    //dct->set_up(zft); dct->run();
+    //
+    printf("\nfalse false\n");
+    zff = new ZipTree(0.5, false, false);
     dct->set_up(zff); dct->run();
-    dct->set_up(zft); dct->run();
+    printf("\ntrue false\n");
+    ztf = new ZipTree(0.5, true, false);
     dct->set_up(ztf); dct->run();
-    dct->set_up(zff); dct->run();
+
     printf("check\n");
     printf("Treap correctness... ");
+    t = new Treap;
     dct->set_up(t); dct->run();
     printf("check\n");
     printf("SkipList correctness... ");
+    s = new SkipList(16, 0.5);
     dct->set_up(s); dct->run();
     printf("check\n");
 
