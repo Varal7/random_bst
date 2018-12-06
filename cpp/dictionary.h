@@ -16,6 +16,9 @@ public:
   bool contains(int search_key);
   virtual void check() =0;
   virtual ~Dictionary() { };
+  void emplace(int search_key, int new_value) {
+    insert(search_key, new_value);
+  }
 };
 
 #endif
