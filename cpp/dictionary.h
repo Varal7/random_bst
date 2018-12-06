@@ -22,6 +22,9 @@ public:
   void erase(int search_key) {
     remove(search_key);
   }
+  Item* find(int search_key) {
+    return search(search_key);
+  }
 };
 
 #endif
