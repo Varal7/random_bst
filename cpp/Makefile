@@ -41,6 +41,7 @@ EXTRALIBS = -lbenchmark
 # PLUMBING CUSTOMIZATION
 MAINS   = main.cpp benchmark.cpp
 CFLAGS  = -W -Wall -pedantic $(ALL_HDRS) -std=c++11 -O2
+XFLAGS	=
 LDFLAGS = $(ALL_LIBS)
 
 
@@ -71,7 +72,7 @@ $(MAINS:.$(EXT)=): $(OBJ) $$(@).o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 %.o: %.$(EXT)
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(CFLAGS) $(XFLAGS)
 
 #####
 # PHONY TARGETS

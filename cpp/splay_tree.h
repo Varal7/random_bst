@@ -1,32 +1,35 @@
+/*
+Top-down splay tree heavily modeled on C implementation of D. Sleator, from
+https://www.link.cs.cmu.edu/link/ftp-site/splaying/top-down-splay.c
+*/
+
+#include "dictionary.h"
+
 #ifndef SPLAY_TREE_H_
 #define SPLAY_TREE_H_
 
-struct SplayNode
+struct SplayNode : public Item
 {
     int key, value;
     SplayNode *left, *right;
-    SplayNode(int k, int v);
+    SplayNode(int k, int v, SplayNode *l, SplayNode *r);
 };
 
 class SplayTree : public Dictionary
 {
 public:
-  SkipList(int max_level, float prob);
-  ~SkipList();
+  SplayTree();
+  ~SplayTree();
   // Member functions for dictionary ADT
   void insert(int search_key, int new_value);
   void remove(int search_key);
   SplayNode* search(int search_key);
+  bool contains(int search_key);
+  void check();
 
 private:
-    SplayNode *root, *nullnode;
-    void rot_l(SplayNode* root);
-    void rot_r(SplayNode* root);
-    void rot_ll(SplayNode* topn);
-    void rot_lr(SplayNode* parent);
-    void rot_rl(SplayNode* parent);
-    void rot_rr(SplayNode* parent);
-    void splay(SplayNode* root, int key);
+    SplayNode *root_;
+    void splay(int search_key);
 };
 
 #endif  // SPLAY_TREE_H_
