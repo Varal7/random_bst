@@ -13,7 +13,7 @@ struct ZipNode : Item
 
 class ZipTree : public Dictionary {
 public:
-    ZipTree(float prob=0.5);
+    ZipTree(float prob=0.5, bool frac=false, bool update_rank_on_access=false);
     void insert(int key, int value);
     void remove(int key);
     ZipNode* search(int key);
@@ -24,10 +24,13 @@ public:
 private:
     ZipNode *root, *nullnode;
     float prob_;
+    bool frac_, update_rank_;
     int randomRank();
     ZipNode* search(ZipNode*& leaf, int key);
     void display(ZipNode*& leaf, int indent);
     void check(ZipNode*& leaf, int, int);
+    void left_rot(ZipNode*& tree);
+    void right_rot(ZipNode*& tree);
 };
 
 #endif

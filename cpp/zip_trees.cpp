@@ -6,11 +6,27 @@
 
 using namespace std;
 
-ZipTree::ZipTree(float prob) : prob_(prob) {
+ZipTree::ZipTree(float prob, bool frac, bool update_rank)
+    : prob_(prob), frac_(frac), update_rank_(update_rank) {
     nullnode = new ZipNode;
     nullnode->left = nullnode->right = nullnode;
     root = nullnode;
 }
+
+void ZipTree::left_rot(ZipNode*& tree) {
+    ZipNode *left = tree->left;
+    tree->left = left->right;
+    left->right = tree;
+    tree = left;
+}
+
+void ZipTree::right_rot(ZipNode*& tree) {
+    ZipNode *right = tree->right;
+    tree->right = right->left;
+    right->left = tree;
+    tree = right;
+}
+
 
 void ZipTree::insert(int key, int value) {
     int rank = randomRank();
@@ -151,11 +167,27 @@ ZipNode* ZipTree::search(ZipNode*& leaf, int key) {
     if (leaf == nullnode) {
         return nullptr;
     }
-    if (key == leaf->key) { return leaf; }
-    if (key < leaf->key) {
-        return search(leaf->left, key);
+    if (key == leaf->key) {
+        if (update_rank_) {
+            leaf->rank = max(leaf->rank, randomRank());
+        }
+        return leaf;
     }
-    return search(leaf->right, key);
+    if (key < leaf->key) {
+        ZipNode* ans =  search(leaf->left, key);
+        if (update_rank_ && leaf->rank <= ans-> rank) {
+            assert(leaf->left == ans);
+            left_rot(leaf);
+        }
+        return ans;
+    } else if (key > leaf->key) {
+        ZipNode* ans =  search(leaf->right, key);
+        if (update_rank_ && leaf->rank < ans-> rank) {
+            assert(leaf->right == ans);
+            right_rot(leaf);
+        }
+        return ans;
+    } else { assert(false); }
 }
 
 void ZipTree::display() {
@@ -195,5 +227,8 @@ int ZipTree::randomRank() {
     int height = 1;
     while ((float) rand()/(float) RAND_MAX < prob_)
       height++;
+    if (update_rank_) {
+        height += ((double) rand() / (RAND_MAX));
+    }
     return height;
 }
