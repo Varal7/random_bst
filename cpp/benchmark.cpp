@@ -5,9 +5,8 @@
 #include "treaps.h"
 #include "skip_list.h"
 #include "splay_tree.h"
-#include "dict_correctness_test.h"
-//#include "dict_speed_test.h"
 #include "benchmark/benchmark.h"
+#include "genzipf.h"
 
 using namespace std;
 

@@ -6,6 +6,7 @@
 #include "skip_list.h"
 #include "dict_correctness_test.h"
 #include "dict_speed_test.h"
+#include "genzipf.h"
 
 using namespace std;
 
