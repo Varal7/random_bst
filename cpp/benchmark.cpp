@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <random>
 #include "zip_trees.h"
 #include "treaps.h"
 #include "skip_list.h"
@@ -9,6 +10,9 @@
 #include "benchmark/benchmark.h"
 
 using namespace std;
+
+// Set up pseudorandom number generator
+auto rng = std::default_random_engine {};
 
 
 template <class D> void BM_DictionaryInsertRand(benchmark::State& state) {
@@ -47,11 +51,11 @@ template <class D> void BM_DictionaryAccess(benchmark::State& state) {
     D* d = new D;
     // Before the test shuffle the elements and place them in the dict
     state.PauseTiming();
-    random_shuffle(elements.begin(), elements.end());
+    shuffle(begin(elements), end(elements), rng);
     for (int j = 0; j < num_elements; ++j) {
       d->emplace(elements[j], 0);
     }
-    random_shuffle(elements.begin(), elements.end());
+    shuffle(begin(elements), end(elements), rng);
     state.ResumeTiming();
 
     // Time num_acesses accesses
@@ -79,11 +83,11 @@ template <class D> void BM_DictionaryRemoves(benchmark::State& state) {
     D* d = new D;
     // Before the test shuffle the elements and place them in the dict
     state.PauseTiming();
-    random_shuffle(elements.begin(), elements.end());
+    shuffle(begin(elements), end(elements), rng);
     for (int j = 0; j < num_elements; ++j) {
       d->emplace(elements[j], 0);
     }
-    random_shuffle(elements.begin(), elements.end());
+    shuffle(begin(elements), end(elements), rng);
     state.ResumeTiming();
 
     // Time num_deletes deletes
@@ -109,7 +113,7 @@ template <class D> void BM_DictionaryInsertOrdered(benchmark::State& state) {
     D* d = new D;
     // Before the test shuffle the elements and place them in the dict
     state.PauseTiming();
-    random_shuffle(elements.begin(), elements.end());
+    shuffle(begin(elements), end(elements), rng);
     for (int j = 0; j < num_elements; ++j) {
       d->emplace(elements[j], 0);
     }
@@ -141,7 +145,7 @@ template <class D> void BM_DictionaryAccessOrdered(benchmark::State& state) {
     D* d = new D;
     // Before the test shuffle the elements and place them in the dict
     state.PauseTiming();
-    random_shuffle(elements.begin(), elements.end());
+    shuffle(begin(elements), end(elements), rng);
     for (int j = 0; j < num_elements; ++j) {
       d->emplace(elements[j], 0);
     }
@@ -172,11 +176,11 @@ template <class D> void BM_DictionaryRemovesOrdered(benchmark::State& state) {
     D* d = new D;
     // Before the test shuffle the elements and place them in the dict
     state.PauseTiming();
-    random_shuffle(elements.begin(), elements.end());
+    shuffle(begin(elements), end(elements), rng);
     for (int j = 0; j < num_elements; ++j) {
       d->emplace(elements[j], 0);
     }
-    random_shuffle(elements.begin(), elements.end());
+    shuffle(begin(elements), end(elements), rng);
     state.ResumeTiming();
 
     // Time num_deletes deletes
