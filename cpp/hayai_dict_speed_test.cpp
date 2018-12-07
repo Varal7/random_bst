@@ -1,5 +1,5 @@
 #include <hayai/hayai.hpp>
-#include "dict_speed_test.h"
+#include "hayai_dict_speed_test.h"
 #include <assert.h>
 
 using namespace std;

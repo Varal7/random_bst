@@ -1,6 +1,8 @@
 *.o
 main
 benchmark
+test_hayai
+correctness
 test_distribution
 sandbox
 bench.json

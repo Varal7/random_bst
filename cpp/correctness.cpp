@@ -1,14 +1,11 @@
 #include <iostream>
 #include <cstdlib>
-#include <hayai/hayai.hpp>
 #include "zip_trees.h"
 #include "treaps.h"
 #include "skip_list.h"
 #include "splay_tree.h"
 #include "splay_tree_logged.h"
 #include "dict_correctness_test.h"
-#include "dict_speed_test.h"
-#include "genzipf.h"
 
 using namespace std;
 
@@ -65,12 +62,6 @@ void test_correctness() {
 }
 
 
-void test_speed() {
-    hayai::ConsoleOutputter consoleOutputter;
-    hayai::Benchmarker::AddOutputter(consoleOutputter);
-    hayai::Benchmarker::RunAllTests();
-}
-
 
 int main(int argc, char** argv) {
     int x;
@@ -83,7 +74,5 @@ int main(int argc, char** argv) {
     srand(x);
 
     test_correctness();
-    //test_speed();
-    //std::cout << "Maximum memory used by splay tree is " << SplayTreeLogged::log_->greatest_size() << " bytes." << std::endl;
     return 0;
 }
