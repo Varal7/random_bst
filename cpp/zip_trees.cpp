@@ -214,7 +214,6 @@ void ZipTree::check() {
 
 void ZipTree::check(ZipNode*& leaf, int min_bound, int max_bound) {
     if (leaf == nullnode) { return; }
-    printf("%d < %d\n", min_bound, leaf->key);
     assert (min_bound < leaf->key);
     assert (max_bound > leaf->key);
     if (leaf->left != nullnode) {
