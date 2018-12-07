@@ -22,6 +22,7 @@
 #define TEST_H_
 
 typedef long int32; typedef unsigned long uint32;
+typedef long long int64; typedef unsigned long long uint64;
 
 // Generic test harness class
 class Test
@@ -36,9 +37,12 @@ public:
   int get_status();
 protected:
   virtual void execute_test() =0; // Private fn that executes test
-  uint32 instance_size_;
-  int instance_runtime_; // Runtime in ms
+  void pause();
+  void resume();
+  int instance_runtime_; // Runtime in micro seconds
   int status_code_;
+  bool running;
+  uint64 tic, toc;
 };
 
 #endif

@@ -39,12 +39,3 @@ void DictCorrectnessTest::execute_test() {
 }
 
 
-int DictCorrectnessTest::get_runtime() {
-  assert(status_code_ != 0);
-  return instance_runtime_;
-}
-
-
-int DictCorrectnessTest::get_status() {
-  return status_code_;
-}

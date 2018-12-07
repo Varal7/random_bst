@@ -17,7 +17,6 @@ auto rng = std::default_random_engine {};
 template <class D> void BM_DictionaryInsertRand(benchmark::State& state) {
   int num_elements = state.range(0);
   int num_inserts = state.range(1);
-  assert(num_inserts < num_elements);
   for (auto _ : state) {
     D* d = new D;
     state.PauseTiming();
@@ -191,40 +190,46 @@ template <class D> void BM_DictionaryRemovesOrdered(benchmark::State& state) {
   state.SetItemsProcessed(state.iterations() * num_deletes);
 }
 
-BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, ZipTree)->RangeMultiplier(2)->Ranges({{0, 0}, {1, 1<<20}});
+BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, Treap)->RangeMultiplier(2)->Ranges({{0, 0}, {1, 1<<20}});
+BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, SplayTree)->RangeMultiplier(2)->Ranges({{0, 0}, {1, 1<<20}});
+BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, SkipList)->RangeMultiplier(2)->Ranges({{0, 0}, {1, 1<<20}});
+BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, map<int, int>)->RangeMultiplier(2)->Ranges({{0, 0}, {1, 1<<20}});
 
-BENCHMARK_TEMPLATE(BM_DictionaryAccess, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryAccess, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryAccess, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryAccess, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryAccess, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertRand, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
 
-BENCHMARK_TEMPLATE(BM_DictionaryRemoves, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryRemoves, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryRemoves, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryRemoves, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryRemoves, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccess, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccess, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccess, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccess, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccess, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
 
-BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemoves, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemoves, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemoves, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemoves, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemoves, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
 
-BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryInsertOrdered, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
 
-BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
-BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryAccessOrdered, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+
+//BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, ZipTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, Treap)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, SplayTree)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, SkipList)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
+//BENCHMARK_TEMPLATE(BM_DictionaryRemovesOrdered, map<int, int>)->RangeMultiplier(2)->Ranges({{1<<10, 1<<10}, {128, 128}});
 
 BENCHMARK_MAIN();

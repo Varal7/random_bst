@@ -7,15 +7,10 @@ class DictCorrectnessTest : public Test
 {
 public:
   DictCorrectnessTest(uint32 instance_size);
-  //~DictCorrectnessTest();
-  // Member functions
-  //void run();
   void set_up(Dictionary* dict); // Stage an empty dictionary for the test
-  int get_runtime();
-  int get_status();
 protected:
   void execute_test();
-  uint32 instace_size_;
+  uint32 instance_size_;
   int instance_runtime_;
   int status_code_;
 private:
