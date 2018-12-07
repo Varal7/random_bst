@@ -1,5 +1,11 @@
 #include "skip_list.h"
-#include<bits/stdc++.h>
+
+#if __APPLE__
+#elif __linux__
+    #include <bits/stdc++.h>
+#elif __unix__ // all unices not caught above
+#else
+#endif
 
 
 // SkipNode constructor
