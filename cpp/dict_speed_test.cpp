@@ -52,3 +52,30 @@ void TestInsertFromList::execute_test() {
   }
   status_code_ = TEST_PASS_;
 }
+
+// TestUniformAccessFixedStart
+
+TestUniformAccessFixedStart::TestUniformAccessFixedStart(vector<int>* key_list, int num_accesses) {
+  std::random_device rng;
+  std::mt19937 urng(rng());
+  key_list_ = key_list;
+  num_accesses_ = num_accesses;
+  distribution = uniform_int_distribution<int>(0, key_list_->size());
+}
+
+
+void TestUniformAccessFixedStart::set_up(Dictionary* dict){
+  status_code_ = TEST_INIT_;
+  dict_ = dict;
+  for (auto it = key_list_->begin(); it!=key_list_->end(); it++) {
+      dict_->emplace(*it, 0);
+  }
+}
+
+void TestUniformAccessFixedStart::execute_test() {
+  for (int i = 0; i < num_accesses_; i++) {
+      int off = distribution(urng);
+      dict_->contains((*key_list_)[off]);
+  }
+  status_code_ = TEST_PASS_;
+}

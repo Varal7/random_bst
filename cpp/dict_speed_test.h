@@ -32,4 +32,19 @@ private:
   std::mt19937 urng;
 };
 
+class TestUniformAccessFixedStart : public Test
+{
+public:
+  TestUniformAccessFixedStart(vector<int>*, int);
+  void set_up(Dictionary* dict); // Stage an empty dictionary for the test
+private:
+  void execute_test();
+  Dictionary* dict_;
+  std::vector<int> *key_list_;
+  std::mt19937 urng;
+  int num_accesses_;
+  uniform_int_distribution<int> distribution;
+};
+
+
 #endif

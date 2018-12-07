@@ -87,6 +87,46 @@ void test_insert_from_rand_list() {
 }
 
 
+void test_uniform_access_fixed_start() {
+    int instance_size_min = 16;
+    int instance_size_max = 1<<20;
+    int num_accesses = 1024;
+    int max_iters = 5;
+
+    for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+        for (int iter = 0; iter < max_iters; iter++) {
+            vector<int> key_list;
+            for (int i = 0; i < instance_size; i ++) {
+                key_list.push_back(i);
+            }
+            TestUniformAccessFixedStart *dst = new TestUniformAccessFixedStart(&key_list, num_accesses);
+
+            Dictionary *s;
+
+            printf("SkipList uniformAccessFixedStart %d ", instance_size);
+            s = new SkipList(16, 0.5); dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            delete s;
+
+            printf("ZipTree uniformAccessFixedStart %d ", instance_size);
+            s = new ZipTree; dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            delete s;
+
+            printf("Treap uniformAccessFixedStart %d ", instance_size);
+            s = new Treap; dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            delete s;
+
+            printf("SplayTree uniformAccessFixedStart %d ", instance_size);
+            s = new SplayTree; dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            delete s;
+
+            printf("RedBlack uniformAccessFixedStart %d ", instance_size);
+            s = new RedBlack; dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            delete s;
+        }
+    }
+}
+
+
 int main(int argc, char** argv) {
     int x;
     if (argc > 1) {
@@ -97,7 +137,8 @@ int main(int argc, char** argv) {
     cout << "seed: " << x << endl;
     srand(x);
 
-    test_insert_from_list();
-    test_insert_from_rand_list();
+    //test_insert_from_list();
+    //test_insert_from_rand_list();
+    test_uniform_access_fixed_start();
     return 0;
 }

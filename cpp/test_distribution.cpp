@@ -6,6 +6,24 @@
 
 using namespace std;
 
+void test_uniform() {
+    cout << "Uniform distribution" << endl;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<int> d(0, 10);
+
+    std::map<int, int> hist;
+    for(int n=0; n<10000; ++n) {
+        ++hist[d(gen)];
+    }
+    for(auto p : hist) {
+        std::cout << p.first <<
+                ' ' << std::string(p.second/100, '*') << '\n';
+    }
+}
+
+
 void test_geometric() {
     cout << "Geometric distribution" << endl;
     std::random_device rd;
@@ -37,6 +55,7 @@ void test_genzipf() {
 }
 
 int main() {
+    test_uniform();
     test_geometric();
     test_genzipf();
 }
