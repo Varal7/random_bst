@@ -1,6 +1,10 @@
 #include "dict_speed_test.h"
 #include <random>
 
+using namespace std;
+
+// TestInsertFromRandList
+
 
 TestInsertFromRandList::TestInsertFromRandList(uint32 instance_size) {
   std::random_device rng;
@@ -23,6 +27,27 @@ void TestInsertFromRandList::execute_test() {
   shuffle(begin(key_list_), end(key_list_), urng);
   resume();
   for (auto it = key_list_.begin(); it!=key_list_.end(); it++) {
+      dict_->emplace(*it, 0);
+  }
+  status_code_ = TEST_PASS_;
+}
+
+// TestInsertFromList
+
+TestInsertFromList::TestInsertFromList(vector<uint32>* key_list) {
+  std::random_device rng;
+  std::mt19937 urng(rng());
+  key_list_ = key_list;
+}
+
+
+void TestInsertFromList::set_up(Dictionary* dict){
+  status_code_ = TEST_INIT_;
+  dict_ = dict;
+}
+
+void TestInsertFromList::execute_test() {
+  for (auto it = key_list_->begin(); it!=key_list_->end(); it++) {
       dict_->emplace(*it, 0);
   }
   status_code_ = TEST_PASS_;
