@@ -34,7 +34,7 @@ EXTENSION = cpp
 COMPILER  = g++
 PACKAGES  =
 EXTRAINCL =
-EXTRALIBS = -lbenchmark
+EXTRALIBS = -lbenchmark -lpthread
 
 
 #####

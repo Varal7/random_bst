@@ -1,7 +1,10 @@
-#include "genzipf.h"
+#include "cstdlib"
 #include "math.h"
 #include <assert.h>
 #include <vector>
+#include "genzipf.h"
+
+using namespace std;
 
 GenZipf::GenZipf(double alpha_, int n_) : alpha(alpha_), n(n_){
     double c = 0;

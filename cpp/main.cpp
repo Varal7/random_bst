@@ -85,5 +85,5 @@ int main(int argc, char** argv) {
     test_correctness();
     //test_speed();
     //std::cout << "Maximum memory used by splay tree is " << SplayTreeLogged::log_->greatest_size() << " bytes." << std::endl;
-    //return 0;
+    return 0;
 }
