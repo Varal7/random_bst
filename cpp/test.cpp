@@ -26,7 +26,7 @@ void Test::resume() {
 
 int Test::get_runtime() {
   assert(status_code_ == TEST_PASS_);
-  assert(running = false);
+  assert(running == false);
   return instance_runtime_;
 }
 
