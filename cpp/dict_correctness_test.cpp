@@ -1,4 +1,7 @@
 #include "dict_correctness_test.h"
+#include <random>
+
+auto rng = std::default_random_engine {};
 
 DictCorrectnessTest::DictCorrectnessTest(uint32 instance_size) {
   instance_size_ = instance_size;
@@ -15,23 +18,24 @@ void DictCorrectnessTest::set_up(Dictionary* dict){
 }
 
 void DictCorrectnessTest::execute_test() {
-  std::random_shuffle(key_list_.begin(), key_list_.end());
+  shuffle(begin(key_list_), end(key_list_), rng);
   for (auto it = key_list_.begin(); it!=key_list_.end(); it++) {
       dict_->insert(*it, 0);
       dict_->check();
   }
 
-  std::random_shuffle(key_list_.begin(), key_list_.end());
+  shuffle(begin(key_list_), end(key_list_), rng);
   for (auto it = key_list_.begin(); it!=key_list_.end(); it++) {
       assert(dict_->contains(*it));
   }
 
-  std::random_shuffle(key_list_.begin(), key_list_.end());
+  shuffle(begin(key_list_), end(key_list_), rng);
   for (auto it = key_list_.begin(); it!=key_list_.end(); it++) {
       dict_->remove(*it);
       dict_->check();
       assert(!(dict_->contains(*it)));
   }
+  status_code_ = TEST_PASS_;
 }
 
 

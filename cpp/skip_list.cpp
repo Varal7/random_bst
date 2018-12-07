@@ -17,8 +17,8 @@ SkipList::SkipList(int max_level, float prob)
   header_ = new SkipNode(INT_MIN, 0, max_level_);
   nil_ = new SkipNode(INT_MAX, 0, max_level_);
   for( int i = 0; i < max_level_; i++) {
-    header_->forward[i] = nil_;
-    nil_->forward[i] = nullptr;
+    header_->forward.push_back(nil_);
+    nil_->forward.push_back(nullptr);
   }
 }
 
@@ -59,7 +59,7 @@ void SkipList::insert(int search_key, int new_value)
       while (x->forward[i] != nil_ && x->forward[i]->key < search_key) {
         x = x->forward[i];
       }
-      // Set the search path values
+      // Set the search path values. Put x at the end of
       update[i] = x;
   }
   x = x->forward[0];
@@ -71,8 +71,9 @@ void SkipList::insert(int search_key, int new_value)
 
   //Otherwise, insert the new key-value pair.
   else {
+
     int new_level = random_level();
-    // Update the list's level if the new new SkipNode is higher-level
+    // Update the list's level if the new SkipNode is higher-level
     if (new_level > level_) {
       for (int i = level_; i < new_level; i++) {
         update[i] = header_;
@@ -83,7 +84,7 @@ void SkipList::insert(int search_key, int new_value)
     SkipNode* x = new SkipNode(search_key, new_value, new_level);
     // Stitch the new SkipNode into the list by moving local pointers.
     for (int i = 0; i < new_level; i++) {
-      x->forward[i] = update[i]->forward[i];
+      x->forward.push_back(update[i]->forward[i]);
       update[i]->forward[i] = x;
     }
   }
