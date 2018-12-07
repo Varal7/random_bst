@@ -2,9 +2,11 @@
 
 
 // SkipNode constructor
-SkipNode::SkipNode(int k, int v, int l) : key(k), value(v), level(l)
-// Allocate space for forward vector.
+SkipNode::SkipNode(int k, int v, int l) : level(l)
 {
+  key = k;
+  value = v;
+  // Allocate space for forward vector.
   forward.reserve(level);
 }
 

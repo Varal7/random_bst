@@ -7,7 +7,10 @@ https://www.link.cs.cmu.edu/link/ftp-site/splaying/top-down-splay.c
 
 // Splay node constructor
 SplayNode::SplayNode(int k, int v, SplayNode *l, SplayNode *r)
-  : key(k), value(v), left(l), right(r) {};
+  : left(l), right(r) {
+    key = k;
+    value = v;
+  };
 
 // Splay tree constructor
 SplayTree::SplayTree() {

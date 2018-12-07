@@ -10,7 +10,6 @@ https://www.link.cs.cmu.edu/link/ftp-site/splaying/top-down-splay.c
 
 struct SplayNode : public Item
 {
-    int key, value;
     SplayNode *left, *right;
     SplayNode(int k, int v, SplayNode *l, SplayNode *r);
 };

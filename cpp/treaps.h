@@ -5,7 +5,7 @@
 
 struct TreapNode : Item
 {
-    int key, value, priority;
+    int priority;
     TreapNode *left, *right;
 };
 

@@ -7,7 +7,7 @@
 
 struct ZipNode : Item
 {
-    int key, value, rank;
+    int rank;
     ZipNode *left, *right;
 };
 

@@ -25,6 +25,12 @@ void test_correctness() {
     Dictionary *z_vanilla, *z_update;
     Dictionary *sp_l;
     DictCorrectnessTest *dct = new DictCorrectnessTest(2000);
+
+    printf("SkipList correctness... ");
+    s = new SkipList(16, 0.5);
+    dct->set_up(s); dct->run();
+    print_status(dct);
+
     printf("Zip tree correctness...\n");
     printf("z_vanilla\n");
     z_vanilla = new ZipTree(0.5, false, false);
@@ -43,10 +49,6 @@ void test_correctness() {
     printf("Treap correctness... ");
     t = new Treap;
     dct->set_up(t); dct->run();
-    print_status(dct);
-    printf("SkipList correctness... ");
-    s = new SkipList(16, 0.5);
-    dct->set_up(s); dct->run();
     print_status(dct);
 
     printf("Splay tree correctness... ");

@@ -7,7 +7,6 @@
 // A simple struct for SkipNodes of a skip list.
 struct SkipNode : public Item
 {
-  int key, value;
   // Number of forward pointers
   int level;
   // Following SkipNodes
