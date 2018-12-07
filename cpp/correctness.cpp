@@ -4,6 +4,7 @@
 #include "treaps.h"
 #include "skip_list.h"
 #include "splay_tree.h"
+#include "red_black.h"
 #include "splay_tree_logged.h"
 #include "dict_correctness_test.h"
 
@@ -21,6 +22,7 @@ void test_correctness() {
     Dictionary *t, *s;
     Dictionary *z_vanilla, *z_update;
     Dictionary *sp;
+    Dictionary *rb;
     DictCorrectnessTest *dct = new DictCorrectnessTest(2000);
 
     printf("SkipList correctness... ");
@@ -46,6 +48,11 @@ void test_correctness() {
     printf("Treap correctness... ");
     t = new Treap;
     dct->set_up(t); dct->run();
+    print_status(dct);
+
+    printf("Red black correctness... ");
+    rb = new RedBlack;
+    dct->set_up(rb); dct->run();
     print_status(dct);
 
 /*
