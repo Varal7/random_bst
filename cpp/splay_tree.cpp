@@ -83,10 +83,10 @@ void SplayTree::insert(int search_key, int new_value) {
 /* Insert new key into tree, unless it's already there.    */
   splay(search_key);
   SplayNode* t = root_;
-  SplayNode* new_node = new SplayNode(search_key, new_value, nullptr, nullptr);
 
   // If tree is empty, simply insert the new node as root.
   if (t == nullptr) {
+    SplayNode* new_node = new SplayNode(search_key, new_value, nullptr, nullptr);
     root_ = new_node;
     return;
   }
@@ -97,12 +97,14 @@ void SplayTree::insert(int search_key, int new_value) {
   }
   // The possibilities are now: search_key < t.key and search_key > root_.key
   else if (search_key < root_->key) {
+    SplayNode* new_node = new SplayNode(search_key, new_value, nullptr, nullptr);
 	  new_node->left = root_->left;
 	  new_node->right = root_;
 	  root_->left = nullptr;
     root_ = new_node;
   }
   else { // i.e. search_key > root_.key
+    SplayNode* new_node = new SplayNode(search_key, new_value, nullptr, nullptr);
 	  new_node->right = root_->right;
 	  new_node->left = root_;
 	  root_->right = nullptr;
