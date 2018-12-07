@@ -100,21 +100,20 @@ void ZipTree::insert(int key, int value) {
 }
 
 void ZipTree::remove(int key) {
-    ZipNode* cur = root;
+    ZipNode* cand = root;
     ZipNode* prev;
 
     // Find the node with key
-    while (key != cur->key) {
-        prev = cur;
-        cur = (key < cur->key) ? cur->left : cur->right;
+    while (key != cand->key) {
+        prev = cand;
+        cand = (key < cand->key) ? cand->left : cand->right;
         // TODO: raise error when not found
     }
 
-    ZipNode* left = cur->left;
-    ZipNode* right = cur->right;
+    ZipNode* left = cand->left;
+    ZipNode* right = cand->right;
+    ZipNode* cur;
 
-    // Delete the node
-    delete cur;
 
     // Choose the child with higher rank
     if (left == nullnode) {
@@ -127,6 +126,7 @@ void ZipTree::remove(int key) {
         cur = right;
     }
 
+
     // Replace the deleted node with that child
     if (root->key == key) {
         root = cur;
@@ -135,6 +135,9 @@ void ZipTree::remove(int key) {
     } else {
         prev->right = cur;
     }
+
+    // Delete the node
+    delete cand;
 
     // The actual zipping
     while ((left != nullnode) && (right != nullnode)) {
@@ -211,6 +214,7 @@ void ZipTree::check() {
 
 void ZipTree::check(ZipNode*& leaf, int min_bound, int max_bound) {
     if (leaf == nullnode) { return; }
+    printf("%d < %d\n", min_bound, leaf->key);
     assert (min_bound < leaf->key);
     assert (max_bound > leaf->key);
     if (leaf->left != nullnode) {
