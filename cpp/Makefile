@@ -39,7 +39,7 @@ EXTRALIBS = -lbenchmark -lpthread
 
 #####
 # PLUMBING CUSTOMIZATION
-MAINS   = main.cpp benchmark.cpp test_distribution.cpp
+MAINS   = main.cpp benchmark.cpp test_distribution.cpp sandbox.cpp
 CFLAGS  = -W -Wall -pedantic $(ALL_HDRS) -std=c++11 -O2
 XFLAGS	=
 LDFLAGS = $(ALL_LIBS)
