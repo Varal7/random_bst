@@ -20,6 +20,8 @@ public:
     bool contains(int key);
     void display();
     void check();
+    int height();
+    int count_nodes();
 
 private:
     ZipNode *root, *nullnode;
@@ -27,6 +29,8 @@ private:
     bool update_rank_, frac_rank_;
     int randomRank();
     ZipNode* search(ZipNode*& leaf, int key);
+    int height(ZipNode*& leaf);
+    int count_nodes(ZipNode*& leaf);
     void display(ZipNode*& leaf, int indent);
     void check(ZipNode*& leaf, int, int);
     void left_rot(ZipNode*& tree);

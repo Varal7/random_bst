@@ -45,12 +45,13 @@ void ZipTree::insert(int key, int value) {
     }
 
     // Either the tree was empty, so cur is root, and x becomes the new root
-    // Otherwise, add x as child of prev (it replaces cur)
+    // Otherwise, the rank of x is larger than rank of cur, so we should add x as child of cur
+    // add x as child of prev (it replaces cur)
     if (cur == root) {
         root = x;
     } else if (key < prev->key) {
         prev->left = x;
-    } else {
+    } else { // key >= prev->key
         prev->right = x;
     }
 
@@ -77,22 +78,41 @@ void ZipTree::insert(int key, int value) {
         if (cur->key < key) {
             // Traverse the right spine of cur until we hit the point where
             // we need to unzip a node
-            do {
+            while ((cur != nullnode) && (cur->key < key)) {
                 prev = cur;
                 cur = cur->right;
-            } while ((cur != nullnode) && (cur->key < key));
+            }
         } else {
-            do {
             // Traverse the left spine
+            while ((cur != nullnode) && (cur->key > key)) {
                 prev = cur;
                 cur = cur->left;
-            } while ((cur != nullnode) && (cur->key > key));
+            }
+        }
+
+        // If we hit a point where the current node has same key, we can finish unzipping
+        // by assigning the children of cur to where they belong
+        if ((cur != nullnode) && (cur->key == key)) {
+            if (prev->right == cur) {
+                printf("needs zipping. aborting\n"); //TODO
+                assert(false);
+                fix->right = cur->right;
+                delete cur;
+            } else if (prev->left == cur) {
+                printf("needs zipping. aborting\n"); //TODO
+                assert(false);
+                fix->left = cur->left;
+                delete cur;
+            } else { assert(false);}
+            return;
         }
         // Unzip the current node and transfer the path to the other side
         if ((fix->key > key) || ((fix == x) && (prev->key > key))) {
             fix->left = cur;
-        } else {
+        } else if ((fix->key < key) || ((fix == x) && (prev->key < key))) {
             fix->right = cur;
+        } else { // fix->key = key
+            assert(false);
         }
         // Continue the unzipping, starting from the current node in the
         // path, using as fix point the parent of cur (that just lost a child)
@@ -192,6 +212,27 @@ ZipNode* ZipTree::search(ZipNode*& leaf, int key) {
         return ans;
     } else { assert(false); }
 }
+
+int ZipTree::height() {
+    return height(root);
+}
+
+
+int ZipTree::height(ZipNode*& leaf) {
+    if (leaf == nullnode) { return 0; }
+    return max(height(leaf->left), height(leaf->right));
+}
+
+int ZipTree::count_nodes() {
+    return count_nodes(root);
+}
+
+
+int ZipTree::count_nodes(ZipNode*& leaf) {
+    if (leaf == nullnode) { return 0; }
+    return 1 + count_nodes(leaf->left) +  count_nodes(leaf->right);
+}
+
 
 void ZipTree::display() {
     display(root, 0);
