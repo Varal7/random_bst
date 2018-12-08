@@ -6,5 +6,8 @@ correctness
 test_speed
 test_distribution
 sandbox
+
 bench.json
+*.csv
+
 *.swp

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include "zip_trees.h"
 #include "treaps.h"
@@ -7,7 +8,9 @@
 #include "red_black.h"
 #include "splay_tree_logged.h"
 #include "dict_speed_test.h"
+#include "timer.h"
 #include <map>
+#include <random>
 
 using namespace std;
 
@@ -91,39 +94,62 @@ void test_uniform_access_fixed_start() {
     int instance_size_min = 16;
     int instance_size_max = 1<<20;
     int num_accesses = 1024;
-    int max_iters = 5;
+    int min_iters = 10;
+    int max_iters = 5000;
+    int max_micro_sec = 1000 * 1000 * 3 * 1;
+
+    uint64 start;
+    auto rng = std::default_random_engine {};
+
+    ofstream out;
+    out.open("uniformAccesFixedStart.csv");
+    out << "data_structure, test_name, instance_size, num_accesses, time_micro_seconds\n";
 
     for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
-        for (int iter = 0; iter < max_iters; iter++) {
+        start = GetTimeMicroS64();
+        int iter;
+        cout << instance_size << "\n";
+        for (iter = 0; iter < max_iters; iter++) {
             vector<int> key_list;
             for (int i = 0; i < instance_size; i ++) {
                 key_list.push_back(i);
             }
+            shuffle(begin(key_list), end(key_list), rng);
             TestUniformAccessFixedStart *dst = new TestUniformAccessFixedStart(&key_list, num_accesses);
 
             Dictionary *s;
 
-            printf("SkipList uniformAccessFixedStart %d ", instance_size);
-            s = new SkipList(16, 0.5); dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            out << "SkipList,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";
+            s = new SkipList(16, 0.5); dst->set_up(s); dst->run();
+            out << dst->get_runtime() << "\n";
             delete s;
 
-            printf("ZipTree uniformAccessFixedStart %d ", instance_size);
-            s = new ZipTree; dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            out << "ZipTree,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
+            s = new ZipTree; dst->set_up(s); dst->run();
+            out << dst->get_runtime() << "\n";
             delete s;
 
-            printf("Treap uniformAccessFixedStart %d ", instance_size);
-            s = new Treap; dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            out << "ZipTree,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
+            s = new Treap; dst->set_up(s); dst->run();
+            out << dst->get_runtime() << "\n";
             delete s;
 
-            printf("SplayTree uniformAccessFixedStart %d ", instance_size);
-            s = new SplayTree; dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            out << "Treap,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
+            s = new SplayTree; dst->set_up(s); dst->run();
+            out << dst->get_runtime() << "\n";
             delete s;
 
-            printf("RedBlack uniformAccessFixedStart %d ", instance_size);
-            s = new RedBlack; dst->set_up(s); dst->run(); cout << dst->get_runtime() << "\n";
+            out << "SplayTree,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
+            s = new RedBlack; dst->set_up(s); dst->run();
+            out << dst->get_runtime() << "\n";
             delete s;
+
+            if ((iter + 1 >= min_iters) && (int(GetTimeMicroS64() - start) > max_micro_sec)) {
+                break;
+            }
         }
     }
+    out.close();
 }
 
 
