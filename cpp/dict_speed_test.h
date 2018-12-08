@@ -1,6 +1,7 @@
 #include "test.h"
 #include <random>
 #include <vector>
+#include "genzipf.h"
 
 #ifndef DICT_SPEED_TEST_H_
 #define DICT_SPEED_TEST_H_
@@ -46,5 +47,18 @@ private:
   uniform_int_distribution<int> distribution;
 };
 
+
+class TestZipfAccessFixedStart : public Test
+{
+public:
+  TestZipfAccessFixedStart(vector<int>*, int, double);
+  void set_up(Dictionary* dict); // Stage an empty dictionary for the test
+private:
+  void execute_test();
+  std::vector<int> *key_list_;
+  Dictionary* dict_;
+  int num_accesses_;
+  GenZipf* genzipf;
+};
 
 #endif

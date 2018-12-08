@@ -11,7 +11,7 @@ void test_uniform() {
     std::random_device rd;
     std::mt19937 gen(rd());
 
-    std::uniform_int_distribution<int> d(0, 10);
+    std::uniform_int_distribution<int> d(0, 16);
 
     std::map<int, int> hist;
     for(int n=0; n<10000; ++n) {
