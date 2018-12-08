@@ -16,6 +16,7 @@ class SplayTreeLogged : public SplayTree
 {
 public:
   SplayTreeLogged();
+  SplayTreeLogged(SplayNode *root);
   // Member functions for dictionary ADT
   void insert(int search_key, int new_value);
   void remove(int search_key);

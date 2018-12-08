@@ -39,7 +39,7 @@ EXTRALIBS = -lbenchmark -lpthread
 
 #####
 # PLUMBING CUSTOMIZATION
-MAINS   = test_hayai.cpp benchmark.cpp test_distribution.cpp sandbox.cpp correctness.cpp test_speed.cpp
+MAINS		= test_hayai.cpp benchmark.cpp test_distribution.cpp sandbox.cpp correctness.cpp test_speed.cpp
 CFLAGS  = -W -Wall -pedantic $(ALL_HDRS) -std=c++11 -O2
 XFLAGS	=
 LDFLAGS = $(ALL_LIBS)

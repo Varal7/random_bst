@@ -18,6 +18,7 @@ class SplayTree : public Dictionary
 {
 public:
   SplayTree();
+  SplayTree(SplayNode *root);
   ~SplayTree();
   // Member functions for dictionary ADT
   void insert(int search_key, int new_value);

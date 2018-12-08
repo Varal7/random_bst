@@ -11,11 +11,19 @@ WITH MEMORY USAGE LOG
 // Define the log object
 MemLog *SplayTreeLogged::log_ = new MemLog();
 
-// Splay tree constructor
+
+// Splay tree constructors
 SplayTreeLogged::SplayTreeLogged() {
   root_ = nullptr;
   log_->incr_size(sizeof(SplayTree)); // Set initial size to BARE splay tree.
 }
+
+
+SplayTreeLogged::SplayTreeLogged(SplayNode *root) {
+  root_ = root;
+  log_->incr_size(sizeof(SplayTree)); // Set initial size to BARE splay tree.
+}
+
 
 void SplayTreeLogged::splay(int search_key) {
 /* Simple top down splay, not requiring search_key to be in the tree.  */
@@ -62,9 +70,11 @@ void SplayTreeLogged::splay(int search_key) {
   }
   l->right = t->left; log_->incr_ptr_ops_ref(2); log_->incr_ptr_ops_asn(1);                              /* assemble */
   r->left = t->right; log_->incr_ptr_ops_ref(2); log_->incr_ptr_ops_asn(1);
-  t->left = nullptr; log_->incr_ptr_ops_ref(1); log_->incr_ptr_ops_asn(1);
-  t->right = nullptr; log_->incr_ptr_ops_ref(1); log_->incr_ptr_ops_asn(1);
+  t->left = n.right; log_->incr_ptr_ops_ref(2); log_->incr_ptr_ops_asn(1);
+  t->right = n.left; log_->incr_ptr_ops_ref(2); log_->incr_ptr_ops_asn(1);
+  root_ = t;
 }
+
 
 SplayNode* SplayTreeLogged::search(int search_key) {
   splay(search_key);
@@ -80,6 +90,7 @@ SplayNode* SplayTreeLogged::search(int search_key) {
     return nullptr;
   }
 }
+
 
 void SplayTreeLogged::insert(int search_key, int new_value) {
 /* Insert new key into tree, unless it's already there.    */
@@ -116,6 +127,7 @@ void SplayTreeLogged::insert(int search_key, int new_value) {
     }
 }
 
+
 void SplayTreeLogged::remove(int search_key) {
 
   if (root_ == nullptr) {
@@ -133,7 +145,7 @@ void SplayTreeLogged::remove(int search_key) {
         delete t; log_->incr_size(-int(sizeof(SplayNode)));
 	    } else {
         t = root_; log_->incr_ptr_ops_asn(1);
-        SplayTreeLogged left_subtree = SplayTreeLogged();
+        SplayTreeLogged left_subtree = SplayTreeLogged(t->left); log_->incr_ptr_ops_ref(1);
 	      left_subtree.splay(search_key);
 	      left_subtree.root_->right = t->right; left_subtree.log_->incr_ptr_ops_ref(2); left_subtree.log_->incr_ptr_ops_asn(1);
         root_ = left_subtree.root_; log_->incr_ptr_ops_asn(1);
@@ -141,6 +153,7 @@ void SplayTreeLogged::remove(int search_key) {
 	    }
     }
 }
+
 
 void SplayTreeLogged::check()
 {

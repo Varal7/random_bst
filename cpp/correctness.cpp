@@ -18,12 +18,18 @@ void print_status(DictCorrectnessTest *dct) {
   }
 }
 
+
 void test_correctness() {
     Dictionary *t, *s;
     Dictionary *z_vanilla, *z_update;
     Dictionary *sp;
     Dictionary *rb;
     DictCorrectnessTest *dct = new DictCorrectnessTest(2000);
+
+    printf("Splay tree correctness... ");
+    sp = new SplayTreeLogged();
+    dct->set_up(sp); dct->run();
+    print_status(dct);
 
     printf("SkipList correctness... ");
     s = new SkipList(16, 0.5);
@@ -55,17 +61,11 @@ void test_correctness() {
     dct->set_up(rb); dct->run();
     print_status(dct);
 
-/*
-    printf("Splay tree correctness... ");
-    sp = new SplayTree();
-    dct->set_up(sp); dct->run();
-    print_status(dct);
-    */
-
     delete dct;
     delete t;
     delete s;
-    //delete sp;
+    delete sp;
+    delete rb;
 }
 
 
@@ -81,5 +81,7 @@ int main(int argc, char** argv) {
     srand(x);
 
     test_correctness();
+    //test_speed();
+    std::cout << "Maximum memory used by splay tree is " << SplayTreeLogged::log_->greatest_size() << " bytes." << std::endl;
     return 0;
 }
