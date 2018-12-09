@@ -5,7 +5,6 @@ https://www.link.cs.cmu.edu/link/ftp-site/splaying/top-down-splay.c
 
 #include "splay_tree.h"
 #include "splay_tree_logged.h"
-#include <iostream>
 
 // Define the log object
 MemLog *SplayTreeLogged::log_ = new MemLog();
@@ -60,7 +59,6 @@ bool SplayTreeLogged::insert(int search_key, int new_value) {
   if (node_inserted) {
     log_->incr_size(sizeof(SplayNode));
   }
-  std::cout << "I'm inserting!" << std::endl;
   update_greatest_depth(log_, this->depth());
   return node_inserted;
 }

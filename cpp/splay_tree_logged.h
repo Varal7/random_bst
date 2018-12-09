@@ -5,12 +5,13 @@ https://www.link.cs.cmu.edu/link/ftp-site/splaying/top-down-splay.c
 WITH MEMORY USAGE LOG
 */
 
+#ifndef SPLAY_TREE_LOG_H_
+#define SPLAY_TREE_LOG_H_
+
 #include "dictionary.h"
 #include "splay_tree.h"
 #include "mem_log.h"
 
-#ifndef SPLAY_TREE_LOG_H_
-#define SPLAY_TREE_LOG_H_
 
 class SplayTreeLogged : public SplayTree
 {

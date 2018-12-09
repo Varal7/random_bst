@@ -6,6 +6,7 @@
 #include "splay_tree.h"
 #include "red_black.h"
 #include "splay_tree_logged.h"
+#include "skip_list_logged.h"
 #include "dict_correctness_test.h"
 
 using namespace std;
@@ -32,7 +33,7 @@ void test_correctness() {
     print_status(dct);
 
     printf("SkipList correctness... ");
-    s = new SkipList(16, 0.5);
+    s = new SkipListLogged(16, 0.5);
     dct->set_up(s); dct->run();
     print_status(dct);
 
@@ -82,6 +83,8 @@ int main(int argc, char** argv) {
     test_correctness();
     //test_speed();
     std::cout << "Maximum memory used by splay tree is " << SplayTreeLogged::log_->greatest_size() << " bytes." << std::endl;
-    std::cout << "Maximum depth of splay tree is " << SplayTreeLogged::log_->greatest_depth() << " bytes." << std::endl;
+    std::cout << "Maximum depth of splay tree is " << SplayTreeLogged::log_->greatest_depth() << "." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Maximum memory used by skip list is " << SkipListLogged::log_->greatest_size() << " bytes." << std::endl;
     return 0;
 }

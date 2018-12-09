@@ -20,8 +20,10 @@ SkipNode::SkipNode(int k, int v, int l) : level(l)
 
 // Skip list constructor
 SkipList::SkipList(int max_level, float prob)
-  : max_level_(max_level), prob_(prob)
+//  : max_level_(max_level), prob_(prob)
 {
+  max_level_ = max_level;
+  prob_ = prob;
   level_ = 0;           // No real SkipNodes yet
   header_ = new SkipNode(INT_MIN, 0, max_level_);
   nil_ = new SkipNode(INT_MAX, 0, max_level_);

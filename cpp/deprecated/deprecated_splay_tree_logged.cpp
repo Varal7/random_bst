@@ -25,6 +25,11 @@ SplayTreeLogged::SplayTreeLogged(SplayNode *root) {
 }
 
 
+uint32_t SplayTreeLogged::depth() {
+  return root_->height();
+}
+
+
 void SplayTreeLogged::splay(int search_key) {
 /* Simple top down splay, not requiring search_key to be in the tree.  */
   SplayNode n(0,0,nullptr,nullptr), *r, *l, *y;
@@ -152,6 +157,10 @@ void SplayTreeLogged::remove(int search_key) {
         delete t; log_->incr_size(-int(sizeof(SplayNode)));
 	    }
     }
+  uint32_t dep = depth();
+  if (dep > log_->greatest_depth()) {
+    log_->set_greatest_depth(dep);
+  }
 }
 
 
