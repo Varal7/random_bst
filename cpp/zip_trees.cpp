@@ -6,19 +6,6 @@
 
 using namespace std;
 
-
-// Compute the height of a node
-uint32_t ZipNode::height() {
-  if (left != nullptr && right != nullptr) {
-  return (left->height() > right->height()) ?
-    left->height() + 1 : right->height() + 1;
-} else if (left != nullptr) {
-  return left->height() + 1;
-} else if (right != nullptr) {
-  return right->height() + 1;
-  } else return 0;
-}
-
 ZipTree::ZipTree(float prob, bool update_rank, bool frac_rank)
     : prob_(prob), update_rank_(update_rank), frac_rank_(frac_rank) {
     root = nullptr;

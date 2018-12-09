@@ -1,5 +1,5 @@
-#ifndef TREAPS_H
-#define TREAPS_H
+#ifndef TREAPS_H_
+#define TREAPS_H_
 
 #include "dictionary.h"
 
@@ -20,7 +20,7 @@ public:
     void display();
     void check();
 
-private:
+protected:
     TreapNode *root, *nullnode;
     bool insert(TreapNode*& leaf, int key, int value);
     bool remove(TreapNode*& leaf, int key);
@@ -30,6 +30,8 @@ private:
     TreapNode* search(TreapNode*& leaf, int key);
     void display(TreapNode*& leaf, int indent);
     void check(TreapNode*& leaf, int, int);
+    int height();
+    int height(TreapNode*& leaf);
 };
 
 #endif

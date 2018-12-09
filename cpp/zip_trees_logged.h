@@ -5,6 +5,7 @@
 #include "zip_trees.h"
 #include "mem_log.h"
 
+
 class ZipTreeLogged : public ZipTree
 {
 public:

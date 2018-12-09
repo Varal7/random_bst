@@ -1,5 +1,5 @@
-#ifndef ZIP_TREES_H
-#define ZIP_TREES_H
+#ifndef ZIP_TREES_H_
+#define ZIP_TREES_H_
 
 #include "dictionary.h"
 
