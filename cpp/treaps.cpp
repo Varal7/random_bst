@@ -35,6 +35,7 @@ bool Treap::insert(TreapNode*& leaf, int key, int value) {
         leaf->key = key;
         leaf->value = value;
         leaf->priority = rand();
+        return true;
     }
     if (key == leaf->key) {
         leaf->value = value;  // Update value if already in treap
