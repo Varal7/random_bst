@@ -7,6 +7,7 @@
 #include "red_black.h"
 #include "splay_tree_logged.h"
 #include "skip_list_logged.h"
+#include "zip_trees_logged.h"
 #include "dict_correctness_test.h"
 
 using namespace std;
@@ -39,16 +40,16 @@ void test_correctness() {
 
     printf("Zip tree correctness...\n");
     printf("z_vanilla\n");
-    z_vanilla = new ZipTree(0.5, false, false);
+    z_vanilla = new ZipTreeLogged(0.5, false, false);
     dct->set_up(z_vanilla); dct->run();
     printf("z_update\n");
-    z_update = new ZipTree(0.5, true, false);
+    z_update = new ZipTreeLogged(0.5, true, false);
     dct->set_up(z_update); dct->run();
     printf("z_vanilla_frac\n");
-    z_vanilla = new ZipTree(0.5, false, true);
+    z_vanilla = new ZipTreeLogged(0.5, false, true);
     dct->set_up(z_vanilla); dct->run();
     printf("z_update_frac\n");
-    z_update = new ZipTree(0.5, true, true);
+    z_update = new ZipTreeLogged(0.5, true, true);
     dct->set_up(z_update); dct->run();
     print_status(dct);
 
@@ -77,14 +78,21 @@ int main(int argc, char** argv) {
     } else {
         x = time(0);
     }
-    cout << "seed: " << x << endl;
     srand(x);
+
+    std::cout << std::endl;
+    cout << "seed: " << x << endl;
+    std::cout << "-------------------------------------------------" << std::endl;
 
     test_correctness();
     //test_speed();
+    std::cout << "-------------------------------------------------" << std::endl;
     std::cout << "Maximum memory used by splay tree is " << SplayTreeLogged::log_->greatest_size() << " bytes." << std::endl;
     std::cout << "Maximum depth of splay tree is " << SplayTreeLogged::log_->greatest_depth() << "." << std::endl;
     std::cout << std::endl;
     std::cout << "Maximum memory used by skip list is " << SkipListLogged::log_->greatest_size() << " bytes." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Maximum memory used by zip tree is " << ZipTreeLogged::log_->greatest_size() << " bytes." << std::endl;
+    std::cout << "Maximum depth of zip tree is " << ZipTreeLogged::log_->greatest_depth() << "." << std::endl;
     return 0;
 }

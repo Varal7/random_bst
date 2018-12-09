@@ -20,8 +20,7 @@ MemLog *SkipListLogged::log_ = new MemLog();
 
 // Skip list constructor
 SkipListLogged::SkipListLogged(int max_level, float prob)
-  : SkipList(max_level, prob)
-{
+: SkipList(max_level, prob) {
   log_->incr_size(sizeof(SkipList));
 }
 
@@ -51,6 +50,8 @@ bool SkipListLogged::insert(int search_key, int new_value)
     // Not all skip list nodes are the same size, so we need to find the node
     // that we just inserted and find out how big it was. This looks pretty
     // braindead, but these methods are not striving for performance.
+
+    // TODO: this also might be _wrong_...
     log_->incr_size(sizeof(search(search_key)));
   }
   return node_inserted;

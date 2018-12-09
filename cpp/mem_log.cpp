@@ -42,8 +42,15 @@ uint32_t MemLog::greatest_depth() {
   return greatest_depth_;
 }
 
-void MemLog::set_greatest_depth(uint32_t depth) {
-  greatest_depth_ = depth;
+// Conditionally set greatest depth
+void MemLog::update_greatest_depth(uint32_t dep) {
+  if (dep > greatest_depth_)
+    set_greatest_depth(dep);
+}
+
+
+void MemLog::set_greatest_depth(uint32_t dep) {
+  greatest_depth_ = dep;
 }
 
 // Retrieve the current size of the object in bytes

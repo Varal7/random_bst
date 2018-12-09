@@ -9,10 +9,6 @@ https://www.link.cs.cmu.edu/link/ftp-site/splaying/top-down-splay.c
 // Define the log object
 MemLog *SplayTreeLogged::log_ = new MemLog();
 
-void update_greatest_depth(MemLog *log, uint32_t dep) {
-  log->set_greatest_depth((dep > log->greatest_depth()) ? dep : log->greatest_depth());
-}
-
 /*
 SplayTree::SplayTree(const SplayTree &obj) {
   root_ = obj.root_;
@@ -44,12 +40,11 @@ uint32_t SplayTreeLogged::depth() {
     return 0;
   }
   return root_->height();
-
 }
 
 SplayNode* SplayTreeLogged::search(int search_key) {
   SplayNode *node = SplayTree::search(search_key);
-  update_greatest_depth(log_, this->depth());
+  log_->update_greatest_depth(this->depth());
   return node;
 }
 
@@ -59,7 +54,7 @@ bool SplayTreeLogged::insert(int search_key, int new_value) {
   if (node_inserted) {
     log_->incr_size(sizeof(SplayNode));
   }
-  update_greatest_depth(log_, this->depth());
+  log_->update_greatest_depth(this->depth());
   return node_inserted;
 }
 
@@ -69,7 +64,7 @@ bool SplayTreeLogged::remove(int search_key) {
   if (node_removed) {
     log_->incr_size(-int(sizeof(SplayNode)));
   }
-  update_greatest_depth(log_, this->depth());
+  log_->update_greatest_depth(this->depth());
   return node_removed;
 }
 

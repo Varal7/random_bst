@@ -30,7 +30,8 @@ SplayNode::~SplayNode() {
 
 uint32_t SplayNode::height() {
   if (left != nullptr && right != nullptr) {
-  return (left->height() > right->height()) ? left->height() : right->height();
+  return (left->height() > right->height()) ?
+    left->height() + 1 : right->height() + 1;
   } else if (left != nullptr) {
   return left->height() + 1;
   } else if (right != nullptr) {

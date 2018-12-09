@@ -6,11 +6,22 @@
 
 using namespace std;
 
+
+// Compute the height of a node
+uint32_t ZipNode::height() {
+  if (left != nullptr && right != nullptr) {
+  return (left->height() > right->height()) ?
+    left->height() + 1 : right->height() + 1;
+} else if (left != nullptr) {
+  return left->height() + 1;
+} else if (right != nullptr) {
+  return right->height() + 1;
+  } else return 0;
+}
+
 ZipTree::ZipTree(float prob, bool update_rank, bool frac_rank)
     : prob_(prob), update_rank_(update_rank), frac_rank_(frac_rank) {
-    nullnode = new ZipNode;
-    nullnode->left = nullnode->right = nullnode;
-    root = nullnode;
+    root = nullptr;
 }
 
 void ZipTree::left_rot(ZipNode*& tree) {
@@ -39,7 +50,7 @@ bool ZipTree::insert(int key, int value) {
     ZipNode* fix;
 
     // Find where to add x
-    while ((cur != nullnode) && ((rank < cur->rank) or ((rank == cur->rank) && key > cur->key))) {
+    while ((cur != nullptr) && ((rank < cur->rank) or ((rank == cur->rank) && key > cur->key))) {
         prev = cur;
         cur = (key < cur->key) ? cur->left : cur->right;
     }
@@ -56,8 +67,8 @@ bool ZipTree::insert(int key, int value) {
     }
 
     // x is now a leaf, no merge to be done
-    if (cur == nullnode) {
-        x->left = x->right = nullnode;
+    if (cur == nullptr) {
+        x->left = x->right = nullptr;
         return true;
     }
 
@@ -71,20 +82,20 @@ bool ZipTree::insert(int key, int value) {
     // The actual unzipping
     prev = x; // The unzipping starts with x (who misses a child)
 
-    while (cur != nullnode) {
+    while (cur != nullptr) {
         // `fix` holds the node to which the unzipping will continue
         // adding nodes
         fix = prev;
         if (cur->key < key) {
             // Traverse the right spine of cur until we hit the point where
             // we need to unzip a node
-            while ((cur != nullnode) && (cur->key < key)) {
+            while ((cur != nullptr) && (cur->key < key)) {
                 prev = cur;
                 cur = cur->right;
             }
         } else {
             // Traverse the left spine
-            while ((cur != nullnode) && (cur->key > key)) {
+            while ((cur != nullptr) && (cur->key > key)) {
                 prev = cur;
                 cur = cur->left;
             }
@@ -92,7 +103,7 @@ bool ZipTree::insert(int key, int value) {
 
         // If we hit a point where the current node has same key, we can finish unzipping
         // by assigning the children of cur to where they belong
-        if ((cur != nullnode) && (cur->key == key)) {
+        if ((cur != nullptr) && (cur->key == key)) {
             if (prev->right == cur) {
                 printf("needs zipping. aborting\n"); //TODO
                 assert(false);
@@ -137,9 +148,9 @@ bool ZipTree::remove(int key) {
 
 
     // Choose the child with higher rank
-    if (left == nullnode) {
+    if (left == nullptr) {
         cur = right;
-    } else if (right == nullnode) {
+    } else if (right == nullptr) {
         cur = left;
     } else if (left->rank >= right->rank) {
         cur = left;
@@ -161,7 +172,7 @@ bool ZipTree::remove(int key) {
     delete cand;
 
     // The actual zipping
-    while ((left != nullnode) && (right != nullnode)) {
+    while ((left != nullptr) && (right != nullptr)) {
         // The if block and the else block will run alternatively;
         // which one is first depends on which child has been added
         if (left->rank >= right->rank) {
@@ -170,14 +181,14 @@ bool ZipTree::remove(int key) {
                 // to zip in right
                 prev = left;
                 left = left->right;
-            } while ((left != nullnode) && (left->rank >= right->rank));
+            } while ((left != nullptr) && (left->rank >= right->rank));
             prev->right = right; // Zip in right
         } else {
             do {
                 // Traverse left spine of current node
                 prev = right;
                 right = right->left;
-            } while ((right != nullnode) && (left->rank < right->rank));
+            } while ((right != nullptr) && (left->rank < right->rank));
             prev->left = left; // Zip in left
         }
     }
@@ -190,7 +201,7 @@ ZipNode* ZipTree::search(int key) {
 }
 
 ZipNode* ZipTree::search(ZipNode*& leaf, int key) {
-    if (leaf == nullnode) {
+    if (leaf == nullptr) {
         return nullptr;
     }
     if (key == leaf->key) {
@@ -222,8 +233,8 @@ int ZipTree::height() {
 
 
 int ZipTree::height(ZipNode*& leaf) {
-    if (leaf == nullnode) { return 0; }
-    return max(height(leaf->left), height(leaf->right));
+    if (leaf == nullptr) { return 0; }
+    return 1 + max(height(leaf->left), height(leaf->right));
 }
 
 int ZipTree::count_nodes() {
@@ -232,7 +243,7 @@ int ZipTree::count_nodes() {
 
 
 int ZipTree::count_nodes(ZipNode*& leaf) {
-    if (leaf == nullnode) { return 0; }
+    if (leaf == nullptr) { return 0; }
     return 1 + count_nodes(leaf->left) +  count_nodes(leaf->right);
 }
 
@@ -243,7 +254,7 @@ void ZipTree::display() {
 
 void ZipTree::display(ZipNode*& leaf, int indent) {
     for (int i = 0; i < indent; i++) { printf(" "); }
-    if (leaf != nullnode) {
+    if (leaf != nullptr) {
         printf("(%d, %d)\n", leaf->key, leaf->rank);
         display(leaf->left, indent + 1);
         display(leaf->right, indent + 1);
@@ -257,14 +268,14 @@ void ZipTree::check() {
 }
 
 void ZipTree::check(ZipNode*& leaf, int min_bound, int max_bound) {
-    if (leaf == nullnode) { return; }
+    if (leaf == nullptr) { return; }
     assert (min_bound < leaf->key);
     assert (max_bound > leaf->key);
-    if (leaf->left != nullnode) {
+    if (leaf->left != nullptr) {
         assert(leaf->rank > leaf->left->rank);
         check(leaf->left, min_bound, leaf->key);
     }
-    if (leaf->right != nullnode) {
+    if (leaf->right != nullptr) {
         assert(leaf->rank >= leaf->right->rank);
         check(leaf->right, leaf->key, max_bound);
     }

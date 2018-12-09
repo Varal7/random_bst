@@ -9,6 +9,7 @@ struct ZipNode : Item
 {
     int rank;
     ZipNode *left, *right;
+    uint32_t height();
 };
 
 class ZipTree : public Dictionary {
@@ -23,8 +24,8 @@ public:
     int height();
     int count_nodes();
 
-private:
-    ZipNode *root, *nullnode;
+protected:
+    ZipNode *root;
     float prob_;
     bool update_rank_, frac_rank_;
     int randomRank();
