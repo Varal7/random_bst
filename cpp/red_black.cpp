@@ -8,12 +8,16 @@ RedBlack::RedBlack() {
 }
 
 
-void RedBlack::insert(int key, int value)  {
+bool RedBlack::insert(int key, int value)  {
     m->emplace(key, value);
+    // TODO: meaningful return values
+    return true;
 }
 
-void RedBlack::remove(int key) {
+bool RedBlack::remove(int key) {
     m->erase(key);
+    // TODO: meaningful return values
+    return true;
 }
 
 Item* RedBlack::search(int key) {

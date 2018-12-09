@@ -27,20 +27,20 @@ void Treap::right_rot(TreapNode*& tree) {
 }
 
 
-void Treap::insert(int key, int value) { insert(root, key, value); }
-void Treap::remove(int key) { remove(root, key); }
+bool Treap::insert(int key, int value) { return insert(root, key, value); }
+bool Treap::remove(int key) { return remove(root, key); }
 
-void Treap::insert(TreapNode*& leaf, int key, int value) {
+bool Treap::insert(TreapNode*& leaf, int key, int value) {
     if (leaf == nullnode) {
         leaf = new TreapNode;
         leaf->left = leaf->right = nullnode;
         leaf->key = key;
         leaf->value = value;
         leaf->priority = rand();
-        return;
     }
     if (key == leaf->key) {
         leaf->value = value;  // Update value if already in treap
+        return false;
     } else if (key < leaf->key) {
         insert(leaf->left, key, value);
         if (leaf->left->priority > leaf->priority) { left_rot(leaf); }
@@ -48,16 +48,17 @@ void Treap::insert(TreapNode*& leaf, int key, int value) {
         insert(leaf->right, key, value);
         if (leaf->right->priority > leaf->priority) { right_rot(leaf); }
     }
+    return true;
 }
 
-void Treap::remove(TreapNode*& leaf, int key) {
-    if (leaf == nullnode) { return; }
-    if (key == leaf->key) { remove(leaf); }
-    else if (key < leaf->key) { remove(leaf->left, key); }
-    else { remove(leaf->right, key); }
+bool Treap::remove(TreapNode*& leaf, int key) {
+    if (leaf == nullnode) { return false; }
+    if (key == leaf->key) { return remove(leaf); }
+    else if (key < leaf->key) { return remove(leaf->left, key); }
+    else { return remove(leaf->right, key); }
 }
 
-void Treap::remove(TreapNode*& leaf) {
+bool Treap::remove(TreapNode*& leaf) {
     if (leaf->left == nullnode && leaf->right == nullnode) {
         delete leaf;
         leaf = nullnode;
@@ -78,6 +79,7 @@ void Treap::remove(TreapNode*& leaf) {
             remove(leaf->left);
         }
     }
+    return true;
 }
 
 TreapNode* Treap::search(int key) {

@@ -9,6 +9,7 @@ A class for logging memory usage statistics.
 MemLog::MemLog() {
   size_ = 0;
   greatest_size_ = 0;
+  greatest_depth_ = 0;
   ptr_ops_ref_ = 0;
   ptr_ops_asn_ = 0;
 }
@@ -34,6 +35,15 @@ void MemLog::incr_ptr_ops_asn(int delta_ops) {
 // Retrieve the largest that the object has ever been
 uint32_t MemLog::greatest_size() {
   return greatest_size_;
+}
+
+// Retrieve the deepest that the object has ever been
+uint32_t MemLog::greatest_depth() {
+  return greatest_depth_;
+}
+
+void MemLog::set_greatest_depth(uint32_t depth) {
+  greatest_depth_ = depth;
 }
 
 // Retrieve the current size of the object in bytes

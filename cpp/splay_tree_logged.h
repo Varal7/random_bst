@@ -18,16 +18,15 @@ public:
   SplayTreeLogged();
   SplayTreeLogged(SplayNode *root);
   // Member functions for dictionary ADT
-  void insert(int search_key, int new_value);
-  void remove(int search_key);
+  bool insert(int search_key, int new_value);
+  bool remove(int search_key);
   SplayNode* search(int search_key);
   bool contains(int search_key);
   void check();
+  // Bookkeeping functions
+  uint32_t depth();
   // The memory log
   static MemLog *log_;
-private:
-  SplayNode *root_;
-  void splay(int search_key);
 };
 
 #endif  // SPLAY_TREE_PC_H_

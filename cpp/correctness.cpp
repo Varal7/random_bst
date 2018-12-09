@@ -24,7 +24,7 @@ void test_correctness() {
     Dictionary *z_vanilla, *z_update;
     Dictionary *sp;
     Dictionary *rb;
-    DictCorrectnessTest *dct = new DictCorrectnessTest(2000);
+    DictCorrectnessTest *dct = new DictCorrectnessTest(200);
 
     printf("Splay tree correctness... ");
     sp = new SplayTreeLogged();
@@ -69,7 +69,6 @@ void test_correctness() {
 }
 
 
-
 int main(int argc, char** argv) {
     int x;
     if (argc > 1) {
@@ -83,5 +82,6 @@ int main(int argc, char** argv) {
     test_correctness();
     //test_speed();
     std::cout << "Maximum memory used by splay tree is " << SplayTreeLogged::log_->greatest_size() << " bytes." << std::endl;
+    std::cout << "Maximum depth of splay tree is " << SplayTreeLogged::log_->greatest_depth() << " bytes." << std::endl;
     return 0;
 }

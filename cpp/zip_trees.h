@@ -14,8 +14,8 @@ struct ZipNode : Item
 class ZipTree : public Dictionary {
 public:
     ZipTree(float prob=0.5, bool update_rank_on_access=false, bool use_frac_rank=false);
-    void insert(int key, int value);
-    void remove(int key);
+    bool insert(int key, int value);
+    bool remove(int key);
     ZipNode* search(int key);
     bool contains(int key);
     void display();

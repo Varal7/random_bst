@@ -22,8 +22,8 @@ public:
   SkipList(int max_level=32, float prob=0.5);
   ~SkipList();
   // methods of the data structure
-  void insert(int search_key, int new_value);
-  void remove(int search_key);
+  bool insert(int search_key, int new_value);
+  bool remove(int search_key);
   SkipNode* search(int search_key);
   bool contains(int search_key);
   void check();

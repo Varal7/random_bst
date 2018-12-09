@@ -13,8 +13,8 @@ struct TreapNode : Item
 class Treap : public Dictionary {
 public:
     Treap();
-    void insert(int key, int value);
-    void remove(int key);
+    bool insert(int key, int value);
+    bool remove(int key);
     TreapNode* search(int key);
     bool contains(int key);
     void display();
@@ -22,9 +22,9 @@ public:
 
 private:
     TreapNode *root, *nullnode;
-    void insert(TreapNode*& leaf, int key, int value);
-    void remove(TreapNode*& leaf, int key);
-    void remove(TreapNode*& leaf);
+    bool insert(TreapNode*& leaf, int key, int value);
+    bool remove(TreapNode*& leaf, int key);
+    bool remove(TreapNode*& leaf);
     void left_rot(TreapNode*& leaf);
     void right_rot(TreapNode*& leaf);
     TreapNode* search(TreapNode*& leaf, int key);

@@ -28,7 +28,7 @@ void ZipTree::right_rot(ZipNode*& tree) {
 }
 
 
-void ZipTree::insert(int key, int value) {
+bool ZipTree::insert(int key, int value) {
     int rank = randomRank();
     ZipNode* x = new ZipNode;
     x->rank = rank;
@@ -58,7 +58,7 @@ void ZipTree::insert(int key, int value) {
     // x is now a leaf, no merge to be done
     if (cur == nullnode) {
         x->left = x->right = nullnode;
-        return;
+        return true;
     }
 
     // otherwise, add back cur as a child of x
@@ -68,7 +68,7 @@ void ZipTree::insert(int key, int value) {
         x->left = cur;
     }
 
-    // The acutal unzipping
+    // The actual unzipping
     prev = x; // The unzipping starts with x (who misses a child)
 
     while (cur != nullnode) {
@@ -104,7 +104,7 @@ void ZipTree::insert(int key, int value) {
                 fix->left = cur->left;
                 delete cur;
             } else { assert(false);}
-            return;
+            return false;
         }
         // Unzip the current node and transfer the path to the other side
         if ((fix->key > key) || ((fix == x) && (prev->key > key))) {
@@ -117,9 +117,10 @@ void ZipTree::insert(int key, int value) {
         // Continue the unzipping, starting from the current node in the
         // path, using as fix point the parent of cur (that just lost a child)
     }
+    return true;
 }
 
-void ZipTree::remove(int key) {
+bool ZipTree::remove(int key) {
     ZipNode* cand = root;
     ZipNode* prev;
 
@@ -180,6 +181,8 @@ void ZipTree::remove(int key) {
             prev->left = left; // Zip in left
         }
     }
+    // TODO: handle case where node is not found.
+    return true;
 }
 
 ZipNode* ZipTree::search(int key) {

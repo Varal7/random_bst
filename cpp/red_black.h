@@ -9,8 +9,8 @@ using namespace std;
 class RedBlack : public Dictionary {
 public:
     RedBlack();
-    void insert(int key, int value);
-    void remove(int key);
+    bool insert(int key, int value);
+    bool remove(int key);
     Item* search(int key);
     bool contains(int key);
     void check();

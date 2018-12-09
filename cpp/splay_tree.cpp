@@ -13,21 +13,52 @@ SplayNode::SplayNode(int k, int v, SplayNode *l, SplayNode *r)
     value = v;
 }
 
+/*
+// Splay node copy constructor
+SplayNode::SplayNode(const SplayNode &obj) {
+  left = obj.left;
+  right = obj.right;
+}
+*/
+
+/*
+SplayNode::~SplayNode() {
+  delete left;
+  delete right;
+}
+*/
+
+uint32_t SplayNode::height() {
+  if (left != nullptr && right != nullptr) {
+  return (left->height() > right->height()) ? left->height() : right->height();
+  } else if (left != nullptr) {
+  return left->height() + 1;
+  } else if (right != nullptr) {
+  return right->height() + 1;
+  } else return 0;
+}
 
 // Splay tree constructors
 SplayTree::SplayTree() {
   root_ = nullptr;
 }
 
+/*
+SplayTree::SplayTree(const SplayTree &obj) {
+  root_ = obj.root_;
+}
+*/
+
 SplayTree::SplayTree(SplayNode *root) {
   root_ = root;
 }
 
+/*
 SplayTree::~SplayTree() {
-  // TODO
+  delete root_;
   return;
 }
-
+*/
 
 void SplayTree::splay(int search_key) {
 /* Simple top down splay, not requiring search_key to be in the tree.  */
@@ -41,7 +72,7 @@ void SplayTree::splay(int search_key) {
 
   for (;;) {
 	  if (search_key < t->key) {
-	  if (t->left == nullptr) break;
+	    if (t->left == nullptr) break;
       if (search_key < t->left->key) {
 		    y = t->left;                           /* rotate right */
 		    t->left = y->right;
@@ -90,45 +121,46 @@ SplayNode* SplayTree::search(int search_key) {
   }
 }
 
+// Insert a new key into a tree and return true, unless it is already there.
+// In that case, overwrite and return false.
+bool SplayTree::insert(int search_key, int new_value) {
 
-void SplayTree::insert(int search_key, int new_value) {
-/* Insert new key into tree, unless it's already there.    */
   splay(search_key);
-  //SplayNode* t = root_;
+  SplayNode* new_node = new SplayNode(search_key, new_value, nullptr, nullptr);
 
   // If tree is empty, simply insert the new node as root.
   if (root_ == nullptr) {
-    SplayNode* new_node = new SplayNode(search_key, new_value, nullptr, nullptr);
     root_ = new_node;
-    return;
+    return true;
   }
 
   if (root_->key == search_key) {
     root_->value = new_value;
-    return;
+    delete new_node;
+    return false;
   }
   // The possibilities are now: search_key < t.key and search_key > root_.key
   else if (search_key < root_->key) {
-    SplayNode* new_node = new SplayNode(search_key, new_value, nullptr, nullptr);
 	  new_node->left = root_->left;
 	  new_node->right = root_;
 	  root_->left = nullptr;
     root_ = new_node;
   }
   else { // i.e. search_key > root_.key
-    SplayNode* new_node = new SplayNode(search_key, new_value, nullptr, nullptr);
 	  new_node->right = root_->right;
 	  new_node->left = root_;
 	  root_->right = nullptr;
     root_ = new_node;
     }
+  return true;
 }
 
-
-void SplayTree::remove(int search_key) {
+// Try to remove a node and return true if it is found in the tree. Return false
+// otherwise.
+bool SplayTree::remove(int search_key) {
 
   if (root_ == nullptr) {
-    return;
+    return false;
   }
 
   SplayNode* t;
@@ -138,15 +170,19 @@ void SplayTree::remove(int search_key) {
         t = root_;
 	      root_ = t->right;
         delete t;
+        return true;
 	    } else {
         t = root_;
         SplayTree left_subtree = SplayTree(t->left);
 	      left_subtree.splay(search_key);
 	      left_subtree.root_->right = t->right;
         root_ = left_subtree.root_;
+        t->left = t->right = nullptr;
         delete t;
+        return true;
 	    }
     }
+    return false;
 }
 
 

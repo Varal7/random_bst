@@ -58,7 +58,7 @@ inline int SkipList::random_level()
 
 
 // Add a new key-value pair.
-void SkipList::insert(int search_key, int new_value)
+bool SkipList::insert(int search_key, int new_value)
 {
   // Vector of rightmost SkipNodes at each level to left of inserted SkipNode
   std::vector<SkipNode*> update(max_level_);
@@ -76,11 +76,11 @@ void SkipList::insert(int search_key, int new_value)
   // Update value if key is already in the skip list.
   if (x->key == search_key) {
     x->value = new_value;
+    return false;
   }
 
   //Otherwise, insert the new key-value pair.
   else {
-
     int new_level = random_level();
     // Update the list's level if the new SkipNode is higher-level
     if (new_level > level_) {
@@ -97,9 +97,11 @@ void SkipList::insert(int search_key, int new_value)
       update[i]->forward[i] = x;
     }
   }
+  return true;
 }
 
-void SkipList::remove(int search_key)
+
+bool SkipList::remove(int search_key)
 {
   // Vector of rightmost SkipNodes at each level to left of inserted SkipNode
   std::vector<SkipNode*> update(max_level_);
@@ -120,10 +122,12 @@ void SkipList::remove(int search_key)
       update[i]->forward[i] = x->forward[i];
     }
     delete x;
+    return true;
   }
   while (level_ > 1 && header_->forward[level_] == nil_) {
     level_ = level_-1;
   }
+  return false;
 }
 
 
