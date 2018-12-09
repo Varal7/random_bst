@@ -28,6 +28,8 @@ public:
   uint32_t depth();
   // The memory log
   static MemLog *log_;
+protected:
+  void splay(int search_key);
 };
 
 #endif  // SPLAY_TREE_PC_H_

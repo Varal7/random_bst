@@ -8,6 +8,7 @@
 #include "splay_tree_logged.h"
 #include "skip_list_logged.h"
 #include "zip_trees_logged.h"
+#include "treaps_logged.h"
 #include "dict_correctness_test.h"
 
 using namespace std;
@@ -54,7 +55,7 @@ void test_correctness() {
     print_status(dct);
 
     printf("Treap correctness... ");
-    t = new Treap;
+    t = new TreapLogged;
     dct->set_up(t); dct->run();
     print_status(dct);
 
@@ -94,5 +95,8 @@ int main(int argc, char** argv) {
     std::cout << std::endl;
     std::cout << "Maximum memory used by zip tree is " << ZipTreeLogged::log_->greatest_size() << " bytes." << std::endl;
     std::cout << "Maximum depth of zip tree is " << ZipTreeLogged::log_->greatest_depth() << "." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Maximum memory used by treap is " << TreapLogged::log_->greatest_size() << " bytes." << std::endl;
+    std::cout << "Maximum depth of treap is " << TreapLogged::log_->greatest_depth() << "." << std::endl;
     return 0;
 }

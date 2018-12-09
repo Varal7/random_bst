@@ -5,6 +5,7 @@ https://www.link.cs.cmu.edu/link/ftp-site/splaying/top-down-splay.c
 
 #include "dictionary.h"
 #include <stdint.h>
+#include <algorithm>
 
 #ifndef SPLAY_TREE_H_
 #define SPLAY_TREE_H_
@@ -34,6 +35,8 @@ public:
 protected:
   void splay(int search_key);
   SplayNode *root_;
+  int height();
+  int height(SplayNode*& leaf);
 };
 
 #endif  // SPLAY_TREE_H_

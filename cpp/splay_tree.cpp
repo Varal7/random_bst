@@ -28,17 +28,6 @@ SplayNode::~SplayNode() {
 }
 */
 
-uint32_t SplayNode::height() {
-  if (left != nullptr && right != nullptr) {
-  return (left->height() > right->height()) ?
-    left->height() + 1 : right->height() + 1;
-  } else if (left != nullptr) {
-  return left->height() + 1;
-  } else if (right != nullptr) {
-  return right->height() + 1;
-  } else return 0;
-}
-
 // Splay tree constructors
 SplayTree::SplayTree() {
   root_ = nullptr;
@@ -191,4 +180,15 @@ void SplayTree::check()
 {
   //TOOD
   return;
+}
+
+
+int SplayTree::height() {
+    return height(root_);
+}
+
+
+int SplayTree::height(SplayNode*& leaf) {
+    if (leaf == nullptr) { return 0; }
+    return 1 + std::max(height(leaf->left), height(leaf->right));
 }

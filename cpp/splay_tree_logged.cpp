@@ -27,19 +27,18 @@ SplayTreeLogged::SplayTreeLogged(SplayNode *root) {
   log_->incr_size(sizeof(SplayTree)); // Set initial size to BARE splay tree.
 }
 
-/*
+
 void SplayTreeLogged::splay(int search_key) {
   SplayTree::splay(search_key);
-  update_greatest_depth(log_, this->depth());
+  log_->update_greatest_depth(this->depth());
 }
-*/
 
 
 uint32_t SplayTreeLogged::depth() {
   if (root_ == nullptr) {
     return 0;
   }
-  return root_->height();
+  return SplayTree::height();
 }
 
 SplayNode* SplayTreeLogged::search(int search_key) {
