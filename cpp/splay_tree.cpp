@@ -192,3 +192,32 @@ int SplayTree::height(SplayNode*& leaf) {
     if (leaf == nullptr) { return 0; }
     return 1 + std::max(height(leaf->left), height(leaf->right));
 }
+
+void SplayTree::clear() {
+    clear(root_);
+    root_ = nullptr;
+}
+
+void SplayTree::clear(SplayNode*& leaf) {
+    if (leaf == nullptr) {
+        return;
+    }
+    clear(leaf->left);
+    clear(leaf->right);
+    delete leaf;
+}
+
+void SplayTree::display() {
+    display(root_, 0);
+}
+
+void SplayTree::display(SplayNode*& leaf, int indent) {
+    for (int i = 0; i < indent; i++) { printf(" "); }
+    if (leaf != nullptr) {
+        printf("%d\n", leaf->key);
+        display(leaf->left, indent + 1);
+        display(leaf->right, indent + 1);
+    } else {
+        printf("null\n");
+    }
+}

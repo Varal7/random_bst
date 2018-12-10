@@ -32,11 +32,16 @@ public:
   SplayNode* search(int search_key);
   bool contains(int search_key);
   void check();
+  void clear();
+  void display();
 protected:
   void splay(int search_key);
   SplayNode *root_;
   int height();
   int height(SplayNode*& leaf);
+  void clear(SplayNode*& leaf);
+  void display(SplayNode*& leaf, int indent);
+protected:
 };
 
 #endif  // SPLAY_TREE_H_
