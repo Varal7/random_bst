@@ -14,7 +14,7 @@ public:
     bool remove(int key);
     TreapNode* search(int key);
     // Bookkeeping functions
-    uint32_t depth();
+    uint32_t height();
     // And the memory usage log
     static MemLog *log_;
 };

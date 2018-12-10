@@ -16,7 +16,7 @@ TreapLogged::TreapLogged() {
 }
 
 
-uint32_t TreapLogged::depth() {
+uint32_t TreapLogged::height() {
   if (root == nullptr) {
     return 0;
   }
@@ -29,7 +29,7 @@ bool TreapLogged::insert(int key, int value) {
   if (node_inserted) {
     log_->incr_size(sizeof(TreapNode));
   }
-  log_->update_greatest_depth(this->depth());
+  log_->update_greatest_depth(this->height());
   return node_inserted;
 }
 
@@ -39,7 +39,7 @@ bool TreapLogged::remove(int key) {
   if (node_removed) {
     log_->incr_size(-int(sizeof(TreapNode)));
   }
-  log_->update_greatest_depth(this->depth());
+  log_->update_greatest_depth(this->height());
   return node_removed;
 }
 

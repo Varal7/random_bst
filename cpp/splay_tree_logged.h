@@ -25,7 +25,7 @@ public:
   bool contains(int search_key);
   void check();
   // Bookkeeping functions
-  uint32_t depth();
+  uint32_t height();
   // The memory log
   static MemLog *log_;
 protected:

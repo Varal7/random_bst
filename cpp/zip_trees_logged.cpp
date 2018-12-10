@@ -17,7 +17,7 @@ ZipTreeLogged::ZipTreeLogged(float prob, bool update_rank, bool frac_rank)
 }
 
 // Compute the depth of the tree as the height of its root
-uint32_t ZipTreeLogged::depth() {
+uint32_t ZipTreeLogged::height() {
   if (root == nullptr) {
     return 0;
   }
@@ -30,7 +30,7 @@ bool ZipTreeLogged::insert(int key, int value) {
   if (node_inserted) {
     log_->incr_size(sizeof(ZipNode));
   }
-  log_->update_greatest_depth(this->depth());
+  log_->update_greatest_depth(this->height());
   return node_inserted;
 }
 
@@ -40,7 +40,7 @@ bool ZipTreeLogged::remove(int key) {
   if (node_removed) {
     log_->incr_size(-int(sizeof(ZipNode)));
   }
-  log_->update_greatest_depth(this->depth());
+  log_->update_greatest_depth(this->height());
   return node_removed;
 }
 

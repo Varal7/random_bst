@@ -30,11 +30,11 @@ SplayTreeLogged::SplayTreeLogged(SplayNode *root) {
 
 void SplayTreeLogged::splay(int search_key) {
   SplayTree::splay(search_key);
-  log_->update_greatest_depth(this->depth());
+  log_->update_greatest_depth(this->height());
 }
 
 
-uint32_t SplayTreeLogged::depth() {
+uint32_t SplayTreeLogged::height() {
   if (root_ == nullptr) {
     return 0;
   }
@@ -43,7 +43,7 @@ uint32_t SplayTreeLogged::depth() {
 
 SplayNode* SplayTreeLogged::search(int search_key) {
   SplayNode *node = SplayTree::search(search_key);
-  log_->update_greatest_depth(this->depth());
+  log_->update_greatest_depth(this->height());
   return node;
 }
 
@@ -53,7 +53,7 @@ bool SplayTreeLogged::insert(int search_key, int new_value) {
   if (node_inserted) {
     log_->incr_size(sizeof(SplayNode));
   }
-  log_->update_greatest_depth(this->depth());
+  log_->update_greatest_depth(this->height());
   return node_inserted;
 }
 
@@ -63,7 +63,7 @@ bool SplayTreeLogged::remove(int search_key) {
   if (node_removed) {
     log_->incr_size(-int(sizeof(SplayNode)));
   }
-  log_->update_greatest_depth(this->depth());
+  log_->update_greatest_depth(this->height());
   return node_removed;
 }
 
