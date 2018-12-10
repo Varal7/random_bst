@@ -158,3 +158,23 @@ void SkipList::check()
   // TODO
   return;
 }
+
+
+void SkipList::clear() {
+    SkipNode* x = header_;
+    SkipNode* y;
+    while (x->forward[0] != nil_) {
+        y = x;
+        x = x->forward[0];
+        delete y;
+    }
+    // And then the nil SkipNode.
+    delete nil_;
+    delete header_;
+    header_ = new SkipNode(INT_MIN, 0, max_level_);
+    nil_ = new SkipNode(INT_MAX, 0, max_level_);
+    for( int i = 0; i < max_level_; i++) {
+        header_->forward.push_back(nil_);
+        nil_->forward.push_back(nullptr);
+    }
+}

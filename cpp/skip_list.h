@@ -25,6 +25,7 @@ public:
   SkipNode* search(int search_key);
   bool contains(int search_key);
   void check();
+  void clear();
 private:
   int max_level_;     // Maximum admissible level
   int level_;         // Actual level: highest level of any SkipNode
