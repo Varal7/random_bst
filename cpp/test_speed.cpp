@@ -92,8 +92,8 @@ void test_insert_from_rand_list() {
 
 void test_uniform_access_fixed_start() {
     int instance_size_min = 16;
-    int instance_size_max = 16;;
-    //int instance_size_max = 1<<20;
+    //int instance_size_max = 16;;
+    int instance_size_max = 1<<20;
     int num_accesses = 1024;
     int min_iters = 10;
     int max_iters = 5000;
@@ -104,7 +104,7 @@ void test_uniform_access_fixed_start() {
 
     ofstream out;
     out.open("uniformAccesFixedStart.csv");
-    out << "data_structure, test_name, instance_size, num_accesses, time_micro_seconds\n";
+    out << "data_structure,test_name,instance_size,num_accesses,time_micro_seconds\n";
 
     for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
         start = GetTimeMicroS64();
@@ -130,17 +130,17 @@ void test_uniform_access_fixed_start() {
             out << dst->get_runtime() << "\n";
             delete s;
 
-            out << "ZipTree,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
+            out << "Treap,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
             s = new Treap; dst->set_up(s); dst->run();
             out << dst->get_runtime() << "\n";
             delete s;
 
-            out << "Treap,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
+            out << "SplayTree,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
             s = new SplayTree; dst->set_up(s); dst->run();
             out << dst->get_runtime() << "\n";
             delete s;
 
-            out << "SplayTree,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
+            out << "RedBlack,uniformAccessFixedStart,"  << instance_size <<  "," << num_accesses << ",";;
             s = new RedBlack; dst->set_up(s); dst->run();
             out << dst->get_runtime() << "\n";
             delete s;
@@ -169,7 +169,7 @@ void test_zipf_access_fixed_start() {
 
     ofstream out;
     out.open("zipfAccesFixedStart.csv");
-    out << "data_structure, test_name, instance_size, num_accesses, alpha, time_micro_seconds\n";
+    out << "data_structure,test_name,instance_size,num_accesses,alpha,time_micro_seconds\n";
 
     for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
         start = GetTimeMicroS64();
@@ -195,17 +195,17 @@ void test_zipf_access_fixed_start() {
             out << dst->get_runtime() << "\n";
             delete s;
 
-            out << "ZipTree,zipfAccessFixedStart,"  << instance_size <<  "," << num_accesses << "," << alpha << ",";
+            out << "Treap,zipfAccessFixedStart,"  << instance_size <<  "," << num_accesses << "," << alpha << ",";
             s = new Treap; dst->set_up(s); dst->run();
             out << dst->get_runtime() << "\n";
             delete s;
 
-            out << "Treap,zipfAccessFixedStart,"  << instance_size <<  "," << num_accesses << "," << alpha << ",";
+            out << "SplayTree,zipfAccessFixedStart,"  << instance_size <<  "," << num_accesses << "," << alpha << ",";
             s = new SplayTree; dst->set_up(s); dst->run();
             out << dst->get_runtime() << "\n";
             delete s;
 
-            out << "SplayTree,zipfAccessFixedStart,"  << instance_size <<  "," << num_accesses << "," << alpha << ",";
+            out << "RedBlack,zipfAccessFixedStart,"  << instance_size <<  "," << num_accesses << "," << alpha << ",";
             s = new RedBlack; dst->set_up(s); dst->run();
             out << dst->get_runtime() << "\n";
             delete s;
@@ -232,7 +232,7 @@ int main(int argc, char** argv) {
 
     //test_insert_from_list();
     //test_insert_from_rand_list();
-    //test_uniform_access_fixed_start();
+    test_uniform_access_fixed_start();
     test_zipf_access_fixed_start();
     return 0;
 }

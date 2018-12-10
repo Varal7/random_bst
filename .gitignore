@@ -6,6 +6,7 @@ correctness
 test_speed
 test_distribution
 sandbox
+splay_sandbox
 
 bench.json
 *.csv
