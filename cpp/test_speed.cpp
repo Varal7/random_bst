@@ -15,6 +15,8 @@
 using namespace std;
 
 
+int seed;
+
 typedef Dictionary D;
 
 void test_insert_from_list() {
@@ -103,7 +105,7 @@ void test_uniform_access_fixed_start() {
     auto rng = std::default_random_engine {};
 
     ofstream out;
-    out.open("uniformAccesFixedStart.csv");
+    out.open("uniformAccessFixedStart.csv");
     out << "data_structure,test_name,instance_size,num_accesses,time_micro_seconds\n";
 
     for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
@@ -168,7 +170,7 @@ void test_zipf_access_fixed_start() {
     auto rng = std::default_random_engine {};
 
     ofstream out;
-    out.open("zipfAccesFixedStart.csv");
+    out.open("zipfAccessFixedStart.csv");
     out << "data_structure,test_name,instance_size,num_accesses,alpha,time_micro_seconds\n";
 
     for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
@@ -221,14 +223,13 @@ void test_zipf_access_fixed_start() {
 
 
 int main(int argc, char** argv) {
-    int x;
     if (argc > 1) {
-        x = atoi(argv[1]);
+        seed = atoi(argv[1]);
     } else {
-        x = time(0);
+        seed = time(0);
     }
-    cout << "seed: " << x << endl;
-    srand(x);
+    cout << "seed: " << seed << endl;
+    srand(seed);
 
     //test_insert_from_list();
     //test_insert_from_rand_list();

@@ -43,7 +43,7 @@ void test_geometric() {
 
 void test_genzipf() {
     cout << "Zip'f distribution" << endl;
-    GenZipf* g = new GenZipf(0.5, 20);
+    GenZipf* g = new GenZipf(0.9, 20);
     map<int, int> hist;
     for(int n=0; n<10000; ++n) {
         ++hist[g->get()];
