@@ -19,6 +19,7 @@ public:
     bool contains(int key);
     void display();
     void check();
+    void clear();
 protected:
     TreapNode *root, *nullnode;
     bool insert(TreapNode*& leaf, int key, int value);
@@ -31,6 +32,7 @@ protected:
     void check(TreapNode*& leaf, int, int);
     int height();
     int height(TreapNode*& leaf);
+    void clear(TreapNode*& leaf);
 };
 
 #endif // TREAPS_H_

@@ -140,3 +140,18 @@ int Treap::height(TreapNode*& leaf) {
     if (leaf == nullptr) { return 0; }
     return 1 + max(height(leaf->left), height(leaf->right));
 }
+
+void Treap::clear() {
+    clear(root);
+    root = nullptr;
+}
+
+void Treap::clear(TreapNode*& leaf) {
+    if (leaf == nullptr) {
+        return;
+    }
+    clear(leaf->left);
+    clear(leaf->right);
+    delete leaf;
+}
+
