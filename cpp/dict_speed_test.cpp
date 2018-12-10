@@ -104,3 +104,30 @@ void TestZipfAccessFixedStart::execute_test() {
   }
   status_code_ = TEST_PASS_;
 }
+
+// TestZipfMoreAccesses
+
+TestZipfMoreAccesses::TestZipfMoreAccesses(vector<int>* key_list, vector<int>* num_accesses, double alpha) {
+  key_list_ = key_list;
+  num_accesses_ = num_accesses;
+  counter  = 0;
+  genzipf = new GenZipf(alpha, key_list_->size()); // zipf from 1 to size
+}
+
+
+void TestZipfMoreAccesses::set_up(Dictionary* dict){
+  status_code_ = TEST_INIT_;
+  dict_ = dict;
+  for (auto it = key_list_->begin(); it!=key_list_->end(); it++) {
+      dict_->emplace(*it, 0);
+  }
+}
+
+void TestZipfMoreAccesses::execute_test() {
+  for (int i = 0; i < (*num_accesses_)[counter]; i++) {
+      int off = genzipf->get() - 1;
+      dict_->contains((*key_list_)[off]);
+  }
+  counter += 1;
+  status_code_ = TEST_PASS_;
+}

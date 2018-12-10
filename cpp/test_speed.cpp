@@ -221,6 +221,103 @@ void test_zipf_access_fixed_start() {
 }
 
 
+void test_zipf_more_accesses() {
+    double alpha = 0.9;
+    int instance_size_min = 16; // Here instance_size is num_access
+    int instance_size_max = 1<<20;
+    int initial_size = 1<<10; // This is fixed
+    int min_iters = 10;
+    int max_iters = 5000;
+    int max_micro_sec = 1000 * 1000 * 60 * 3;
+
+    uint64 start;
+    auto rng = std::default_random_engine {};
+
+    ofstream out;
+    out.open("zipfMoreAccesses.csv");
+    out << "data_structure,test_name,instance_size,initial_size,alpha,time_micro_seconds\n";
+
+    vector<int> num_accesses;
+
+    for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+        num_accesses.push_back(instance_size);
+    }
+
+    start = GetTimeMicroS64();
+    for (int iter = 0; iter < max_iters; iter++) {
+        cout << iter << endl;
+        vector<int> key_list;
+        for (int i = 0; i < initial_size; i ++) {
+            key_list.push_back(i);
+        }
+        shuffle(begin(key_list), end(key_list), rng);
+        TestZipfMoreAccesses *dst = new TestZipfMoreAccesses(&key_list, &num_accesses, alpha);
+
+        Dictionary *s;
+
+        s = new SkipList(16, 0.5); dst->set_up(s);
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "SkipList,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
+            num_accesses.push_back(instance_size);
+            dst->run();
+            out << dst->get_runtime() << "\n";
+        }
+        delete s;
+
+        s = new ZipTree; dst->set_up(s);
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "ZipTree,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
+            num_accesses.push_back(instance_size);
+            dst->run();
+            out << dst->get_runtime() << "\n";
+        }
+        delete s;
+
+        s = new ZipTree(0.5, true); dst->set_up(s);
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "ZipTreeSelfAdjust,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
+            num_accesses.push_back(instance_size);
+            dst->run();
+            out << dst->get_runtime() << "\n";
+        }
+        delete s;
+
+        s = new Treap; dst->set_up(s);
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "Treap,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
+            num_accesses.push_back(instance_size);
+            dst->run();
+            out << dst->get_runtime() << "\n";
+        }
+        delete s;
+
+        s = new SplayTree; dst->set_up(s);
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "SplayTree,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
+            num_accesses.push_back(instance_size);
+            dst->run();
+            out << dst->get_runtime() << "\n";
+        }
+        delete s;
+
+        s = new RedBlack; dst->set_up(s);
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "RedBlack,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
+            num_accesses.push_back(instance_size);
+            dst->run();
+            out << dst->get_runtime() << "\n";
+        }
+        delete s;
+
+
+        if ((iter + 1 >= min_iters) && (int(GetTimeMicroS64() - start) > max_micro_sec)) {
+            break;
+        }
+    }
+    out.close();
+}
+
+
 
 int main(int argc, char** argv) {
     if (argc > 1) {
@@ -233,7 +330,8 @@ int main(int argc, char** argv) {
 
     //test_insert_from_list();
     //test_insert_from_rand_list();
-    test_uniform_access_fixed_start();
-    test_zipf_access_fixed_start();
+    //test_uniform_access_fixed_start();
+    //test_zipf_access_fixed_start();
+    test_zipf_more_accesses();
     return 0;
 }

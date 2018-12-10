@@ -1,0 +1,8 @@
+{
+    "filename": "zipfMoreAccesses.csv",
+    "axis": [
+            ["instance_size", "Number of accesses"],
+            ["time_micro_seconds", "Time in micro seconds"]
+        ]
+}
+

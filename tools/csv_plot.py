@@ -21,11 +21,12 @@ import matplotlib.ticker as ticker
 
 from collections import defaultdict
 
-filename = 'zipfAccesFixedStart.csv'
-axis = [
-        ('instance_size', 'Initial size of dictionary'),
-        ('time_micro_seconds', 'Time in micro senconds'),
-       ]
+import json
+
+config = json.load(open('zipfMore.json'))
+
+filename = config['filename']
+axis =  config['axis']
 
 
 required_fields = ['data_structure'] + [axis[0][0],  axis[1][0]]

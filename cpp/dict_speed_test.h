@@ -61,4 +61,19 @@ private:
   GenZipf* genzipf;
 };
 
+
+class TestZipfMoreAccesses : public Test
+{
+public:
+  TestZipfMoreAccesses(vector<int>* key_list, vector<int>* num_accesses, double alpha);
+  void set_up(Dictionary* dict); // Stage an empty dictionary for the test
+private:
+  void execute_test();
+  std::vector<int> *key_list_;
+  std::vector<int> *num_accesses_;
+  Dictionary* dict_;
+  int counter;
+  GenZipf* genzipf;
+};
+
 #endif
