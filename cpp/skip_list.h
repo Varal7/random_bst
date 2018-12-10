@@ -7,8 +7,6 @@
 // A simple struct for SkipNodes of a skip list.
 struct SkipNode : public Item
 {
-  // Number of forward pointers
-  int level;
   // Following SkipNodes
   // Are dynamic arrays admissible in this sort of application?
   std::vector<SkipNode*> forward;

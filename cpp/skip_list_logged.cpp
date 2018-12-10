@@ -51,8 +51,9 @@ bool SkipListLogged::insert(int search_key, int new_value)
     // that we just inserted and find out how big it was. This looks pretty
     // braindead, but these methods are not striving for performance.
 
-    // TODO: this also might be _wrong_...
-    log_->incr_size(sizeof(search(search_key)));
+    SkipNode *node = search(search_key); // Assuming distinct keys
+    int node_size = sizeof(*node) + sizeof(SkipNode*) * (node->forward).size();
+    log_->incr_size(node_size);
   }
   return node_inserted;
 }
@@ -60,9 +61,13 @@ bool SkipListLogged::insert(int search_key, int new_value)
 
 bool SkipListLogged::remove(int search_key)
 {
+  int node_size;
+  SkipNode *node = search(search_key);
+  if (node != nullptr)
+    node_size = sizeof(*node) + sizeof(SkipNode*) * (node->forward).size();
   bool node_removed = SkipList::remove(search_key);
   if (node_removed) {
-    log_->incr_size(-int(sizeof(search(search_key))));
+    log_->incr_size(-node_size);
   }
   return node_removed;
 }

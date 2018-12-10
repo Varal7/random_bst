@@ -9,7 +9,7 @@
 
 
 // SkipNode constructor
-SkipNode::SkipNode(int k, int v, int l) : level(l)
+SkipNode::SkipNode(int k, int v, int level)
 {
   key = k;
   value = v;

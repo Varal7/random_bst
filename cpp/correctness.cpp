@@ -27,7 +27,7 @@ void test_correctness() {
     Dictionary *z_vanilla, *z_update;
     Dictionary *sp;
     Dictionary *rb;
-    DictCorrectnessTest *dct = new DictCorrectnessTest(200);
+    DictCorrectnessTest *dct = new DictCorrectnessTest(1000);
 
     printf("Splay tree correctness... ");
     sp = new SplayTreeLogged();
