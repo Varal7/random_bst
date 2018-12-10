@@ -86,17 +86,4 @@ int main(int argc, char** argv) {
     std::cout << "-------------------------------------------------" << std::endl;
 
     test_correctness();
-    //test_speed();
-    std::cout << "-------------------------------------------------" << std::endl;
-    std::cout << "Maximum memory used by splay tree is " << SplayTreeLogged::log_->greatest_size() << " bytes." << std::endl;
-    std::cout << "Maximum depth of splay tree is " << SplayTreeLogged::log_->greatest_depth() << "." << std::endl;
-    std::cout << std::endl;
-    std::cout << "Maximum memory used by skip list is " << SkipListLogged::log_->greatest_size() << " bytes." << std::endl;
-    std::cout << std::endl;
-    std::cout << "Maximum memory used by zip tree is " << ZipTreeLogged::log_->greatest_size() << " bytes." << std::endl;
-    std::cout << "Maximum depth of zip tree is " << ZipTreeLogged::log_->greatest_depth() << "." << std::endl;
-    std::cout << std::endl;
-    std::cout << "Maximum memory used by treap is " << TreapLogged::log_->greatest_size() << " bytes." << std::endl;
-    std::cout << "Maximum depth of treap is " << TreapLogged::log_->greatest_depth() << "." << std::endl;
-    return 0;
 }
