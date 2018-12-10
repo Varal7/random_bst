@@ -258,7 +258,6 @@ void test_zipf_more_accesses() {
         s = new SkipList(16, 0.5); dst->set_up(s);
         for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
             out << "SkipList,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
-            num_accesses.push_back(instance_size);
             dst->run();
             out << dst->get_runtime() << "\n";
         }
@@ -267,7 +266,6 @@ void test_zipf_more_accesses() {
         s = new ZipTree; dst->set_up(s);
         for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
             out << "ZipTree,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
-            num_accesses.push_back(instance_size);
             dst->run();
             out << dst->get_runtime() << "\n";
         }
@@ -276,7 +274,6 @@ void test_zipf_more_accesses() {
         s = new ZipTree(0.5, true); dst->set_up(s);
         for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
             out << "ZipTreeSelfAdjust,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
-            num_accesses.push_back(instance_size);
             dst->run();
             out << dst->get_runtime() << "\n";
         }
@@ -285,7 +282,6 @@ void test_zipf_more_accesses() {
         s = new Treap; dst->set_up(s);
         for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
             out << "Treap,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
-            num_accesses.push_back(instance_size);
             dst->run();
             out << dst->get_runtime() << "\n";
         }
@@ -294,7 +290,6 @@ void test_zipf_more_accesses() {
         s = new SplayTree; dst->set_up(s);
         for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
             out << "SplayTree,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
-            num_accesses.push_back(instance_size);
             dst->run();
             out << dst->get_runtime() << "\n";
         }
@@ -303,7 +298,6 @@ void test_zipf_more_accesses() {
         s = new RedBlack; dst->set_up(s);
         for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
             out << "RedBlack,zipfMoreAccesses,"  << instance_size <<  "," << initial_size << "," << alpha << ",";
-            num_accesses.push_back(instance_size);
             dst->run();
             out << dst->get_runtime() << "\n";
         }
@@ -319,6 +313,104 @@ void test_zipf_more_accesses() {
 
 
 
+void test_insert_from_scratch() {
+    int instance_size_min = 16; // Here instance_size is num_access
+    int instance_size_max = 1<<20;
+    int min_iters = 10;
+    int max_iters = 5000;
+    int max_micro_sec = 1000 * 1000 * 60 * 3;
+
+    uint64 start;
+    auto rng = std::default_random_engine {};
+
+    ofstream out;
+    out.open("insertFromScratch.csv");
+    out << "data_structure,test_name,instance_size,time_micro_seconds\n";
+
+    vector<int> num_inserts;
+
+    for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+        num_inserts.push_back(instance_size);
+    }
+
+    start = GetTimeMicroS64();
+    for (int iter = 0; iter < max_iters; iter++) {
+        cout << iter << endl;
+        vector<int> key_list;
+        for (int i = 0; i < 2 * instance_size_max; i ++) {
+            key_list.push_back(i);
+        }
+        shuffle(begin(key_list), end(key_list), rng);
+        TestInsertFromScratch *dst = new TestInsertFromScratch(&key_list, &num_inserts);
+
+        Dictionary *s;
+        int prev_size, prev_time, cur_time;
+
+
+        s = new SkipList(16, 0.5); dst->set_up(s);
+        prev_size = 0; prev_time = 0;
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "SkipList,insertFromScratch,"  << instance_size + prev_size <<  ",";
+            dst->run();
+            cur_time = dst->get_runtime();
+            out << cur_time + prev_time << "\n";
+            prev_time += cur_time; prev_size += instance_size;
+        }
+        delete s;
+
+        s = new ZipTree; dst->set_up(s);
+        prev_size = 0; prev_time = 0;
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "ZipTree,insertFromScratch,"  << instance_size + prev_size <<  ",";
+            dst->run();
+            cur_time = dst->get_runtime();
+            out << cur_time + prev_time << "\n";
+            prev_time += cur_time; prev_size += instance_size;
+        }
+        delete s;
+
+        s = new Treap; dst->set_up(s);
+        prev_size = 0; prev_time = 0;
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "Treap,insertFromScratch,"  << instance_size + prev_size <<  ",";
+            dst->run();
+            cur_time = dst->get_runtime();
+            out << cur_time + prev_time << "\n";
+            prev_time += cur_time; prev_size += instance_size;
+        }
+        delete s;
+
+        s = new SplayTree; dst->set_up(s);
+        prev_size = 0; prev_time = 0;
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "SplayTree,insertFromScratch,"  << instance_size + prev_size <<  ",";
+            dst->run();
+            cur_time = dst->get_runtime();
+            out << cur_time + prev_time << "\n";
+            prev_time += cur_time; prev_size += instance_size;
+        }
+        delete s;
+
+        s = new RedBlack; dst->set_up(s);
+        prev_size = 0; prev_time = 0;
+        for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+            out << "RedBlack,insertFromScratch,"  << instance_size + prev_size <<  ",";
+            dst->run();
+            cur_time = dst->get_runtime();
+            out << cur_time + prev_time << "\n";
+            prev_time += cur_time; prev_size += instance_size;
+        }
+        delete s;
+
+
+        if ((iter + 1 >= min_iters) && (int(GetTimeMicroS64() - start) > max_micro_sec)) {
+            break;
+        }
+    }
+    out.close();
+}
+
+
 int main(int argc, char** argv) {
     if (argc > 1) {
         seed = atoi(argv[1]);
@@ -332,6 +424,7 @@ int main(int argc, char** argv) {
     //test_insert_from_rand_list();
     //test_uniform_access_fixed_start();
     //test_zipf_access_fixed_start();
-    test_zipf_more_accesses();
+    //test_zipf_more_accesses();
+    test_insert_from_scratch();
     return 0;
 }

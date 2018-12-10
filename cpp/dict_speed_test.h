@@ -76,4 +76,19 @@ private:
   GenZipf* genzipf;
 };
 
+
+class TestInsertFromScratch : public Test
+{
+public:
+  TestInsertFromScratch(vector<int>* key_list, vector<int>* num_inserts);
+  void set_up(Dictionary* dict); // Stage an empty dictionary for the test
+private:
+  void execute_test();
+  std::vector<int> *key_list_;
+  std::vector<int> *num_inserts_;
+  Dictionary* dict_;
+  int counter;
+  int it;
+};
+
 #endif

@@ -110,7 +110,6 @@ void TestZipfAccessFixedStart::execute_test() {
 TestZipfMoreAccesses::TestZipfMoreAccesses(vector<int>* key_list, vector<int>* num_accesses, double alpha) {
   key_list_ = key_list;
   num_accesses_ = num_accesses;
-  counter  = 0;
   genzipf = new GenZipf(alpha, key_list_->size()); // zipf from 1 to size
 }
 
@@ -118,6 +117,7 @@ TestZipfMoreAccesses::TestZipfMoreAccesses(vector<int>* key_list, vector<int>* n
 void TestZipfMoreAccesses::set_up(Dictionary* dict){
   status_code_ = TEST_INIT_;
   dict_ = dict;
+  counter  = 0;
   for (auto it = key_list_->begin(); it!=key_list_->end(); it++) {
       dict_->emplace(*it, 0);
   }
@@ -127,6 +127,30 @@ void TestZipfMoreAccesses::execute_test() {
   for (int i = 0; i < (*num_accesses_)[counter]; i++) {
       int off = genzipf->get() - 1;
       dict_->contains((*key_list_)[off]);
+  }
+  counter += 1;
+  status_code_ = TEST_PASS_;
+}
+
+// TestZipfInsertFromScratch
+
+TestInsertFromScratch::TestInsertFromScratch(vector<int>* key_list, vector<int>* num_inserts) {
+  key_list_ = key_list;
+  num_inserts_ = num_inserts;
+}
+
+
+void TestInsertFromScratch::set_up(Dictionary* dict){
+  status_code_ = TEST_INIT_;
+  dict_ = dict;
+  counter  = 0;
+  int it = 0;
+}
+
+void TestInsertFromScratch::execute_test() {
+  for (int i = 0; i < (*num_inserts_)[counter]; i++) {
+      dict_->emplace((*key_list_)[it], 0);
+      it++;
   }
   counter += 1;
   status_code_ = TEST_PASS_;

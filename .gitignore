@@ -7,6 +7,8 @@ test_speed
 test_distribution
 sandbox
 splay_sandbox
+correctness_check
+log_check
 
 bench.json
 *.csv
