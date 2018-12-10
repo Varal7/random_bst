@@ -21,11 +21,14 @@ import matplotlib.ticker as ticker
 
 from collections import defaultdict
 
-filename = 'zipfAccesFixedStart.csv'
-axis = [
-        ('instance_size', 'Initial size of dictionary'),
-        ('time_micro_seconds', 'Time in micro senconds'),
-       ]
+import json
+
+config = json.load(open('zipfMore.json'))
+
+filename = config['filename']
+axis =  config['axis']
+
+compute_y_x_ratio = True
 
 
 required_fields = ['data_structure'] + [axis[0][0],  axis[1][0]]
@@ -39,7 +42,11 @@ with open(filename, newline='') as csvfile:
     for field in required_fields:
         assert(field in dt.fieldnames)
     for row in dt:
-        data[row['data_structure']][row[axis[0][0]]].append(float(row[axis[1][0]]))
+        y = float(row[axis[1][0]])
+        x = int(row[axis[0][0]])
+        if compute_y_x_ratio:
+            y = y / x
+        data[row['data_structure']][x].append(y)
         for field in dt.fieldnames:
             if field not in required_fields:
                 if meta_data[field] is None:
