@@ -277,3 +277,19 @@ int ZipTree::randomRank() {
       height++;
     return height;
 }
+
+
+void ZipTree::clear() {
+    clear(root);
+    root = nullptr;
+}
+
+void ZipTree::clear(ZipNode*& leaf) {
+    if (leaf == nullptr) {
+        return;
+    }
+    clear(leaf->left);
+    clear(leaf->right);
+    delete leaf;
+}
+

@@ -23,7 +23,7 @@ public:
     void check();
     int height();
     int count_nodes();
-
+    void clear();
 protected:
     ZipNode *root;
     float prob_;
@@ -36,6 +36,7 @@ protected:
     void check(ZipNode*& leaf, int, int);
     void left_rot(ZipNode*& tree);
     void right_rot(ZipNode*& tree);
+    void clear(ZipNode*& leaf);
 };
 
 #endif
