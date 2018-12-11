@@ -244,6 +244,81 @@ void test_zipf_varying_number_accesses_fixed_initial_size(vector<pair<D*, string
 
 
 
+void test_insert_from_fixed_initial_size(vector<pair<D*, string>>* dicts) {
+    //Insert from scratch but only time starting midway
+
+    int instance_size_min = 16;
+    int instance_size_max = 1<<20;
+    int initial_size = 1024;
+    double alpha = 0.99;
+    int min_iters = 10;
+    int max_iters = 5000;
+    int max_micro_sec = 1000 * 1000 * 3 * 1;
+
+    uint64 start;
+    std::random_device rng;
+    std::mt19937 urng(rng());
+
+
+    ofstream out;
+    out.open("insertFromFixedInitialSize.csv");
+    out << "data_structure,test_name,instance_size,initial_size,alpha,time_micro_seconds\n";
+
+    Timer timer;
+
+    for (int iter = 0; iter < max_iters; iter++) {
+        start = GetTimeMicroS64();
+        cout << iter << "\n";
+        // Prepare key_list and access_list for all data structures
+        vector<int> key_list;
+        for (int i = 0; i < instance_size_max; i ++) {
+            key_list.push_back(i);
+        }
+        shuffle(begin(key_list), end(key_list), rng);
+
+        for (auto dict = dicts->begin(); dict != dicts->end(); dict++) {
+            string ds_name = dict->second;
+            D* s = dict->first;
+
+            timer.start();
+            timer.pause();
+
+            // Set up
+            int counter = 0;
+            for (int i = 0; i < initial_size; i++) {
+                s->emplace(key_list[counter], 0);
+                counter++;
+            }
+            int prev_instance_size = initial_size;
+
+            for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+                //cout << "\t" << instance_size << "\n";
+                // Log
+                out << ds_name << ",insertFromFixedInitialSize,"  << instance_size <<  "," << initial_size << "," << alpha << "," ;
+
+                timer.resume();
+                // One lap of the test
+                for (int i = prev_instance_size; i < instance_size; i++) {
+                    s->emplace(key_list[counter], 0);
+                    counter++;
+                }
+                timer.pause(); out << timer.get_runtime() << "\n";
+                prev_instance_size = instance_size;
+            }
+            // Tear Down
+            timer.reset(); s->clear();
+        }
+
+        if ((iter + 1 >= min_iters) && (int(GetTimeMicroS64() - start) > max_micro_sec)) {
+            cout << "\t" << iter << "\n";
+            break;
+        }
+    }
+    out.close();
+}
+
+
+
 int main(int argc, char** argv) {
     if (argc > 1) {
         seed = atoi(argv[1]);
@@ -262,9 +337,12 @@ int main(int argc, char** argv) {
 
     //test_uniform_access_varying_initial_size(&dicts);
 
+
+    test_insert_from_fixed_initial_size(&dicts);
+
     dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
     //test_zipf_access_varying_initial_size(&dicts);
-    test_zipf_varying_number_accesses_fixed_initial_size(&dicts);
+    //test_zipf_varying_number_accesses_fixed_initial_size(&dicts);
 
 
     return 0;
