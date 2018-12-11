@@ -413,9 +413,13 @@ void test_deletes_varying_initial_size(vector<pair<D*, string>>* dicts) {
             }
             shuffle(begin(key_list), end(key_list), rng);
 
-            vector<int> key_deletes = key_list;
-            shuffle(begin(key_deletes), end(key_deletes), rng);
+            vector<int> key_list_copy = key_list;
+            shuffle(begin(key_list_copy), end(key_list_copy), rng);
 
+            vector<int> key_deletes;
+            for (int i = 0; i < num_deletes; i++) {
+                key_deletes.push_back(key_list_copy[i]);
+            }
 
             // For each iteration, for each key list, perform the same test
             for (auto dict = dicts->begin(); dict != dicts->end(); dict++) {
