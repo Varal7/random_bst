@@ -211,15 +211,19 @@ void test_zipf_varying_number_accesses_fixed_initial_size(vector<pair<D*, string
 
             int counter = 0;
             int prev_instance_size = 0;
+            // Set up
+            for (auto it = key_list.begin(); it!=key_list.end(); it++) {
+                s->emplace(*it, 0);
+            }
+
             for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
-                cout << "\t" << instance_size << "\n";
+                //cout << "\t" << instance_size << "\n";
                 // Log
                 out << ds_name << ",zipfAccessFixedInitialSize,"  << instance_size <<  "," << initial_size << "," << alpha << "," ;
 
                 timer.resume();
                 // One lap of the test
                 for (int i = prev_instance_size; i < instance_size; i++) {
-                    cout << key_accessed[counter] << "\t";
                     assert(s->contains(key_accessed[counter]));
                     counter++;
                 }
