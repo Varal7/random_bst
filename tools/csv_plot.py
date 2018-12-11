@@ -23,12 +23,11 @@ from collections import defaultdict
 
 import json
 
-config = json.load(open('zipfMore.json'))
+config = json.load(open('uniformAccessVaryingInitialSize.json'))
 
 filename = config['filename']
 axis =  config['axis']
-
-compute_y_x_ratio = True
+compute_y_x_ratio = config['compute_y_x_ratio']
 
 
 required_fields = ['data_structure'] + [axis[0][0],  axis[1][0]]
