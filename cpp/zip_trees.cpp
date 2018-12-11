@@ -3,6 +3,7 @@
 #include <limits>
 #include <assert.h>
 #include "zip_trees.h"
+#include <math.h>
 
 using namespace std;
 
@@ -253,6 +254,20 @@ int ZipTree::sum_depths() {
     }
     return sum_depths(root, 0);
 }
+
+double ZipTree::potential() {
+    return potential(root).second;
+}
+
+pair<int, double> ZipTree::potential(ZipNode*& leaf) {
+    if (leaf == nullptr) { return make_pair(0, 0); }
+    pair<int, double> left = potential(leaf->left);
+    pair<int, double> right = potential(leaf->right);
+    int count = 1 + left.first + right.first;
+    double pot = log2(double(count) + left.second + right.second);
+    return make_pair(count, pot);
+}
+
 
 
 void ZipTree::display() {

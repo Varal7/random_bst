@@ -3,6 +3,8 @@
 
 #include "dictionary.h"
 
+using namespace std;
+
 struct TreapNode : Item
 {
     int priority;
@@ -22,6 +24,7 @@ public:
     void clear();
     int sum_depths();
     int count_nodes();
+    double potential();
 protected:
     TreapNode *root, *nullnode;
     bool insert(TreapNode*& leaf, int key, int value);
@@ -37,6 +40,7 @@ protected:
     void clear(TreapNode*& leaf);
     int sum_depths(TreapNode*& leaf, int depth);
     int count_nodes(TreapNode*& leaf);
+    pair<int, double> potential(TreapNode*& leaf);
 };
 
 #endif // TREAPS_H_

@@ -16,8 +16,10 @@ int main(int argc, char** argv) {
 
     ZipTree z;
     cout << z.sum_depths() << endl;
+    cout << z.potential() << endl;
     z.insert(0, 0);
     cout << z.sum_depths() << endl;
+    cout << z.potential() << endl;
     for (int i = 1; i < 5; i ++) {
         z.insert(i, 0);
     }
@@ -27,6 +29,7 @@ int main(int argc, char** argv) {
     z.display();
     z.check();
     cout << z.sum_depths() << endl;
+    cout << z.potential() << endl;
     //z.insert(2, 0);
     //z.check();
     //z.insert(3, 0);

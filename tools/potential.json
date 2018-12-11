@@ -1,0 +1,9 @@
+{
+    "filename": "potential.csv",
+    "axis": [
+            ["instance_size", "Number of elements"],
+            ["potential", "Potential"]
+        ],
+    "compute_y_x_ratio": false
+}
+

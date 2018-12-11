@@ -36,3 +36,9 @@ int Dictionary::sum_depths() {
   assert(false);
   return 0;
 }
+
+double Dictionary::potential() {
+  std::cout << "Not implemented" << std::endl;
+  assert(false);
+  return .0;
+}

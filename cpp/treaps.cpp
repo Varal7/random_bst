@@ -3,6 +3,7 @@
 #include <limits>
 #include <assert.h>
 #include "treaps.h"
+#include <math.h>
 
 using namespace std;
 
@@ -183,4 +184,17 @@ int Treap::sum_depths() {
         return 0;
     }
     return sum_depths(root, 0);
+}
+
+double Treap::potential() {
+    return potential(root).second;
+}
+
+pair<int, double> Treap::potential(TreapNode*& leaf) {
+    if (leaf == nullptr) { return make_pair(0, 0); }
+    pair<int, double> left = potential(leaf->left);
+    pair<int, double> right = potential(leaf->right);
+    int count = 1 + left.first + right.first;
+    double pot = log2(double(count) + left.second + right.second);
+    return make_pair(count, pot);
 }

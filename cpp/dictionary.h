@@ -23,6 +23,7 @@ public:
   virtual int height() =0;
   virtual int count_nodes();
   virtual int sum_depths();
+  virtual double potential();
   virtual ~Dictionary() {};
   void emplace(int search_key, int new_value);
   void erase(int search_key);

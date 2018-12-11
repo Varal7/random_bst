@@ -3,7 +3,8 @@
 
 #include "dictionary.h"
 
-// TODO: add value
+
+using namespace std;
 
 struct ZipNode : Item
 {
@@ -25,6 +26,7 @@ public:
     int count_nodes();
     int sum_depths();
     void clear();
+    double potential();
 protected:
     ZipNode *root;
     float prob_;
@@ -39,6 +41,7 @@ protected:
     void right_rot(ZipNode*& tree);
     void clear(ZipNode*& leaf);
     int sum_depths(ZipNode*& leaf, int depth);
+    pair<int, double> potential(ZipNode*& leaf);
 };
 
 #endif
