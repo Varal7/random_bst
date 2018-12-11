@@ -7,6 +7,7 @@ test_speed
 test_distribution
 sandbox
 splay_sandbox
+skip_sandbox
 correctness_check
 log_check
 

@@ -18,6 +18,7 @@ public:
   virtual Item* search(int search_key) =0;
   bool contains(int search_key);
   virtual void check() =0;
+  virtual void clear() =0;
   virtual ~Dictionary() {};
   void emplace(int search_key, int new_value);
   void erase(int search_key);

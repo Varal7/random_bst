@@ -170,7 +170,7 @@ void SkipList::clear() {
     }
     // And then the nil SkipNode.
     delete nil_;
-    delete header_;
+    // Create a new SkipList
     header_ = new SkipNode(INT_MIN, 0, max_level_);
     nil_ = new SkipNode(INT_MAX, 0, max_level_);
     for( int i = 0; i < max_level_; i++) {
