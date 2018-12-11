@@ -7,8 +7,8 @@
 
 using namespace std;
 
-ZipTree::ZipTree(float prob, bool update_rank, bool frac_rank)
-    : prob_(prob), update_rank_(update_rank), frac_rank_(frac_rank) {
+ZipTree::ZipTree(float prob, bool update_rank, bool frac_rank, bool find_before_insert)
+    : prob_(prob), update_rank_(update_rank), frac_rank_(frac_rank), find_before_insert_(find_before_insert) {
     root = nullptr;
 }
 
@@ -26,8 +26,18 @@ void ZipTree::right_rot(ZipNode*& tree) {
     tree = right;
 }
 
-
 bool ZipTree::insert(int key, int value) {
+    if (find_before_insert_) {
+        ZipNode* ans = search(key);
+        if (ans != nullptr) {
+            ans->value = value;
+            return false;
+        }
+    }
+    return insert_(key, value);
+}
+
+bool ZipTree::insert_(int key, int value) {
     int rank = randomRank();
     ZipNode* x = new ZipNode;
     x->rank = rank;

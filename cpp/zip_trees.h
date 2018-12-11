@@ -15,7 +15,11 @@ struct ZipNode : Item
 
 class ZipTree : public Dictionary {
 public:
-    ZipTree(float prob=0.5, bool update_rank_on_access=false, bool use_frac_rank=false);
+    ZipTree(
+            float prob=0.5,
+            bool update_rank_on_access=false,
+            bool use_frac_rank=false,
+            bool find_before_insert=false);
     bool insert(int key, int value);
     bool remove(int key);
     ZipNode* search(int key);
@@ -31,6 +35,7 @@ protected:
     ZipNode *root;
     float prob_;
     bool update_rank_, frac_rank_;
+    bool find_before_insert_;
     int randomRank();
     ZipNode* search(ZipNode*& leaf, int key);
     int height(ZipNode*& leaf);
@@ -40,6 +45,7 @@ protected:
     void left_rot(ZipNode*& tree);
     void right_rot(ZipNode*& tree);
     void clear(ZipNode*& leaf);
+    bool insert_(int key, int value);
     int sum_depths(ZipNode*& leaf, int depth);
     pair<int, double> potential(ZipNode*& leaf);
 };
