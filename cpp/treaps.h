@@ -20,6 +20,8 @@ public:
     void display();
     void check();
     void clear();
+    int sum_depths();
+    int count_nodes();
 protected:
     TreapNode *root, *nullnode;
     bool insert(TreapNode*& leaf, int key, int value);
@@ -33,6 +35,8 @@ protected:
     int height();
     int height(TreapNode*& leaf);
     void clear(TreapNode*& leaf);
+    int sum_depths(TreapNode*& leaf, int depth);
+    int count_nodes(TreapNode*& leaf);
 };
 
 #endif // TREAPS_H_

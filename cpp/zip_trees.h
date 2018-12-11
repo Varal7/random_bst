@@ -23,6 +23,7 @@ public:
     void check();
     int height();
     int count_nodes();
+    int sum_depths();
     void clear();
 protected:
     ZipNode *root;
@@ -37,6 +38,7 @@ protected:
     void left_rot(ZipNode*& tree);
     void right_rot(ZipNode*& tree);
     void clear(ZipNode*& leaf);
+    int sum_depths(ZipNode*& leaf, int depth);
 };
 
 #endif

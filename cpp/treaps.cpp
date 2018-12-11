@@ -155,3 +155,32 @@ void Treap::clear(TreapNode*& leaf) {
     delete leaf;
 }
 
+int Treap::count_nodes() {
+    return count_nodes(root);
+}
+
+
+int Treap::count_nodes(TreapNode*& leaf) {
+    if (leaf == nullptr) { return 0; }
+    return 1 + count_nodes(leaf->left) +  count_nodes(leaf->right);
+}
+
+
+int Treap::sum_depths(TreapNode*& leaf, int depth) {
+    int left_depths = 0;
+    int right_depths = 0;
+    if (leaf->left != nullptr) {
+        left_depths = sum_depths(leaf->left, depth + 1);
+    }
+    if (leaf->right != nullptr) {
+        right_depths = sum_depths(leaf->right, depth + 1);
+    }
+    return depth + left_depths + right_depths;
+}
+
+int Treap::sum_depths() {
+    if (root == nullptr) {
+        return 0;
+    }
+    return sum_depths(root, 0);
+}

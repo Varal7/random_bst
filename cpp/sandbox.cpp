@@ -15,10 +15,10 @@ int main(int argc, char** argv) {
     srand(x);
 
     ZipTree z;
-    cout << z.height() << endl;
+    cout << z.sum_depths() << endl;
     z.insert(0, 0);
-    cout << z.height() << endl;
-    for (int i = 1; i < 10; i ++) {
+    cout << z.sum_depths() << endl;
+    for (int i = 1; i < 5; i ++) {
         z.insert(i, 0);
     }
     //z.insert(0, 0);
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
     //z.insert(1, 0);
     z.display();
     z.check();
-    cout << z.height() << endl;
+    cout << z.sum_depths() << endl;
     //z.insert(2, 0);
     //z.check();
     //z.insert(3, 0);

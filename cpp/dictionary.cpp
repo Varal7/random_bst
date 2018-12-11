@@ -24,3 +24,15 @@ Item* Dictionary::find(int search_key) {
 void Dictionary::display() {
   std::cout << "Not implemented" << std::endl;
 }
+
+int Dictionary::count_nodes() {
+  std::cout << "Not implemented" << std::endl;
+  assert(false);
+  return 0;
+}
+
+int Dictionary::sum_depths() {
+  std::cout << "Not implemented" << std::endl;
+  assert(false);
+  return 0;
+}

@@ -235,6 +235,26 @@ int ZipTree::count_nodes(ZipNode*& leaf) {
 }
 
 
+int ZipTree::sum_depths(ZipNode*& leaf, int depth) {
+    int left_depths = 0;
+    int right_depths = 0;
+    if (leaf->left != nullptr) {
+        left_depths = sum_depths(leaf->left, depth + 1);
+    }
+    if (leaf->right != nullptr) {
+        right_depths = sum_depths(leaf->right, depth + 1);
+    }
+    return depth + left_depths + right_depths;
+}
+
+int ZipTree::sum_depths() {
+    if (root == nullptr) {
+        return 0;
+    }
+    return sum_depths(root, 0);
+}
+
+
 void ZipTree::display() {
     display(root, 0);
 }
