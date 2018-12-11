@@ -14,6 +14,7 @@ public:
     Item* search(int key);
     bool contains(int key);
     void check();
+    void clear();
 private:
     map<int, int> *m;
 };

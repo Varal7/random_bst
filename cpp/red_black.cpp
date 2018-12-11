@@ -33,3 +33,7 @@ Item* RedBlack::search(int key) {
 
 void RedBlack::check() {
 }
+
+void RedBlack::clear() {
+    m->clear();
+}
