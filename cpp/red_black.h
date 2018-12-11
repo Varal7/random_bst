@@ -15,6 +15,7 @@ public:
     bool contains(int key);
     void check();
     void clear();
+    int height();
 private:
     map<int, int> *m;
 };

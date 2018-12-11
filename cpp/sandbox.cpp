@@ -13,19 +13,20 @@ int main(int argc, char** argv) {
     }
     cout << "seed: " << x << endl;
     srand(x);
+
     ZipTree z;
-    //for (int i = 1; i < 2; i ++) {
-        //z.insert(i, 0);
-        //assert(z.count_nodes() == i);
-    //}
+    cout << z.height() << endl;
     z.insert(0, 0);
-    z.check();
-    z.insert(1, 0);
+    cout << z.height() << endl;
+    for (int i = 1; i < 10; i ++) {
+        z.insert(i, 0);
+    }
+    //z.insert(0, 0);
+    //z.check();
+    //z.insert(1, 0);
     z.display();
     z.check();
-    z.insert(1, 0);
-    z.display();
-    z.check();
+    cout << z.height() << endl;
     //z.insert(2, 0);
     //z.check();
     //z.insert(3, 0);

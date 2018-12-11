@@ -37,3 +37,9 @@ void RedBlack::check() {
 void RedBlack::clear() {
     m->clear();
 }
+
+int RedBlack::height() {
+    assert(false);
+    return 0;
+}
+

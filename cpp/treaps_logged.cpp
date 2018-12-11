@@ -15,13 +15,14 @@ TreapLogged::TreapLogged() {
     log_->incr_size(sizeof(Treap));
 }
 
-
+/*
 uint32_t TreapLogged::height() {
   if (root == nullptr) {
     return 0;
   }
   return Treap::height();
 }
+*/
 
 
 bool TreapLogged::insert(int key, int value) {

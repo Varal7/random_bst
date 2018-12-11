@@ -1,4 +1,5 @@
 #include "dictionary.h"
+#include <iostream>
 
 bool Dictionary::contains(int search_key) {
   Item *result = search(search_key);
@@ -18,4 +19,8 @@ void Dictionary::erase(int search_key) {
 
 Item* Dictionary::find(int search_key) {
   return search(search_key);
+}
+
+void Dictionary::display() {
+  std::cout << "Not implemented" << std::endl;
 }

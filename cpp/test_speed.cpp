@@ -476,7 +476,7 @@ int main(int argc, char** argv) {
     //test_uniform_access_varying_initial_size(&dicts);
     //test_insert_from_fixed_initial_size(&dicts);
     //test_inserts_varying_initial_size(&dicts);
-    test_deletes_varying_initial_size(&dicts);
+    //test_deletes_varying_initial_size(&dicts);
 
     dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
     //test_zipf_access_varying_initial_size(&dicts);

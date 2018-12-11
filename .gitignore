@@ -10,6 +10,7 @@ splay_sandbox
 skip_sandbox
 correctness_check
 log_check
+test_balancedness
 
 bench.json
 *.csv

@@ -33,13 +33,14 @@ void SplayTreeLogged::splay(int search_key) {
   log_->update_greatest_depth(this->height());
 }
 
-
-uint32_t SplayTreeLogged::height() {
+/*
+int SplayTreeLogged::height() {
   if (root_ == nullptr) {
     return 0;
   }
   return SplayTree::height();
 }
+*/
 
 SplayNode* SplayTreeLogged::search(int search_key) {
   SplayNode *node = SplayTree::search(search_key);

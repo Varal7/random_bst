@@ -14,7 +14,7 @@ public:
     bool remove(int key);
     ZipNode* search(int key);
     // Bookkeeping functions
-    uint32_t height();
+    //uint32_t height();
     // And the memory usage log
     static MemLog *log_;
 };

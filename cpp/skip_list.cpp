@@ -178,3 +178,8 @@ void SkipList::clear() {
         nil_->forward.push_back(nullptr);
     }
 }
+
+int SkipList::height() {
+    assert(false);
+    return 0;
+}
