@@ -23,7 +23,7 @@ from collections import defaultdict
 
 import json
 
-config = json.load(open('zipfAccessVaryingInitialSize.json'))
+config = json.load(open('insertFromFixedInitialSize.json'))
 
 filename = config['filename']
 axis =  config['axis']
