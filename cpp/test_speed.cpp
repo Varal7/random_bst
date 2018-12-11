@@ -381,6 +381,76 @@ void test_inserts_varying_initial_size(vector<pair<D*, string>>* dicts) {
     out.close();
 }
 
+void test_deletes_varying_initial_size(vector<pair<D*, string>>* dicts) {
+    int instance_size_min = 1024;
+    int instance_size_max = 1<<20;
+    int num_deletes = 1024;
+    int min_iters = 10;
+    int max_iters = 5000;
+    int max_micro_sec = 1000 * 1000 * 3 * 1;
+
+    uint64 start;
+    std::random_device rng;
+    std::mt19937 urng(rng());
+
+    uniform_int_distribution<int> distribution;
+
+    ofstream out;
+    out.open("deletesVaryingInitialSize.csv");
+    out << "data_structure,test_name,instance_size,num_deletes,time_micro_seconds\n";
+
+    Timer timer;
+
+    for (int instance_size = instance_size_min; instance_size <= instance_size_max; instance_size *= 2) {
+        start = GetTimeMicroS64();
+        int iter;
+        cout << instance_size << "\n";
+        for (iter = 0; iter < max_iters; iter++) {
+            // Prepare key_list and access_list for all data structures
+            vector<int> key_list;
+            for (int i = 0; i < instance_size; i++) {
+                key_list.push_back(i);
+            }
+            shuffle(begin(key_list), end(key_list), rng);
+
+            vector<int> key_deletes = key_list;
+            shuffle(begin(key_deletes), end(key_deletes), rng);
+
+
+            // For each iteration, for each key list, perform the same test
+            for (auto dict = dicts->begin(); dict != dicts->end(); dict++) {
+                // Log
+                string ds_name = dict->second;
+                D* s = dict->first;
+                out << ds_name << ",deletesVaryingInitialSize,"  << instance_size <<  "," << num_deletes << ",";
+
+                // Set Up
+                for (auto it = key_list.begin(); it!=key_list.end(); it++) {
+                    s->emplace(*it, 0);
+                }
+                timer.start();
+
+                // Actual test
+                for (auto it = key_deletes.begin(); it != key_deletes.end(); it++) {
+                    s->remove(*it);
+                }
+                timer.pause(); out << timer.get_runtime() << "\n";
+
+                // Tear Down
+                timer.reset(); s->clear();
+            }
+
+            if ((iter + 1 >= min_iters) && (int(GetTimeMicroS64() - start) > max_micro_sec)) {
+                cout << "\t" << iter << "\n";
+                break;
+            }
+        }
+    }
+    out.close();
+}
+
+
+
 
 
 int main(int argc, char** argv) {
@@ -401,7 +471,8 @@ int main(int argc, char** argv) {
 
     //test_uniform_access_varying_initial_size(&dicts);
     //test_insert_from_fixed_initial_size(&dicts);
-    test_inserts_varying_initial_size(&dicts);
+    //test_inserts_varying_initial_size(&dicts);
+    test_deletes_varying_initial_size(&dicts);
 
     dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
     //test_zipf_access_varying_initial_size(&dicts);

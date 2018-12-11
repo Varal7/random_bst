@@ -1,0 +1,9 @@
+{
+    "filename": "deletesVaryingInitialSize.csv",
+    "axis": [
+            ["instance_size", "Initial size of dictionary"],
+            ["time_micro_seconds", "Time in micro seconds"]
+        ],
+    "compute_y_x_ratio": false
+}
+

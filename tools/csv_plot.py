@@ -24,7 +24,8 @@ from collections import defaultdict
 import json
 
 # config = json.load(open('insertFromFixedInitialSize.json'))
-config = json.load(open('insertsVaryingInitialSize.json'))
+# config = json.load(open('insertsVaryingInitialSize.json'))
+config = json.load(open('deletesVaryingInitialSize.json'))
 
 filename = config['filename']
 axis =  config['axis']
