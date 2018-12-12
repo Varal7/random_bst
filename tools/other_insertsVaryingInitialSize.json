@@ -1,0 +1,9 @@
+{
+    "filename": "other_insertsVaryingInitialSize.csv",
+    "title": "Insertion",
+    "axis": [
+            ["instance_size", "Initial size of dictionary"],
+            ["time_micro_seconds", "Time (microseconds)"]
+        ],
+    "compute_y_x_ratio": false
+}

@@ -38,10 +38,14 @@ fig, ax = plt.subplots(2, 2)
 # config = json.load(open('deletesVaryingInitialSize.json'))
 # config = json.load(open('heights.json'))
 
-data_files = ['zip_insertsVaryingInitialSize.json',
-              'zip_uniformAccessVaryingInitialSize.json',
-              'zip_deletesVaryingInitialSize.json',
-              'zip_zipfAccessVaryingInitialSize.json']
+# data_files = ['zip_insertsVaryingInitialSize.json',
+              # 'zip_uniformAccessVaryingInitialSize.json',
+              # 'zip_deletesVaryingInitialSize.json',
+              # 'zip_zipfAccessVaryingInitialSize.json']
+data_files = ['other_insertsVaryingInitialSize.json',
+              'other_uniformAccessVaryingInitialSize.json',
+              'other_deletesVaryingInitialSize.json',
+              'other_zipfAccessVaryingInitialSize.json']
 
 i = 0
 for data_file in data_files:
@@ -96,6 +100,8 @@ for data_file in data_files:
             ds1[data_structure][3].append(len(data[data_structure][x_val]))
 
 
+    print(ds1)
+
 
 # plot it! "map":"#1ABC9C"
 # color = {"ZipTree":"#D35400","Treap":"#F4D03F","SkipList":"#2ECC71","SplayTree":"#8E44AD"}
@@ -110,10 +116,13 @@ for data_file in data_files:
     ax[0][0].legend(loc='upper left')
     ax[i % 2][int(i/2)].set_xscale("log", nonposx='clip')
     ax[i % 2][int(i/2)].set_yscale("log", nonposy='clip')
-    ax[i % 2][int(i/2)].set_xlabel(axis[0][1])
-    ax[i % 2][int(i/2)].set_ylabel(axis[1][1].replace("microsecond", r"$\mu$"))
 
-    ax[i % 2][int(i/2)].text(-0.1, 1.1, "(" + string.ascii_lowercase[i] + ")", transform=ax[i % 2][int(i/2)].transAxes)
+    n_to_l = 'acbd'
+    ax[i % 2][int(i/2)].text(-0.1, 1.1, "(" + n_to_l[i] + ")", transform=ax[i % 2][int(i/2)].transAxes)
     i = i + 1
 
+ax[1][0].set_xlabel(axis[0][1])
+ax[1][1].set_xlabel(axis[0][1])
+ax[0][0].set_ylabel(axis[1][1].replace("microsecond", r"$\mu$"))
+ax[1][0].set_ylabel(axis[1][1].replace("microsecond", r"$\mu$"))
 plt.show()
