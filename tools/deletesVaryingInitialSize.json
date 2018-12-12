@@ -1,5 +1,6 @@
 {
     "filename": "deletesVaryingInitialSize.csv",
+    "title": "Deletion time versus dictionary size",
     "axis": [
             ["instance_size", "Initial size of dictionary"],
             ["time_micro_seconds", "Time (microseconds)"]

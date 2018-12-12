@@ -1,5 +1,6 @@
 {
     "filename": "heights.csv",
+    "title": "Heights",
     "axis": [
             ["instance_size", "Number of elements"],
             ["height", "Tree height"]
