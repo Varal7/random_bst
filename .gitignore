@@ -11,6 +11,7 @@ skip_sandbox
 correctness_check
 log_check
 test_balancedness
+test_focus
 
 bench.json
 *.csv

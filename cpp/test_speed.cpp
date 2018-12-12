@@ -17,6 +17,14 @@
 using namespace std;
 
 
+int instance_size_min = 1<<18;
+int instance_size_max = 1<<18;
+int min_iters = 300;
+int max_iters = 300;
+int num_accesses = 1<<14;
+int num_inserts = 1<<14;
+int num_deletes = 1<<14;
+
 int seed;
 
 typedef Dictionary D;
@@ -24,11 +32,11 @@ typedef Dictionary D;
 void test_uniform_access_varying_initial_size(vector<pair<D*, string>>* dicts) {
     //int instance_size_min = 16;
     //int num_accesses = 1024;
-    int instance_size_min = 1<<20;
-    int instance_size_max = 1<<20;
-    int num_accesses = 1<<14;
-    int min_iters = 1000;
-    int max_iters = 1000;
+    //int instance_size_min = 1<<18;
+    //int instance_size_max = 1<<18;
+    //int num_accesses = 1<<14;
+    //int min_iters = 1000;
+    //int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -51,6 +59,7 @@ void test_uniform_access_varying_initial_size(vector<pair<D*, string>>* dicts) {
         for (iter = 0; iter < max_iters; iter++) {
             // Prepare key_list and access_list for all data structures
             vector<int> key_list;
+            cout << iter << "\n";
             for (int i = 0; i < instance_size; i ++) {
                 key_list.push_back(i);
             }
@@ -98,11 +107,11 @@ void test_uniform_access_varying_initial_size(vector<pair<D*, string>>* dicts) {
 void test_zipf_access_varying_initial_size(vector<pair<D*, string>>* dicts, double alpha) {
     //int instance_size_min = 16;
     //int num_accesses = 1024;
-    int instance_size_max = 1<<20;
-    int instance_size_min = 1<<20;
-    int num_accesses = 1<<14;
-    int min_iters = 1000;
-    int max_iters = 1000;
+    //int instance_size_max = 1<<18;
+    //int instance_size_min = 1<<18;
+    //int num_accesses = 1<<14;
+    //int min_iters = 1000;
+    //int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -123,6 +132,7 @@ void test_zipf_access_varying_initial_size(vector<pair<D*, string>>* dicts, doub
         for (iter = 0; iter < max_iters; iter++) {
             // Prepare key_list and access_list for all data structures
             vector<int> key_list;
+            cout << iter << "\n";
             for (int i = 0; i < instance_size; i ++) {
                 key_list.push_back(i);
             }
@@ -169,12 +179,12 @@ void test_zipf_access_varying_initial_size(vector<pair<D*, string>>* dicts, doub
 
 
 void test_zipf_varying_number_accesses_fixed_initial_size(vector<pair<D*, string>>* dicts) {
-    int instance_size_min = 16;
-    int instance_size_max = 1<<20;
+    //int instance_size_min = 16;
+    //int instance_size_max = 1<<18;
     int initial_size = 1024;
+    //int min_iters = 10;
+    //int max_iters = 5000;
     double alpha = 0.99;
-    int min_iters = 10;
-    int max_iters = 5000;
     int max_micro_sec = 1000 * 1000 * 60 * 10;
 
     uint64 start;
@@ -250,13 +260,13 @@ void test_zipf_varying_number_accesses_fixed_initial_size(vector<pair<D*, string
 void test_insert_from_fixed_initial_size(vector<pair<D*, string>>* dicts) {
     //Insert from scratch but only time starting midway
 
-    int instance_size_min = 16;
-    //int instance_size_max = 1<<20;
-    int instance_size_max = 1<<20;
+    //int instance_size_min = 16;
+    //int instance_size_max = 1<<18;
+    //int instance_size_max = 1<<18;
     //int initial_size = 1024;
+    //int min_iters = 10;
+    //int max_iters = 1000;
     int initial_size = 0;
-    int min_iters = 10;
-    int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -322,11 +332,11 @@ void test_insert_from_fixed_initial_size(vector<pair<D*, string>>* dicts) {
 void test_inserts_varying_initial_size(vector<pair<D*, string>>* dicts) {
     //int instance_size_min = 16;
     //int num_accesses = 1<<14;
-    int instance_size_max = 1<<20;
-    int instance_size_min = 1<<20;
-    int num_inserts = 1024;
-    int min_iters = 1000;
-    int max_iters = 1000;
+    //int instance_size_max = 1<<18;
+    //int instance_size_min = 1<<18;
+    //int num_inserts = 1<<14;
+    //int min_iters = 1000;
+    //int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -346,6 +356,7 @@ void test_inserts_varying_initial_size(vector<pair<D*, string>>* dicts) {
         int iter;
         cout << instance_size << "\n";
         for (iter = 0; iter < max_iters; iter++) {
+            cout << iter << "\n";
             // Prepare key_list and access_list for all data structures
             vector<int> key_list;
             for (int i = 0; i < instance_size + num_inserts; i++) {
@@ -389,11 +400,11 @@ void test_inserts_varying_initial_size(vector<pair<D*, string>>* dicts) {
 void test_deletes_varying_initial_size(vector<pair<D*, string>>* dicts) {
     //int instance_size_min = 16;
     //int num_accesses = 1<<14;
-    int instance_size_max = 1<<20;
-    int instance_size_min = 1<<20;
-    int num_deletes = 1<<14;
-    int min_iters = 1000;
-    int max_iters = 1000;
+    //int instance_size_max = 1<<18;
+    //int instance_size_min = 1<<18;
+    //int num_deletes = 1<<14;
+    //int min_iters = 1000;
+    //int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -414,6 +425,7 @@ void test_deletes_varying_initial_size(vector<pair<D*, string>>* dicts) {
         cout << instance_size << "\n";
         for (iter = 0; iter < max_iters; iter++) {
             // Prepare key_list and access_list for all data structures
+            cout << iter << "\n";
             vector<int> key_list;
             for (int i = 0; i < instance_size; i++) {
                 key_list.push_back(i);
@@ -483,8 +495,8 @@ int main(int argc, char** argv) {
     dicts.push_back(make_pair(new SplayTree, "SplayTree"));
     dicts.push_back(make_pair(new RedBlack, "RedBlack"));
 
-    // Initial size = 1<<20
-    // nb operations = 1<14
+    // Initial size = 1<<18
+    // nb operations = 1<<14
     // nb iters = 1000
     test_inserts_varying_initial_size(&dicts);
     test_deletes_varying_initial_size(&dicts);
