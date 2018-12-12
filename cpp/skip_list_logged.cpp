@@ -80,6 +80,12 @@ SkipNode* SkipListLogged::search(int search_key)
   return node;
 }
 
+
+float SkipListLogged::potential() {
+  
+}
+
+
 void SkipListLogged::check()
 {
   // TODO

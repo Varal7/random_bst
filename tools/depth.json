@@ -2,8 +2,7 @@
     "filename": "depth.csv",
     "axis": [
             ["instance_size", "Number of elements"],
-            ["depth", "Average depth of a node in the tree"]
+            ["depth", "Average node depth"]
         ],
     "compute_y_x_ratio": true
 }
-

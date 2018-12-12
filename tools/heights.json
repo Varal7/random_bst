@@ -2,8 +2,7 @@
     "filename": "heights.csv",
     "axis": [
             ["instance_size", "Number of elements"],
-            ["height", "Height of the tree"]
+            ["height", "Tree height"]
         ],
     "compute_y_x_ratio": false
 }
-

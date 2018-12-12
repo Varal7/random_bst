@@ -19,6 +19,7 @@ public:
   SkipNode* search(int search_key);
   bool contains(int search_key);
   void check();
+  float potential();
   static MemLog *log_;
 };
 

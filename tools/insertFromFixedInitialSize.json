@@ -1,9 +1,9 @@
 {
     "filename": "insertFromFixedInitialSize.csv",
+    "title": "Insertion from fixed initial size",
     "axis": [
             ["instance_size", "Number of inserts"],
-            ["time_micro_seconds", "Time in micro seconds per inserts"]
+            ["time_micro_seconds", "Time per insert (microseconds)"]
         ],
     "compute_y_x_ratio": true
 }
-
