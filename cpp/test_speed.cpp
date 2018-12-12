@@ -17,6 +17,9 @@
 
 using namespace std;
 
+const int SORTED = 0;
+const int REVERSED = 1;
+const int SHUFFLED = 2;
 
 int instance_size_min = 16;
 int instance_size_max = 1<<20;
@@ -258,25 +261,34 @@ void test_zipf_varying_number_accesses_fixed_initial_size(vector<pair<D*, string
 
 
 
-void test_insert_from_fixed_initial_size(vector<pair<D*, string>>* dicts) {
+void test_insert_from_fixed_initial_size(vector<pair<D*, string>>* dicts, int type) {
     //Insert from scratch but only time starting midway
 
-    //int instance_size_min = 16;
-    //int instance_size_max = 1<<18;
-    //int instance_size_max = 1<<18;
-    //int initial_size = 1024;
-    //int min_iters = 10;
-    //int max_iters = 1000;
+    int instance_size_min = 16;
+    int instance_size_max = 1<<17;
     int initial_size = 0;
-    int max_micro_sec = 1000 * 1000 * 3 * 1;
+    int min_iters = 100;
+    int max_iters = 1000;
+    int max_micro_sec = 1000 * 1000 * 60 * 5;
 
     uint64 start;
     std::random_device rng;
     std::mt19937 urng(rng());
 
+    string type_name;
+    if (type == SORTED) {
+        type_name = "Sorted";
+    } else if (type == SHUFFLED) {
+        type_name = "Shuffled";
+    } else if (type == REVERSED) {
+        type_name = "Reversed";
+    } else {
+        assert(false);
+    }
+    cout << type_name<< endl;
 
     ofstream out;
-    out.open("insertFromFixedInitialSize.csv");
+    out.open("insertFromFixedInitialSize" + type_name  +  ".csv");
     out << "data_structure,test_name,instance_size,initial_size,time_micro_seconds\n";
 
     Timer timer;
@@ -289,7 +301,11 @@ void test_insert_from_fixed_initial_size(vector<pair<D*, string>>* dicts) {
         for (int i = 0; i < instance_size_max; i ++) {
             key_list.push_back(i);
         }
-        shuffle(begin(key_list), end(key_list), rng);
+        if (type == SHUFFLED) {
+            shuffle(begin(key_list), end(key_list), rng);
+        } else if (type == REVERSED) {
+            reverse(key_list.begin(), key_list.end());
+        }
 
         for (auto dict = dicts->begin(); dict != dicts->end(); dict++) {
             string ds_name = dict->second;
@@ -301,7 +317,8 @@ void test_insert_from_fixed_initial_size(vector<pair<D*, string>>* dicts) {
             // Set up
             int counter;
             for (counter = 0; counter < initial_size; counter++) {
-                //cout << counter << "\t";
+                cout << counter << "\t";
+                cout << key_list[counter] << "\n";
                 s->emplace(key_list[counter], 0);
             }
             int prev_instance_size = initial_size;
@@ -565,13 +582,13 @@ int main(int argc, char** argv) {
     srand(seed);
 
     vector<pair<D*, string>> dicts;
+    dicts.push_back(make_pair(new SplayTree, "SplayTree"));
     dicts.push_back(make_pair(new ZipTree(0.5, false), "ZipTree"));
     dicts.push_back(make_pair(new ZipTree(0.5, false, true), "ZipTreeFracRank"));
     dicts.push_back(make_pair(new ZipTree(0.5, false, false, true), "ZipTreeFindBeforeInsert"));
     dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
     dicts.push_back(make_pair(new SkipList(16, 0.5), "SkipList"));
     dicts.push_back(make_pair(new Treap, "Treap"));
-    dicts.push_back(make_pair(new SplayTree, "SplayTree"));
     dicts.push_back(make_pair(new RedBlack, "RedBlack"));
 
     // Initial size = 1<<18
@@ -585,14 +602,17 @@ int main(int argc, char** argv) {
     //test_zipf_access_varying_initial_size(&dicts, 0.99);
 
     //test_zipf_varying_number_accesses_fixed_initial_size(&dicts);
-    //test_insert_from_fixed_initial_size(&dicts);
+
+    test_insert_from_fixed_initial_size(&dicts, SHUFFLED);
+    test_insert_from_fixed_initial_size(&dicts, REVERSED);
+    test_insert_from_fixed_initial_size(&dicts, SORTED);
 
 
-    vector<string> datasets;
-    datasets = {"bll", "br-actif", "br-support", "br", "faerix", "federez", "pasloin", "platal", "ragal", "root-br", "x", "x2013", "x2014"};
-    for (auto it = datasets.begin(); it != datasets.end(); it++) {
-        test_real_sequence(&dicts, *it);
-    }
+    //vector<string> datasets;
+    //datasets = {"bll", "br-actif", "br-support", "br", "faerix", "federez", "pasloin", "platal", "ragal", "root-br", "x", "x2013", "x2014"};
+    //for (auto it = datasets.begin(); it != datasets.end(); it++) {
+        //test_real_sequence(&dicts, *it);
+    //}
 
 
 

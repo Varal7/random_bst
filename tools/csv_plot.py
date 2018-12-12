@@ -35,6 +35,10 @@ import json
 # config = json.load(open('accessSubset.json'))
 # config = json.load(open('accessChangeSubset.json'))
 
+config = json.load(open('insertFromFixedInitialSizeSorted.json'))
+# config = json.load(open('insertFromFixedInitialSizeShuffled.json'))
+# config = json.load(open('insertFromFixedInitialSizeReversed.json'))
+
 filename = config['filename']
 axis =  config['axis']
 title =  config['title']
@@ -80,11 +84,6 @@ for data_structure in data:
         ds1[data_structure][2].append(stdev(data[data_structure][x_val]))
         ds1[data_structure][3].append(len(data[data_structure][x_val]))
 
-import math
-for data_structure in data:
-    print(data_structure)
-    for (time, n) in zip(ds1[data_structure][1], ds1[data_structure][0]):
-        print(time / (math.log(n)/ math.log(2)))
 
 
 # plot it! "map":"#1ABC9C"
@@ -99,8 +98,8 @@ for d in data:
 
 ax.set_title(title)
 ax.legend(loc='upper left')
-# ax.set_xscale("log", nonposx='clip')
-# ax.set_yscale("log", nonposy='clip')
+ax.set_xscale("log", nonposx='clip')
+ax.set_yscale("log", nonposy='clip')
 ax.set_xlabel(axis[0][1])
 ax.set_ylabel(axis[1][1].replace("microsecond", r"$\mu$s"))
 plt.show()
