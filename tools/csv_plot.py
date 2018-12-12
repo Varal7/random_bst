@@ -7,13 +7,16 @@ import matplotlib.font_manager
 import matplotlib.pyplot as plt
 
 matplotlib.font_manager._rebuild()
-from matplotlib import rcParams
+from matplotlib import rc
 from statistics import mean,stdev
 import csv
 
 
-rcParams['font.family'] = ['Times']
-rcParams['font.size'] = 10.0
+# rcParams['font.family'] = ['Times']
+# rcParams['font.size'] = 10.0
+
+rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
+rc('text', usetex=True)
 
 
 import matplotlib.pyplot as pyp
@@ -24,14 +27,15 @@ from collections import defaultdict
 import json
 
 # config = json.load(open('insertFromFixedInitialSize.json'))
-# config = json.load(open('insertsVaryingInitialSize.json'))
+config = json.load(open('insertsVaryingInitialSize.json'))
 # config = json.load(open('deletesVaryingInitialSize.json'))
 # config = json.load(open('heights.json'))
 # config = json.load(open('depth.json'))
-config = json.load(open('potential.json'))
+# config = json.load(open('potential.json'))
 
 filename = config['filename']
 axis =  config['axis']
+title =  config['title']
 compute_y_x_ratio = config['compute_y_x_ratio']
 
 
@@ -82,11 +86,10 @@ for d in data:
     ax.fill_between(ds1[d][0], [ds1[d][1][x] + ds1[d][2][x] for x in range(len(ds1[d][1]))], [ds1[d][1][x] - ds1[d][2][x] for x in range(len(ds1[d][1]))], alpha=0.5)
 
 
-ax.set_title(str(dict(meta_data)))
+ax.set_title(title)
 ax.legend(loc='upper left')
 ax.set_xscale("log", nonposx='clip')
 ax.set_yscale("log", nonposy='clip')
 ax.set_xlabel(axis[0][1])
-ax.set_ylabel(axis[1][1])
+ax.set_ylabel(axis[1][1].replace("microsecond", r"$\mu$s"))
 plt.show()
-
