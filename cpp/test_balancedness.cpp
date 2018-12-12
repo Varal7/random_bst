@@ -22,11 +22,11 @@ int seed;
 typedef Dictionary D;
 
 void test_height(vector<pair<D*, string>>* dicts) {
-    int instance_size_min = 16;
+    int instance_size_min = 1<<20;
     int instance_size_max = 1<<20;
-    int min_iters = 50;
-    int max_iters = 5000;
-    int max_micro_sec = 1000 * 1000 * 3 * 1;
+    int min_iters = 100;
+    int max_iters = 1000;
+    int max_micro_sec = 1000 * 1000 * 60 * 5;
 
 
     uint64 start;
@@ -82,11 +82,11 @@ void test_height(vector<pair<D*, string>>* dicts) {
 }
 
 void test_potential(vector<pair<D*, string>>* dicts) {
-    int instance_size_min = 16;
+    int instance_size_min = 1<<20;
     int instance_size_max = 1<<20;
-    int min_iters = 50;
-    int max_iters = 5000;
-    int max_micro_sec = 1000 * 1000 * 3 * 1;
+    int min_iters = 100;
+    int max_iters = 1000;
+    int max_micro_sec = 1000 * 1000 * 60 * 5;
 
     uint64 start;
     std::random_device rng;
@@ -142,11 +142,11 @@ void test_potential(vector<pair<D*, string>>* dicts) {
 
 
 void test_depth(vector<pair<D*, string>>* dicts) {
-    int instance_size_min = 16;
     int instance_size_max = 1<<20;
+    int instance_size_min = 1<<20;
     int min_iters = 50;
     int max_iters = 5000;
-    int max_micro_sec = 1000 * 1000 * 3 * 1;
+    int max_micro_sec = 1000 * 1000 * 60 * 1;
 
     uint64 start;
     std::random_device rng;
@@ -217,10 +217,10 @@ int main(int argc, char** argv) {
     dicts.push_back(make_pair(new Treap, "Treap"));
 
     //test_height(&dicts);
-    //test_depth(&dicts);
-    test_potential(&dicts);
+    test_depth(&dicts);
+    //test_potential(&dicts);
 
-    dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
+    //dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
 
 
     return 0;

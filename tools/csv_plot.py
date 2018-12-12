@@ -30,10 +30,10 @@ import json
 # config = json.load(open('insertsVaryingInitialSize.json'))
 # config = json.load(open('deletesVaryingInitialSize.json'))
 # config = json.load(open('heights.json'))
-# config = json.load(open('depth.json'))
+config = json.load(open('depth.json'))
 # config = json.load(open('potential.json'))
 # config = json.load(open('accessSubset.json'))
-config = json.load(open('accessChangeSubset.json'))
+# config = json.load(open('accessChangeSubset.json'))
 
 filename = config['filename']
 axis =  config['axis']
@@ -77,8 +77,14 @@ for data_structure in data:
     for x_val in data[data_structure]:
         ds1[data_structure][0].append(int(x_val))
         ds1[data_structure][1].append(mean(data[data_structure][x_val]))
-        # ds1[data_structure][2].append(stdev(data[data_structure][x_val]))
+        ds1[data_structure][2].append(stdev(data[data_structure][x_val]))
         ds1[data_structure][3].append(len(data[data_structure][x_val]))
+
+import math
+for data_structure in data:
+    print(data_structure)
+    for (time, n) in zip(ds1[data_structure][1], ds1[data_structure][0]):
+        print(time / (math.log(n)/ math.log(2)))
 
 
 # plot it! "map":"#1ABC9C"

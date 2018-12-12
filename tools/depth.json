@@ -1,5 +1,6 @@
 {
     "filename": "depth.csv",
+    "title": "Depth",
     "axis": [
             ["instance_size", "Number of elements"],
             ["depth", "Average depth of a node in the tree"]
