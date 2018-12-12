@@ -30,7 +30,7 @@ import json
 # config = json.load(open('insertsVaryingInitialSize.json'))
 # config = json.load(open('deletesVaryingInitialSize.json'))
 # config = json.load(open('heights.json'))
-config = json.load(open('depth.json'))
+# config = json.load(open('depth.json'))
 # config = json.load(open('potential.json'))
 # config = json.load(open('accessSubset.json'))
 # config = json.load(open('accessChangeSubset.json'))

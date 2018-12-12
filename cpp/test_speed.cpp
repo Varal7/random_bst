@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <cstdio>
 #include "zip_trees.h"
 #include "treaps.h"
 #include "skip_list.h"
@@ -17,13 +18,13 @@
 using namespace std;
 
 
-int instance_size_min = 1<<18;
-int instance_size_max = 1<<18;
+int instance_size_min = 16;
+int instance_size_max = 1<<20;
 int min_iters = 10;
-int max_iters = 10;
-int num_accesses = 1<<14;
-int num_inserts = 1<<14;
-int num_deletes = 1<<14;
+int max_iters = 1000;
+int num_accesses = 1<<22;
+int num_inserts = 1024;
+int num_deletes = 1024;
 
 int seed;
 
@@ -37,7 +38,7 @@ void test_uniform_access_varying_initial_size(vector<pair<D*, string>>* dicts) {
     //int num_accesses = 1<<14;
     //int min_iters = 1000;
     //int max_iters = 1000;
-    int max_micro_sec = 1000 * 1000 * 3 * 1;
+    int max_micro_sec = 1000 * 1000 * 30 * 1;
 
     uint64 start;
     std::random_device rng;
@@ -472,7 +473,85 @@ void test_deletes_varying_initial_size(vector<pair<D*, string>>* dicts) {
     out.close();
 }
 
+void test_real_sequence(vector<pair<D*, string>>* dicts, string dataset) {
+    //int min_iters = 10;
+    //int max_micro_sec = 1000 * 1000 * 3 * 1;
+    //uint64 start;
 
+    //int max_iters = 1000;
+    int max_iters = 1000;
+    ofstream out;
+
+    Timer timer;
+
+    vector<int> elements_seq;
+    vector<int> seq;
+    map<char,int> m;
+
+    int nb_operations;
+
+    FILE * pFile;
+    string path = "../data/anon/" + dataset + ".txt";
+    pFile = fopen(path.c_str(),"r");
+    //pFile = fopen ("../data/anon/bll.txt","r");
+    fscanf (pFile, "%d", &nb_operations);
+
+    for (int i = 0; i < nb_operations; i++) {
+        int op, key;
+        fscanf(pFile, "%d %d", &op, &key);
+        seq.push_back(op);
+        elements_seq.push_back(key);
+    }
+    fclose (pFile);
+    out.open("testRealSequencelog" + dataset + ".csv");
+
+      int iter;
+
+      for (iter = 0; iter < max_iters; iter++) {
+            cout << iter << "\n";
+
+            for (auto dict = dicts->begin(); dict != dicts->end(); dict++) {
+                // Log
+                string ds_name = dict->second;
+                D* s = dict->first;
+                out << ds_name << ",RandomSequence_" + dataset + ","  << iter <<  ",";
+
+                // Set Up
+                timer.start();
+
+                // Actual test
+                for (int i = 0; i < nb_operations; i ++) {
+                    if (seq[i] == 0){
+                        timer.pause();
+                        if (s->contains(elements_seq[i]) == 1){
+                           timer.resume();
+                            s->erase(elements_seq[i]);}
+                        else{
+                        timer.resume();}
+                        }
+
+                    if (seq[i] == 1){
+                        timer.pause();
+
+                       if (s -> contains(elements_seq[i])!=1){
+                        timer.resume();
+                        s->emplace(elements_seq[i],0);
+                        }
+                        else{
+                        timer.resume();}
+                        }
+
+                    else if (seq[i] == 2){
+                    s->contains(elements_seq[i]);
+                    }
+                            }
+                timer.pause(); out << timer.get_runtime() << "\n";
+
+                // Tear Down
+                timer.reset(); s->clear();
+            }
+        }
+    }
 
 
 
@@ -498,15 +577,23 @@ int main(int argc, char** argv) {
     // Initial size = 1<<18
     // nb operations = 1<<14
     // nb iters = 1000
-    test_inserts_varying_initial_size(&dicts);
-    test_deletes_varying_initial_size(&dicts);
-    test_uniform_access_varying_initial_size(&dicts);
-    test_zipf_access_varying_initial_size(&dicts, 0.5);
-    test_zipf_access_varying_initial_size(&dicts, 0.9);
-    test_zipf_access_varying_initial_size(&dicts, 0.99);
+    //test_inserts_varying_initial_size(&dicts);
+    //test_deletes_varying_initial_size(&dicts);
+    //test_uniform_access_varying_initial_size(&dicts);
+    //test_zipf_access_varying_initial_size(&dicts, 2);
+    //test_zipf_access_varying_initial_size(&dicts, 1);
+    //test_zipf_access_varying_initial_size(&dicts, 0.99);
 
     //test_zipf_varying_number_accesses_fixed_initial_size(&dicts);
     //test_insert_from_fixed_initial_size(&dicts);
+
+
+    vector<string> datasets;
+    datasets = {"bll", "br-actif", "br-support", "br", "faerix", "federez", "pasloin", "platal", "ragal", "root-br", "x", "x2013", "x2014"};
+    for (auto it = datasets.begin(); it != datasets.end(); it++) {
+        test_real_sequence(&dicts, *it);
+    }
+
 
 
     return 0;

@@ -43,24 +43,24 @@ void test_geometric() {
 
 void test_genzipf(double alpha) {
     cout << "Zip'f distribution " <<  alpha << endl;
-    GenZipf* g = new GenZipf(alpha, 20);
+    GenZipf* g = new GenZipf(alpha, 1<<18);
     map<int, int> hist;
-    for(int n=0; n<10000; ++n) {
+    for(int n=0; n<1<<14; ++n) {
         ++hist[g->get()];
     }
     for(auto p : hist) {
         cout << p.first <<
-                ' ' << string(p.second/100, '*') << '\n';
+                ' ' << string(p.second/(1<<11), '*') << '\n';
     }
 }
 
 int main() {
-    test_uniform();
-    test_geometric();
+    //test_uniform();
+    //test_geometric();
 
+    //test_genzipf(0.5);
+    //test_genzipf(0.9);
     test_genzipf(0.5);
-    test_genzipf(0.9);
-    test_genzipf(1);
-    test_genzipf(1.5);
-    test_genzipf(10);
+    //test_genzipf(1.5);
+    //test_genzipf(10);
 }
