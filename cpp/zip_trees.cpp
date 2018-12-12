@@ -338,3 +338,19 @@ void ZipTree::clear(ZipNode*& leaf) {
     delete leaf;
 }
 
+void ZipTree::flatten() {
+    if (root != nullptr) {
+        flatten(root);
+    }
+    cout << "\n";
+}
+
+void ZipTree::flatten(ZipNode*& leaf) {
+    if (leaf->left != nullptr) {
+        flatten(leaf->left);
+    }
+    printf("(%d, %d)\t", leaf->key, leaf->rank);
+    if (leaf->right != nullptr) {
+        flatten(leaf->right);
+    }
+}

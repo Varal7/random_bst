@@ -31,6 +31,7 @@ public:
     int sum_depths();
     void clear();
     double potential();
+    void flatten();
 protected:
     ZipNode *root;
     float prob_;
@@ -46,6 +47,7 @@ protected:
     void right_rot(ZipNode*& tree);
     void clear(ZipNode*& leaf);
     bool insert_(int key, int value);
+    void flatten(ZipNode*& leaf);
     int sum_depths(ZipNode*& leaf, int depth);
     pair<int, double> potential(ZipNode*& leaf);
 };

@@ -22,11 +22,13 @@ int seed;
 typedef Dictionary D;
 
 void test_uniform_access_varying_initial_size(vector<pair<D*, string>>* dicts) {
-    int instance_size_min = 16;
+    //int instance_size_min = 16;
+    //int num_accesses = 1024;
+    int instance_size_min = 1<<20;
     int instance_size_max = 1<<20;
-    int num_accesses = 1024;
-    int min_iters = 10;
-    int max_iters = 5000;
+    int num_accesses = 1<<14;
+    int min_iters = 1000;
+    int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -93,13 +95,14 @@ void test_uniform_access_varying_initial_size(vector<pair<D*, string>>* dicts) {
 }
 
 
-void test_zipf_access_varying_initial_size(vector<pair<D*, string>>* dicts) {
-    int instance_size_min = 16;
+void test_zipf_access_varying_initial_size(vector<pair<D*, string>>* dicts, double alpha) {
+    //int instance_size_min = 16;
+    //int num_accesses = 1024;
     int instance_size_max = 1<<20;
-    int num_accesses = 1<<22;
-    double alpha = 0.99;
-    int min_iters = 10;
-    int max_iters = 5000;
+    int instance_size_min = 1<<20;
+    int num_accesses = 1<<14;
+    int min_iters = 1000;
+    int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -108,7 +111,7 @@ void test_zipf_access_varying_initial_size(vector<pair<D*, string>>* dicts) {
 
 
     ofstream out;
-    out.open("zipfAccessVaryingInitialSize.csv");
+    out.open("zipfAccessVaryingInitialSize" + to_string(alpha) + ".csv");
     out << "data_structure,test_name,instance_size,num_accesses,alpha,time_micro_seconds\n";
 
     Timer timer;
@@ -172,7 +175,7 @@ void test_zipf_varying_number_accesses_fixed_initial_size(vector<pair<D*, string
     double alpha = 0.99;
     int min_iters = 10;
     int max_iters = 5000;
-    int max_micro_sec = 1000 * 1000 * 3 * 1;
+    int max_micro_sec = 1000 * 1000 * 60 * 10;
 
     uint64 start;
     std::random_device rng;
@@ -185,8 +188,8 @@ void test_zipf_varying_number_accesses_fixed_initial_size(vector<pair<D*, string
 
     Timer timer;
 
+    start = GetTimeMicroS64();
     for (int iter = 0; iter < max_iters; iter++) {
-        start = GetTimeMicroS64();
         cout << iter << "\n";
         // Prepare key_list and access_list for all data structures
         vector<int> key_list;
@@ -317,11 +320,13 @@ void test_insert_from_fixed_initial_size(vector<pair<D*, string>>* dicts) {
 }
 
 void test_inserts_varying_initial_size(vector<pair<D*, string>>* dicts) {
-    int instance_size_min = 16;
+    //int instance_size_min = 16;
+    //int num_accesses = 1<<14;
     int instance_size_max = 1<<20;
+    int instance_size_min = 1<<20;
     int num_inserts = 1024;
-    int min_iters = 10;
-    int max_iters = 5000;
+    int min_iters = 1000;
+    int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -382,11 +387,13 @@ void test_inserts_varying_initial_size(vector<pair<D*, string>>* dicts) {
 }
 
 void test_deletes_varying_initial_size(vector<pair<D*, string>>* dicts) {
-    int instance_size_min = 1024;
+    //int instance_size_min = 16;
+    //int num_accesses = 1<<14;
     int instance_size_max = 1<<20;
-    int num_deletes = 1024;
-    int min_iters = 10;
-    int max_iters = 5000;
+    int instance_size_min = 1<<20;
+    int num_deletes = 1<<14;
+    int min_iters = 1000;
+    int max_iters = 1000;
     int max_micro_sec = 1000 * 1000 * 3 * 1;
 
     uint64 start;
@@ -467,20 +474,27 @@ int main(int argc, char** argv) {
     srand(seed);
 
     vector<pair<D*, string>> dicts;
-    dicts.push_back(make_pair(new ZipTree, "ZipTree"));
+    dicts.push_back(make_pair(new ZipTree(0.5, false), "ZipTree"));
+    dicts.push_back(make_pair(new ZipTree(0.5, false, true), "ZipTreeFracRank"));
+    dicts.push_back(make_pair(new ZipTree(0.5, false, false, true), "ZipTreeFindBeforeInsert"));
+    dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
     dicts.push_back(make_pair(new SkipList(16, 0.5), "SkipList"));
     dicts.push_back(make_pair(new Treap, "Treap"));
     dicts.push_back(make_pair(new SplayTree, "SplayTree"));
     dicts.push_back(make_pair(new RedBlack, "RedBlack"));
 
-    //test_uniform_access_varying_initial_size(&dicts);
-    //test_insert_from_fixed_initial_size(&dicts);
-    //test_inserts_varying_initial_size(&dicts);
-    //test_deletes_varying_initial_size(&dicts);
+    // Initial size = 1<<20
+    // nb operations = 1<14
+    // nb iters = 1000
+    test_inserts_varying_initial_size(&dicts);
+    test_deletes_varying_initial_size(&dicts);
+    test_uniform_access_varying_initial_size(&dicts);
+    test_zipf_access_varying_initial_size(&dicts, 0.5);
+    test_zipf_access_varying_initial_size(&dicts, 0.9);
+    test_zipf_access_varying_initial_size(&dicts, 0.99);
 
-    dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
-    //test_zipf_access_varying_initial_size(&dicts);
     //test_zipf_varying_number_accesses_fixed_initial_size(&dicts);
+    //test_insert_from_fixed_initial_size(&dicts);
 
 
     return 0;

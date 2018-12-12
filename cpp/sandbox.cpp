@@ -15,7 +15,12 @@ int main(int argc, char** argv) {
     srand(x);
 
     ZipTree z = ZipTree(0.5, false, false, false);
-   for (int i = 1; i < 5; i ++) {
+    cout << z.sum_depths() << endl;
+    cout << z.potential() << endl;
+    z.insert(0, 0);
+    cout << z.sum_depths() << endl;
+    cout << z.potential() << endl;
+    for (int i = 10; i > 1; i --) {
         z.insert(i, 0);
         z.check();
     }
@@ -24,6 +29,15 @@ int main(int argc, char** argv) {
         z.check();
     }
    z.display();
+
+    //z.insert(0, 0);
+    //z.check();
+    //z.insert(1, 0);
+    z.display();
+    z.check();
+    cout << z.sum_depths() << endl;
+    cout << z.potential() << endl;
+    z.flatten();
     //z.insert(2, 0);
     //z.check();
     //z.insert(3, 0);
