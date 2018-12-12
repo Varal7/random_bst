@@ -16,30 +16,21 @@
 
 using namespace std;
 
-
-int instance_size_min = 1<<18;
-int instance_size_max = 1<<18;
-int min_iters = 300;
-int max_iters = 300;
-int num_accesses = 1<<14;
-int num_inserts = 1<<14;
-int num_deletes = 1<<14;
-
 int seed;
 
 typedef Dictionary D;
 
 void test_change_subset(vector<pair<D*, string>>* dicts) {
-    int instance_size = 1<<20;
-    int num_elements_per_bucket = 1024;
-    int num_measures_per_epochs = 1024;
-    int num_accesses_per_measures = 1<<15;
-    int num_epochs = 20;
+    int instance_size = 1<<15;
+    int num_elements_per_bucket = 128;
+    int num_measures_per_epochs = 500;
+    int num_accesses_per_measures = 100;
+    int num_epochs = 6;
 
-    int min_iters = 1000;
+    int min_iters = 10;
     int max_iters = 1000;
 
-    int max_micro_sec = 1000 * 1000 * 3 * 1;
+    int max_micro_sec = 1000 * 1000 * 60 * 15;
     uint64 start;
 
     std::random_device rng;
@@ -48,14 +39,13 @@ void test_change_subset(vector<pair<D*, string>>* dicts) {
     uniform_int_distribution<int> distribution;
 
     ofstream out;
-    out.open("accessSubset.csv");
+    out.open("accessChangeSubset.csv");
     out << "data_structure,test_name,instance_size,num_elements_per_bucket,num_accesses_per_measures,measure_id,time_micro_seconds\n";
 
     Timer timer;
 
     for (int iter = 0; iter < max_iters; iter++) {
         start = GetTimeMicroS64();
-        cout << iter << "\n";
         // Prepare key_list and access_list for all data structures
         vector<int> key_list;
         cout << iter << "\n";
@@ -71,29 +61,30 @@ void test_change_subset(vector<pair<D*, string>>* dicts) {
         for (auto dict = dicts->begin(); dict != dicts->end(); dict++) {
             string ds_name = dict->second;
             D* s = dict->first;
-            timer.start();
-            timer.pause();
+            for (auto it = key_list.begin(); it != key_list.end(); it++) {
+                s->emplace(*it, 0);
+            }
             int offset = 0;
             int measure_id = 0;
             for (int epoch_id = 0; epoch_id < num_epochs; epoch_id++) {
                 for (int measure_in_epoch = 0; measure_in_epoch < num_measures_per_epochs; measure_in_epoch += 1) {
 
-                    cout << measure_id << endl;
                     // Log
-                    out << ds_name << ",accessSubset,"  << instance_size <<  "," << num_elements_per_bucket <<  "," << num_accesses_per_measures << "," << measure_id << ",";
+                    out << ds_name << ",accessChangeSubset,"  << instance_size <<  "," << num_elements_per_bucket <<  "," << num_accesses_per_measures << "," << measure_id << ",";
 
-                    timer.resume();
+                    timer.start();
                     // Actual test
                     for (int i = 0; i < num_accesses_per_measures; i++) {
                         assert(s->contains(key_accessed[offset + distribution(rng)]));
                     }
                     timer.pause(); out << timer.get_runtime() << "\n";
+                    timer.reset();
                     measure_id ++;
                 }
             offset += num_elements_per_bucket;
             }
         // Tear Down
-            timer.reset(); s->clear();
+            s->clear();
         }
         if ((iter + 1 >= min_iters) && (int(GetTimeMicroS64() - start) > max_micro_sec)) {
             cout << "\t" << iter << "\n";
@@ -106,15 +97,15 @@ void test_change_subset(vector<pair<D*, string>>* dicts) {
 
 
 void test_subset(vector<pair<D*, string>>* dicts) {
-    int instance_size = 1<<20;
-    int num_elements_per_bucket = 1024;
-    int num_measures = 1024;
-    int num_accesses_per_measures = 1<<15;
+    int instance_size = 1<<15;
+    int num_elements_per_bucket = 128;
+    int num_measures = 512;
+    int num_accesses_per_measures = 1<<12;
 
-    int min_iters = 1000;
+    int min_iters = 10;
     int max_iters = 1000;
 
-    int max_micro_sec = 1000 * 1000 * 3 * 1;
+    int max_micro_sec = 1000 * 1000 * 60 * 15;
     uint64 start;
 
     std::random_device rng;
@@ -133,7 +124,6 @@ void test_subset(vector<pair<D*, string>>* dicts) {
         cout << iter << "\n";
         // Prepare key_list and access_list for all data structures
         vector<int> key_list;
-        cout << iter << "\n";
         for (int i = 0; i < instance_size; i ++) {
             key_list.push_back(i);
         }
@@ -144,26 +134,29 @@ void test_subset(vector<pair<D*, string>>* dicts) {
         distribution = uniform_int_distribution<int>(0, num_elements_per_bucket - 1); // unform distribution 0 <= x <= #el -1
 
         for (auto dict = dicts->begin(); dict != dicts->end(); dict++) {
-            timer.start();
-            timer.pause();
             int offset = 0;
             string ds_name = dict->second;
             D* s = dict->first;
+            for (auto it = key_list.begin(); it != key_list.end(); it++) {
+                s->emplace(*it, 0);
+            }
+
             for (int measure_id = 0; measure_id < num_measures; measure_id += 1) {
 
-                cout << measure_id << endl;
                 // Log
                 out << ds_name << ",accessSubset,"  << instance_size <<  "," << num_elements_per_bucket <<  "," << num_accesses_per_measures << "," << measure_id << ",";
 
-                timer.resume();
+                timer.start();
                 // Actual test
                 for (int i = 0; i < num_accesses_per_measures; i++) {
-                    assert(s->contains(key_accessed[offset + distribution(rng)]));
+                    int index = offset + distribution(rng);
+                    assert(s->contains(key_accessed[index]));
                 }
                 timer.pause(); out << timer.get_runtime() << "\n";
+                timer.reset();
             }
             // Tear Down
-            timer.reset(); s->clear();
+            s->clear();
         }
         if ((iter + 1 >= min_iters) && (int(GetTimeMicroS64() - start) > max_micro_sec)) {
             cout << "\t" << iter << "\n";
@@ -186,13 +179,13 @@ int main(int argc, char** argv) {
     vector<pair<D*, string>> dicts;
     dicts.push_back(make_pair(new ZipTree(0.5, false), "ZipTree"));
     dicts.push_back(make_pair(new ZipTree(0.5, true), "ZipTreeSelfAdjust"));
-    dicts.push_back(make_pair(new SkipList(16, 0.5), "SkipList"));
-    dicts.push_back(make_pair(new Treap, "Treap"));
+    //dicts.push_back(make_pair(new SkipList(16, 0.5), "SkipList"));
+    //dicts.push_back(make_pair(new Treap, "Treap"));
     dicts.push_back(make_pair(new SplayTree, "SplayTree"));
-    dicts.push_back(make_pair(new RedBlack, "RedBlack"));
+    //dicts.push_back(make_pair(new RedBlack, "RedBlack"));
 
 
-    test_subset(&dicts);
+    //test_subset(&dicts);
     test_change_subset(&dicts);
 
 

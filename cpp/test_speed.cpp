@@ -19,8 +19,8 @@ using namespace std;
 
 int instance_size_min = 1<<18;
 int instance_size_max = 1<<18;
-int min_iters = 300;
-int max_iters = 300;
+int min_iters = 10;
+int max_iters = 10;
 int num_accesses = 1<<14;
 int num_inserts = 1<<14;
 int num_deletes = 1<<14;

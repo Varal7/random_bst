@@ -41,9 +41,9 @@ void test_geometric() {
     }
 }
 
-void test_genzipf() {
-    cout << "Zip'f distribution" << endl;
-    GenZipf* g = new GenZipf(0.9, 20);
+void test_genzipf(double alpha) {
+    cout << "Zip'f distribution " <<  alpha << endl;
+    GenZipf* g = new GenZipf(alpha, 20);
     map<int, int> hist;
     for(int n=0; n<10000; ++n) {
         ++hist[g->get()];
@@ -57,5 +57,10 @@ void test_genzipf() {
 int main() {
     test_uniform();
     test_geometric();
-    test_genzipf();
+
+    test_genzipf(0.5);
+    test_genzipf(0.9);
+    test_genzipf(1);
+    test_genzipf(1.5);
+    test_genzipf(10);
 }
