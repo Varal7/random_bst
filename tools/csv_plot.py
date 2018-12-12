@@ -15,7 +15,7 @@ import csv
 # rcParams['font.family'] = ['Times']
 # rcParams['font.size'] = 10.0
 
-rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
+# rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 rc('text', usetex=True)
 
 
@@ -30,12 +30,12 @@ import json
 # config = json.load(open('insertsVaryingInitialSize.json'))
 # config = json.load(open('deletesVaryingInitialSize.json'))
 # config = json.load(open('heights.json'))
-# config = json.load(open('depth.json'))
+config = json.load(open('heights.json'))
 # config = json.load(open('potential.json'))
 # config = json.load(open('accessSubset.json'))
 # config = json.load(open('accessChangeSubset.json'))
 
-config = json.load(open('insertFromFixedInitialSizeSorted.json'))
+# config = json.load(open('insertFromFixedInitialSizeSorted.json'))
 # config = json.load(open('insertFromFixedInitialSizeShuffled.json'))
 # config = json.load(open('insertFromFixedInitialSizeReversed.json'))
 
@@ -59,6 +59,8 @@ with open(filename, newline='') as csvfile:
     for field in required_fields:
         assert(field in dt.fieldnames)
     for row in dt:
+        # if row['data_structure'] in ['ZipTreeFindBeforeInsert', 'ZipTreeFracRank']:
+            # continue
         y = float(row[axis[1][0]])
         x = int(row[axis[0][0]])
         if compute_y_x_ratio:
@@ -78,6 +80,7 @@ print(dict(meta_data))
 ds1 = defaultdict(lambda: [[], [], [], []])
 
 for data_structure in data:
+
     for x_val in data[data_structure]:
         ds1[data_structure][0].append(int(x_val))
         ds1[data_structure][1].append(mean(data[data_structure][x_val]))

@@ -1,0 +1,9 @@
+{
+    "filename": "insertFromFixedInitialSizeReversed.csv",
+    "title": "Insertion in reversed order",
+    "axis": [
+            ["instance_size", "Number of inserts"],
+            ["time_micro_seconds", "Averege time per insert (microseconds)"]
+        ],
+    "compute_y_x_ratio": true
+}
