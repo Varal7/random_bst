@@ -6,6 +6,8 @@ matplotlib.use('TkAgg')
 import matplotlib.font_manager
 import matplotlib.pyplot as plt
 
+import string
+
 matplotlib.font_manager._rebuild()
 from matplotlib import rc
 from statistics import mean,stdev
@@ -37,8 +39,8 @@ fig, ax = plt.subplots(2, 2)
 # config = json.load(open('heights.json'))
 
 data_files = ['zip_insertsVaryingInitialSize.json',
-              'zip_deletesVaryingInitialSize.json',
               'zip_uniformAccessVaryingInitialSize.json',
+              'zip_deletesVaryingInitialSize.json',
               'zip_zipfAccessVaryingInitialSize.json']
 
 i = 0
@@ -93,11 +95,6 @@ for data_file in data_files:
             ds1[data_structure][2].append(stdev(data[data_structure][x_val]))
             ds1[data_structure][3].append(len(data[data_structure][x_val]))
 
-    import math
-    for data_structure in data:
-        print(data_structure)
-        for (time, n) in zip(ds1[data_structure][1], ds1[data_structure][0]):
-            print(time / (math.log(n)/ math.log(2)))
 
 
 # plot it! "map":"#1ABC9C"
@@ -110,13 +107,13 @@ for data_file in data_files:
 
 
     ax[i % 2][int(i/2)].set_title(title)
-    ax[i % 2][int(i/2)].legend(loc='upper left')
-# ax.set_xscale("log", nonposx='clip')
-# ax.set_yscale("log", nonposy='clip')
+    ax[0][0].legend(loc='upper left')
+    ax[i % 2][int(i/2)].set_xscale("log", nonposx='clip')
+    ax[i % 2][int(i/2)].set_yscale("log", nonposy='clip')
     ax[i % 2][int(i/2)].set_xlabel(axis[0][1])
     ax[i % 2][int(i/2)].set_ylabel(axis[1][1].replace("microsecond", r"$\mu$"))
 
-
+    ax[i % 2][int(i/2)].text(-0.1, 1.1, "(" + string.ascii_lowercase[i] + ")", transform=ax[i % 2][int(i/2)].transAxes)
     i = i + 1
 
 plt.show()
