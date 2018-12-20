@@ -8,9 +8,6 @@ We compare the empirical performance of zip trees along a number of axes with a 
 to be a competitively optimal BST.
 
 
-## Usage
+See [Project report](https://github.com/Varal7/random_bst/blob/master/report.pdf)
 
-```
-make
-./test_speed
-```
+
